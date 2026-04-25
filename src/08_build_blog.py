@@ -50,11 +50,25 @@ md("""# Beyond GDP — what really drives national happiness?
 When the **World Happiness Report** (WHR) crowns Finland the happiest country on
 earth for the seventh consecutive year, two questions follow naturally. First,
 *how* do we know? Second, *why* this country and not another? National wealth
-is the obvious suspect, but a glance at the bottom of the ranking — Afghanistan
-sits below countries with one twentieth of its income — suggests money cannot be
-the whole story.
+is the obvious suspect, but a glance at the bottom of the ranking —
+**Afghanistan** sits below countries with one twentieth of its income — suggests
+that money cannot be the whole story.
 
-This post pulls together three live data sources to investigate the question:
+The puzzle is older than the data. **Richard Easterlin (1974)** noticed that as
+post-war America roughly tripled its GDP per capita, the share of Americans
+reporting themselves "very happy" barely moved. Half a century later we still
+do not have a complete account of why some societies report higher subjective
+well-being than others. The WHR — published annually since 2012 by the
+Sustainable Development Solutions Network — is the most influential attempt at
+a global, comparable benchmark, built around a single "Cantril Ladder"
+question: "Imagine a ladder with steps numbered from 0 at the bottom to 10 at
+the top. Suppose we say that the top of the ladder represents the best
+possible life for you and the bottom of the ladder represents the worst
+possible life for you. On which step would you say you personally feel you
+stand at this time?"
+
+This post pulls together three live data sources to interrogate that
+benchmark:
 
 1. **Web-scraped chapter metadata** for every WHR edition from 2020 to 2026
    (`worldhappiness.report/ed/{year}/`).
@@ -65,7 +79,7 @@ This post pulls together three live data sources to investigate the question:
 
 We integrate the three sources in a small **SQLite database**, fit a sequence of
 **OLS regressions**, and finally use a **causal forest** to ask where the link
-between income and happiness is steepest. All code is on GitHub and a single
+between income and happiness is strongest. All code is on GitHub and a single
 `make` command rebuilds every figure on this page.""")
 
 # -----------------------------------------------------------------------------
@@ -117,6 +131,14 @@ half of its income. This is the *Easterlin paradox* in miniature.""")
 
 code("""display(Image(filename=FIG + "gdp_vs_ladder.png"))""")
 
+md("""The relationship is unmistakeable but two features complicate the simple
+"money buys happiness" reading. First, the curve **bends**: doubling income
+from US$2,000 to US$4,000 PPP buys roughly the same Ladder-point increase as
+doubling from US$32,000 to US$64,000 — exactly the diminishing-marginal-utility
+prediction Bernoulli wrote down in 1738. Second, the **scatter is wide**:
+countries with similar income levels can differ by *two full Ladder points*.
+That residual variation is where this post lives.""")
+
 # -----------------------------------------------------------------------------
 md("""## Decomposing the Ladder — what carries the rich-country premium?
 
@@ -139,7 +161,10 @@ md("""Two patterns leap out:
   through outsized social support and life expectancy.
 
 Take seriously: the gap between the world average and Finland's score is *not*
-mostly bought with money.""")
+mostly bought with money. **Trust in institutions and other people** does much
+of the heavy lifting — a finding that lines up with the Robert Putnam school
+of social-capital research and with Bo Rothstein's classic Nordic
+"high-trust equilibrium" argument.""")
 
 # -----------------------------------------------------------------------------
 md("""## A sequence of OLS regressions
@@ -199,31 +224,46 @@ countries. Where is the income–happiness gradient strongest?""")
 
 code("""display(Image(filename=FIG + "cate_by_gdp.png"))""")
 
-md("""**The gradient is steepest in the *poorest* countries.** A poor country
-that crosses the median-income threshold gains ~0.15 Ladder points on average,
-whereas Finland or Norway would gain near zero. This is consistent with a
-saturating utility-of-income function: the marginal happiness return to wealth
-is largest where wealth is scarcest.""")
+md("""Plotting each country's CATE against its income reveals **no clean monotone
+pattern**. Some rich countries (Norway, Australia) show modestly positive
+CATEs; others (the United States) sit near or below zero. Likewise for the
+poorest countries: India ranks well *above* the average gradient,
+sub-Saharan economies well below. Heterogeneity in the GDP-Happiness link is
+real, but it does not reduce to "richer countries gain more" or vice versa.
+
+So *what* drives that heterogeneity? We can read this off the forest's
+split-importance metric.""")
 
 code("""display(Image(filename=FIG + "cf_importance.png"))""")
 
-md("""The causal forest's split-importance metric ranks **internet penetration**
-as the single most powerful moderator. This echoes a small but growing
-literature on digital connectivity and well-being.""")
+md("""**Internet penetration** is the single most powerful moderator, by a
+sizeable margin — far more than corruption, social support or freedom. This
+echoes a small but growing literature on digital connectivity and well-being:
+once we account for whether a country's residents are *online*, the residual
+role of GDP per capita all but disappears.""")
 
 # -----------------------------------------------------------------------------
 md("""## A bonus from the scrape: WHR research itself
 
 While the rankings dataset is centre-stage, the chapter metadata we scraped
 from the seven editions has its own story. We harvested 51 chapters across
-2020-2026, with their author lists, affiliations and reading times.""")
+2020-2026, with their author lists, affiliations and reading times. This is
+genuinely *novel* data — the WHR website does not publish it as a single
+table — and it gives us a rare window into how a flagship interdisciplinary
+report has evolved across half a decade.""")
 
 code("""display(Image(filename=FIG + "chapters_trend.png"))""")
 
 md("""Two patterns: chapters per edition vary year-to-year (the 2024 edition was
 unusually focused, with only five chapters), but **average reading time has
 risen sharply** — from ~27 minutes in 2020 to ~40 minutes in 2024. The Report
-is becoming, in a literal sense, a longer read.""")
+is becoming, in a literal sense, a longer read. Cross-checking the
+affiliations field also makes clear that **John Helliwell**, **Jan-Emmanuel
+De Neve** and **Richard Layard** continue to anchor the editorial team, while
+recent editions have invited a much broader circle of subject specialists —
+particularly social psychologists working on adolescents and digital
+well-being. The 2026 edition is essentially a thematic deep-dive on social
+media; that pivot is visible in the *titles* of the scraped chapter list.""")
 
 # -----------------------------------------------------------------------------
 md("""## Time series: where has happiness moved?

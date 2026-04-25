@@ -9,11 +9,12 @@
 # Diagnostics). For the year 2022 (the latest with broad cross-country coverage
 # at the moment of writing) we collect:
 #
-#     NY.GDP.PCAP.PP.KD  GDP per capita, PPP (constant 2021 international $)
-#     SE.SCH.LIFE        Expected years of schooling (UNESCO via WB)
-#     IT.NET.USER.ZS     Individuals using the internet (% of population)
-#     SP.URB.TOTL.IN.ZS  Urban population (% of total)
-#     EN.ATM.CO2E.PC     CO2 emissions, metric tonnes per capita
+#     NY.GDP.PCAP.PP.KD     GDP per capita, PPP (constant 2021 international $)
+#     SP.DYN.LE00.IN        Life expectancy at birth, total (years)
+#     IT.NET.USER.ZS        Individuals using the internet (% of population)
+#     SP.URB.TOTL.IN.ZS     Urban population (% of total)
+#     SE.XPD.TOTL.GD.ZS     Government expenditure on education (% of GDP)
+#     BX.KLT.DINV.WD.GD.ZS  Foreign direct investment, net inflows (% of GDP)
 #
 # Output: data/raw/wb_indicators.csv with one row per country.
 
@@ -21,8 +22,10 @@
 # (0) Imports and directory locations
 #-------------------------------------------------------------------------------
 import os
+import time
 import pandas as pd
 import wbgapi as wb
+from wbgapi import APIError, APIResponseError
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
 DAT  = ROOT + "data/raw/"
@@ -38,19 +41,37 @@ INDICATORS  = {
     "BX.KLT.DINV.WD.GD.ZS": "fdi_pct",
 }
 
+def fetch_with_retry(code, n_tries=4):
+    """Pull one WB indicator with exponential back-off on transient API errors.
+
+    The World-Bank API occasionally returns 503 Service Unavailable; we retry
+    with the same back-off schedule used elsewhere in the pipeline.
+    """
+    for attempt in range(n_tries):
+        try:
+            return wb.data.DataFrame(code, time=YEAR, labels=True).reset_index()
+        except (APIError, APIResponseError) as e:
+            if attempt == n_tries - 1:
+                raise
+            wait = 2 ** (attempt + 1)
+            print(f"   attempt {attempt+1} for {code} failed ({e}); sleeping {wait}s")
+            time.sleep(wait)
+
+
 #-------------------------------------------------------------------------------
 # (1) Pull each indicator with wbgapi, merge into a single wide cross-section
 #-------------------------------------------------------------------------------
 frames = []
 for code, short in INDICATORS.items():
     print(f"  fetching {code}...")
-    df = wb.data.DataFrame(code, time=YEAR, labels=True).reset_index()
+    df = fetch_with_retry(code)
     df = df.rename(columns={
         "economy": "country_code",
         "Country": "country_name",
         code:      short,
     })
     frames.append(df[["country_code", "country_name", short]])
+    time.sleep(0.5)    # gentle pacing between API calls
 
 # Sequential left-merge to combine indicators
 wb_df = frames[0]

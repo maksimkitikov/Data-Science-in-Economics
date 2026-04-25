@@ -41,29 +41,37 @@ SLEEP    = 1.0   # polite delay between requests in seconds
 #-------------------------------------------------------------------------------
 # (1) Helper functions
 #-------------------------------------------------------------------------------
-def fetch(url, cache_name):
+def fetch(url, cache_name, n_tries=4):
     """Download url, cache HTML to disk and return parsed BeautifulSoup.
 
     If the cache file already exists we use it (this is what makes the build
     reproducible after a single successful scrape). Otherwise we go to the web
-    and write a copy.
+    with up to n_tries attempts and exponential back-off (2, 4, 8s) following
+    the polite-scraper guidance in Workflow, Modelling & Webscraping.pdf
+    (slide 56).
     """
     cache_path = CACHE + cache_name
     if os.path.exists(cache_path):
         with open(cache_path, "r", encoding="utf-8") as f:
             html = f.read()
-    else:
+        return BeautifulSoup(html, "html.parser")
+
+    for attempt in range(n_tries):
         try:
             r = requests.get(url, headers=HEADERS, timeout=30)
             r.raise_for_status()
             html = r.text
+            with open(cache_path, "w", encoding="utf-8") as f:
+                f.write(html)
+            time.sleep(SLEEP)
+            return BeautifulSoup(html, "html.parser")
         except requests.RequestException as e:
-            print(f"  ERROR fetching {url}: {e}")
-            return None
-        with open(cache_path, "w", encoding="utf-8") as f:
-            f.write(html)
-        time.sleep(SLEEP)
-    return BeautifulSoup(html, "html.parser")
+            if attempt == n_tries - 1:
+                print(f"  ERROR fetching {url} after {n_tries} attempts: {e}")
+                return None
+            wait = 2 ** (attempt + 1)
+            print(f"   attempt {attempt+1} for {url} failed ({e}); sleeping {wait}s")
+            time.sleep(wait)
 
 
 def chapter_links_for_year(year):

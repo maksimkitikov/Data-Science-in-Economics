@@ -183,6 +183,7 @@ ax1.bar(yearly["year"], yearly["n_chapters"], color=TEAL, alpha=0.85,
 ax1.set_xlabel("WHR edition year")
 ax1.set_ylabel("Chapters per edition", color=TEAL)
 ax1.tick_params(axis="y", labelcolor=TEAL)
+ax1.set_xticks(yearly["year"])
 ax1.grid(True, axis="y", linestyle="--", linewidth=0.5, alpha=0.5)
 
 ax2 = ax1.twinx()
@@ -218,6 +219,7 @@ for c in watch:
 plt.xlabel("WHR edition year")
 plt.ylabel("Ladder score")
 plt.title("Selected countries: how happiness has moved 2020-2024", loc="left")
+plt.xticks(sorted(panel_clean["year"].unique()))
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
 plt.legend(loc="lower left", frameon=False, ncol=2, fontsize=9)
 plt.tight_layout()

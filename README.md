@@ -102,7 +102,7 @@ Country names from the three sources are crosswalked to ISO-3 codes in
 `src/04_build_database.py`. Unmatched names are explicitly listed in the
 console output of that script.
 
-After integration the analysis sample is **135 countries** with full
+After integration the analysis sample is **136 countries** with full
 covariates for the 2023 WHR edition (the latest year for which the WHR ships
 the underlying Logged-GDP, Social-support and Freedom variables alongside the
 Ladder score).

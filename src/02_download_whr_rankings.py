@@ -18,6 +18,7 @@
 # (0) Imports and directory locations
 #-------------------------------------------------------------------------------
 import os
+import time
 import requests
 import pandas as pd
 
@@ -29,6 +30,28 @@ YEARS    = [2020, 2021, 2022, 2023, 2024]
 HEADERS  = {"User-Agent": "BEE2041-student-project/1.0 (educational)"}
 URL_TPL  = "https://files.worldhappiness.report/WHR{yy}_Data_Figure_2.1.xls"
 
+
+def get_with_retry(url, n_tries=4):
+    """GET url with exponential backoff on transient HTTP errors.
+
+    Backoff schedule: 2s, 4s, 8s. Final attempt raises if it still fails. The
+    polite-scraper guidance comes directly from Workflow, Modelling &
+    Webscraping.pdf, slide 56 ("A good webscraping script handles errors
+    gracefully -- use try/except blocks and build in retry logic").
+    """
+    for attempt in range(n_tries):
+        try:
+            r = requests.get(url, headers=HEADERS, timeout=60)
+            r.raise_for_status()
+            return r
+        except requests.RequestException as e:
+            if attempt == n_tries - 1:
+                raise
+            wait = 2 ** (attempt + 1)
+            print(f"   attempt {attempt+1} failed ({e}); sleeping {wait}s")
+            time.sleep(wait)
+
+
 #-------------------------------------------------------------------------------
 # (1) Download each year's .xls (skip if cached) and collect into one panel
 #-------------------------------------------------------------------------------
@@ -39,10 +62,10 @@ for year in YEARS:
 
     if not os.path.exists(fname):
         print(f"[{year}] downloading {url}")
-        r = requests.get(url, headers=HEADERS, timeout=30)
-        r.raise_for_status()
+        r = get_with_retry(url)
         with open(fname, "wb") as f:
             f.write(r.content)
+        time.sleep(1.0)
     else:
         print(f"[{year}] using cached {fname}")
 
