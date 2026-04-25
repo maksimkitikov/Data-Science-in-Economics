@@ -216,3 +216,10 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project-specific
+# We track the cleaned analysis sample and outputs for grading, but the raw
+# HTML cache and downloaded XLS files are large and easily regenerated.
+data/raw/html_cache/
+*.swp
+.DS_Store
