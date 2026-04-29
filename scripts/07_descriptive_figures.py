@@ -1,5 +1,4 @@
-"""Five descriptive figures for the blog: top/bottom-10 bars, GDP-Ladder scatter,
-OLS decomposition, chapters-per-edition trend, watch-list time series."""
+"""descriptive plots: rankings, GDP-Ladder scatter, OLS decomposition."""
 import os
 
 import matplotlib.pyplot as plt
@@ -8,29 +7,18 @@ import pandas as pd
 import statsmodels.api as sm_api
 from statsmodels.nonparametric.smoothers_lowess import lowess
 
-RAW = "data/raw/"
 CLN = "data/clean/"
 FIG = "output/figures/"
 os.makedirs(FIG, exist_ok=True)
 
-plt.rcParams.update({
-    "font.family": "DejaVu Sans",
-    "axes.titlesize": 12,
-    "axes.titleweight": "bold",
-    "axes.labelsize": 11,
-    "xtick.labelsize": 10,
-    "ytick.labelsize": 10,
-    "axes.spines.top": False,
-    "axes.spines.right": False,
-})
+plt.rcParams["axes.spines.top"] = False
+plt.rcParams["axes.spines.right"] = False
 
 NAVY = "#1f3a5f"
 GOLD = "#FFC300"
 TEAL = "#3380FF"
 
 df = pd.read_csv(CLN + "analysis.csv")
-panel = pd.read_csv(RAW + "whr_panel.csv")
-chapters = pd.read_csv(RAW + "whr_chapters.csv")
 
 # Top-10 vs bottom-10
 ranked = df.sort_values("ladder", ascending=False)
@@ -75,7 +63,7 @@ plt.title("Money buys happiness - but at a sharply decreasing rate", loc="left")
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
 plt.legend(loc="lower right", frameon=False)
 
-# A handful of labels: annotating every country would be unreadable.
+# label only a handful
 highlight = ["FIN", "USA", "DNK", "IND", "ZWE", "AFG", "CRI", "BRA", "QAT"]
 for _, row in df_plot.iterrows():
     if row["country_code"] in highlight:
@@ -100,7 +88,7 @@ X_dec = sm_api.add_constant(dec_df[decomp_vars])
 m_dec = sm_api.OLS(dec_df["ladder"], X_dec).fit()
 print(f"decomp R^2: {m_dec.rsquared:.3f}")
 
-# Each country's contribution = (covariate value - sample mean) * coef.
+# country contribution = deviation-from-mean * coef
 means = dec_df[decomp_vars].mean()
 contrib = (dec_df[decomp_vars] - means) * m_dec.params[decomp_vars]
 contrib["country_name"] = dec_df["country_name"]
@@ -112,7 +100,7 @@ top15 = contrib.sort_values("ladder", ascending=False).head(15).iloc[::-1]
 palette = ["#1f3a5f", "#3380FF", "#7faaff", "#FFC300", "#ff7f50", "#888888"]
 fig, ax = plt.subplots(figsize=(10.5, 6))
 
-# Stack positive and negative contributions separately so negatives still read.
+# split pos/neg so negative bars stay visible
 bottom_pos = np.zeros(len(top15))
 bottom_neg = np.zeros(len(top15))
 for v, lab, col in zip(decomp_vars, decomp_lbls, palette):
@@ -134,61 +122,6 @@ ax.legend(loc="center left", bbox_to_anchor=(1.0, 0.5),
 plt.tight_layout()
 plt.savefig(FIG + "decomposition.pdf", bbox_inches="tight")
 plt.savefig(FIG + "decomposition.png", dpi=160, bbox_inches="tight")
-plt.clf()
-
-# Scraped chapters per edition + average reading time
-yearly = chapters.groupby("year").agg(
-    n_chapters=("title", "size"),
-    mean_read_min=("reading_time_min", "mean"),
-    mean_authors=("n_authors", "mean"),
-).reset_index()
-
-fig, ax1 = plt.subplots(figsize=(8, 4.5))
-ax1.bar(yearly["year"], yearly["n_chapters"], color=TEAL, alpha=0.85,
-        label="Chapters per edition")
-ax1.set_xlabel("WHR edition year")
-ax1.set_ylabel("Chapters per edition", color=TEAL)
-ax1.tick_params(axis="y", labelcolor=TEAL)
-ax1.set_xticks(yearly["year"])
-ax1.grid(True, axis="y", linestyle="--", linewidth=0.5, alpha=0.5)
-
-ax2 = ax1.twinx()
-ax2.plot(yearly["year"], yearly["mean_read_min"], color=GOLD, marker="o",
-         linewidth=2, label="Mean reading time (min)")
-ax2.set_ylabel("Mean reading time (min)", color=GOLD)
-ax2.tick_params(axis="y", labelcolor=GOLD)
-ax2.spines["top"].set_visible(False)
-
-plt.title("Scraped from worldhappiness.report: how WHR research has grown",
-          loc="left")
-plt.tight_layout()
-plt.savefig(FIG + "chapters_trend.pdf")
-plt.savefig(FIG + "chapters_trend.png", dpi=160)
-plt.clf()
-
-# Ladder time series, 2020-2024
-panel_clean = panel.copy()
-panel_clean["Country name"] = panel_clean["Country name"].str.replace(
-    "*", "", regex=False).str.strip()
-
-watch = ["Finland", "Denmark", "United States", "United Kingdom",
-         "China", "India", "Brazil", "Costa Rica"]
-sub = panel_clean[panel_clean["Country name"].isin(watch)]
-
-plt.figure(figsize=(9, 5))
-for c in watch:
-    s = sub[sub["Country name"] == c].sort_values("year")
-    plt.plot(s["year"], s["Ladder score"], marker="o", linewidth=2,
-             label=c)
-plt.xlabel("WHR edition year")
-plt.ylabel("Ladder score")
-plt.title("Selected countries: how happiness has moved 2020-2024", loc="left")
-plt.xticks(sorted(panel_clean["year"].unique()))
-plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
-plt.legend(loc="lower left", frameon=False, ncol=2, fontsize=9)
-plt.tight_layout()
-plt.savefig(FIG + "ladder_timeseries.pdf")
-plt.savefig(FIG + "ladder_timeseries.png", dpi=160)
 plt.clf()
 
 print(f"figures -> {FIG}")

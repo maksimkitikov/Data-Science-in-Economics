@@ -6,13 +6,10 @@ A short data-driven essay asking *what really drives national happiness* once
 we look past GDP. The pipeline scrapes chapter metadata from the World
 Happiness Report, downloads its Figure 2.1 ranking spreadsheets, pulls
 supplementary World Bank indicators, glues the three together in a small
-SQLite db, fits OLS and a causal forest on top, and renders a notebook
-plus an interactive Plotly site.
+SQLite db, fits OLS and a causal forest on top, and feeds the results into
+an interactive Plotly site.
 
-Live versions:
-
-- GitHub Pages: <https://maksimkitikov.github.io/Data-Science-in-Economics/>
-- Notebook: [`blog.ipynb`](blog.ipynb) (executed and committed)
+Live version: <https://maksimkitikov.github.io/Data-Science-in-Economics/>
 
 ## Reproducing the build
 
@@ -25,11 +22,11 @@ pip install -r requirements.txt
 make all
 ```
 
-`make all` runs the nine numbered scripts in `scripts/` end-to-end (scrape ->
-build SQLite -> regressions -> causal forest -> figures -> blog -> JSON
-for the website). Sub-targets like `make data` or `make analysis` only
-redo the relevant steps. There are a handful of pytest sanity checks in
-`tests/` (`make test`).
+`make all` runs the eight numbered scripts in `scripts/` end-to-end (scrape ->
+build SQLite -> regressions -> causal forest -> figures -> JSON for the
+site). Sub-targets like `make data` or `make analysis` only redo the
+relevant steps. There are a handful of pytest sanity checks in `tests/`
+(`make test`).
 
 ## Data
 
@@ -47,7 +44,7 @@ countries. Variable-level docs are in
 ## Layout
 
 ```
-scripts/        # nine numbered scripts, run in order
+scripts/        # eight numbered scripts, run in order
 data/raw/       # never modified after download
 data/clean/     # derived (analysis.csv, whr.db)
 output/figures/ # PNG and PDF for every chart
@@ -59,16 +56,9 @@ references/     # codebook + bibliography
 
 ## Declaration of AI Use
 
-I used generative AI tools in the preparation of this submission, in line with
-the University of Exeter's *AI-Assisted* classification of this assessment and
-the BEE2041 lecture guidance (Workflow lecture, slides 30, 34, 66; Python
-lecture, slide 78).
-
-Concretely, AI helped me with: drafting prose for the blog, suggesting wording
-for figure captions, debugging error messages from `pystout` and `econml`, and
-reviewing draft code for obvious mistakes. The analytical decisions
-(treatment definition, covariate selection, HC3 standard errors, the
-75th-percentile robustness check) and the final code review are mine.
+I used Claude and ChatGPT for drafts of the blog text and to debug error
+messages from `pystout` and `econml`. The analytical decisions and the
+final code are mine.
 
 ## License
 

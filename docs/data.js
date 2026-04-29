@@ -5,2040 +5,952 @@ window.SITE_DATA = {
       "name": "Finland",
       "ladder": 7.804,
       "log_gdp": 10.792,
-      "gdp_ppp": 57068.3,
-      "social_support": 0.969,
-      "life_exp_healthy": 71.15,
-      "freedom": 0.961,
-      "generosity": -0.019,
-      "corruption": 0.182,
-      "internet_pct": 92.99,
-      "urban_pct": 73.7,
-      "life_exp": 81.19
+      "gdp_ppp": 57068.3
     },
     {
       "code": "DNK",
       "name": "Denmark",
       "ladder": 7.586,
       "log_gdp": 10.962,
-      "gdp_ppp": 69475.3,
-      "social_support": 0.954,
-      "life_exp_healthy": 71.25,
-      "freedom": 0.934,
-      "generosity": 0.134,
-      "corruption": 0.196,
-      "internet_pct": 97.86,
-      "urban_pct": 88.39,
-      "life_exp": 81.3
+      "gdp_ppp": 69475.3
     },
     {
       "code": "ISL",
       "name": "Iceland",
       "ladder": 7.53,
       "log_gdp": 10.896,
-      "gdp_ppp": 65380.3,
-      "social_support": 0.983,
-      "life_exp_healthy": 72.05,
-      "freedom": 0.936,
-      "generosity": 0.211,
-      "corruption": 0.668,
-      "internet_pct": 97.58,
-      "urban_pct": 94.18,
-      "life_exp": 82.12
+      "gdp_ppp": 65380.3
     },
     {
       "code": "ISR",
       "name": "Israel",
       "ladder": 7.473,
       "log_gdp": 10.639,
-      "gdp_ppp": 48098.2,
-      "social_support": 0.943,
-      "life_exp_healthy": 72.697,
-      "freedom": 0.809,
-      "generosity": -0.023,
-      "corruption": 0.708,
-      "internet_pct": 91.85,
-      "urban_pct": 91.5,
-      "life_exp": 82.7
+      "gdp_ppp": 48098.2
     },
     {
       "code": "NLD",
       "name": "Netherlands",
       "ladder": 7.403,
       "log_gdp": 10.942,
-      "gdp_ppp": 71324.0,
-      "social_support": 0.93,
-      "life_exp_healthy": 71.55,
-      "freedom": 0.887,
-      "generosity": 0.213,
-      "corruption": 0.379,
-      "internet_pct": 92.52,
-      "urban_pct": 94.99,
-      "life_exp": 81.61
+      "gdp_ppp": 71324.0
     },
     {
       "code": "SWE",
       "name": "Sweden",
       "ladder": 7.395,
       "log_gdp": 10.883,
-      "gdp_ppp": 63088.4,
-      "social_support": 0.939,
-      "life_exp_healthy": 72.15,
-      "freedom": 0.948,
-      "generosity": 0.165,
-      "corruption": 0.202,
-      "internet_pct": 95.01,
-      "urban_pct": 88.4,
-      "life_exp": 83.06
+      "gdp_ppp": 63088.4
     },
     {
       "code": "NOR",
       "name": "Norway",
       "ladder": 7.315,
       "log_gdp": 11.088,
-      "gdp_ppp": 91051.1,
-      "social_support": 0.943,
-      "life_exp_healthy": 71.5,
-      "freedom": 0.947,
-      "generosity": 0.141,
-      "corruption": 0.283,
-      "internet_pct": 99.0,
-      "urban_pct": 82.96,
-      "life_exp": 82.51
+      "gdp_ppp": 91051.1
     },
     {
       "code": "CHE",
       "name": "Switzerland",
       "ladder": 7.24,
       "log_gdp": 11.164,
-      "gdp_ppp": 82777.3,
-      "social_support": 0.92,
-      "life_exp_healthy": 72.9,
-      "freedom": 0.891,
-      "generosity": 0.027,
-      "corruption": 0.266,
-      "internet_pct": 96.45,
-      "urban_pct": 84.92,
-      "life_exp": 83.6
+      "gdp_ppp": 82777.3
     },
     {
       "code": "LUX",
       "name": "Luxembourg",
       "ladder": 7.228,
       "log_gdp": 11.66,
-      "gdp_ppp": 132570.8,
-      "social_support": 0.879,
-      "life_exp_healthy": 71.675,
-      "freedom": 0.915,
-      "generosity": 0.024,
-      "corruption": 0.345,
-      "internet_pct": 98.24,
-      "urban_pct": 94.76,
-      "life_exp": 82.95
+      "gdp_ppp": 132570.8
     },
     {
       "code": "NZL",
       "name": "New Zealand",
       "ladder": 7.123,
       "log_gdp": 10.662,
-      "gdp_ppp": 49964.2,
-      "social_support": 0.952,
-      "life_exp_healthy": 70.35,
-      "freedom": 0.887,
-      "generosity": 0.175,
-      "corruption": 0.271,
-      "internet_pct": 93.07,
-      "urban_pct": 83.85,
-      "life_exp": 81.96
+      "gdp_ppp": 49964.2
     },
     {
       "code": "AUT",
       "name": "Austria",
       "ladder": 7.097,
       "log_gdp": 10.899,
-      "gdp_ppp": 65694.6,
-      "social_support": 0.888,
-      "life_exp_healthy": 71.15,
-      "freedom": 0.855,
-      "generosity": 0.102,
-      "corruption": 0.497,
-      "internet_pct": 93.61,
-      "urban_pct": 69.0,
-      "life_exp": 81.3
+      "gdp_ppp": 65694.6
     },
     {
       "code": "AUS",
       "name": "Australia",
       "ladder": 7.095,
       "log_gdp": 10.821,
-      "gdp_ppp": 60029.1,
-      "social_support": 0.934,
-      "life_exp_healthy": 71.05,
-      "freedom": 0.89,
-      "generosity": 0.198,
-      "corruption": 0.496,
-      "internet_pct": 96.12,
-      "urban_pct": 87.33,
-      "life_exp": 83.2
+      "gdp_ppp": 60029.1
     },
     {
       "code": "CAN",
       "name": "Canada",
       "ladder": 6.961,
       "log_gdp": 10.773,
-      "gdp_ppp": 58321.1,
-      "social_support": 0.929,
-      "life_exp_healthy": 71.4,
-      "freedom": 0.874,
-      "generosity": 0.153,
-      "corruption": 0.42,
-      "internet_pct": 94.0,
-      "urban_pct": 82.35,
-      "life_exp": 81.09
+      "gdp_ppp": 58321.1
     },
     {
       "code": "IRL",
       "name": "Ireland",
       "ladder": 6.911,
       "log_gdp": 11.527,
-      "gdp_ppp": 123219.1,
-      "social_support": 0.905,
-      "life_exp_healthy": 71.3,
-      "freedom": 0.874,
-      "generosity": 0.092,
-      "corruption": 0.358,
-      "internet_pct": 95.04,
-      "urban_pct": 63.89,
-      "life_exp": 82.51
+      "gdp_ppp": 123219.1
     },
     {
       "code": "USA",
       "name": "United States",
       "ladder": 6.894,
       "log_gdp": 11.048,
-      "gdp_ppp": 72679.3,
-      "social_support": 0.919,
-      "life_exp_healthy": 65.85,
-      "freedom": 0.8,
-      "generosity": 0.137,
-      "corruption": 0.689,
-      "internet_pct": 92.73,
-      "urban_pct": 80.03,
-      "life_exp": 77.43
+      "gdp_ppp": 72679.3
     },
     {
       "code": "DEU",
       "name": "Germany",
       "ladder": 6.892,
       "log_gdp": 10.879,
-      "gdp_ppp": 63676.1,
-      "social_support": 0.896,
-      "life_exp_healthy": 71.3,
-      "freedom": 0.846,
-      "generosity": 0.03,
-      "corruption": 0.42,
-      "internet_pct": 91.63,
-      "urban_pct": 81.79,
-      "life_exp": 80.61
+      "gdp_ppp": 63676.1
     },
     {
       "code": "BEL",
       "name": "Belgium",
       "ladder": 6.859,
       "log_gdp": 10.844,
-      "gdp_ppp": 62561.8,
-      "social_support": 0.915,
-      "life_exp_healthy": 70.899,
-      "freedom": 0.825,
-      "generosity": 0.001,
-      "corruption": 0.549,
-      "internet_pct": 94.01,
-      "urban_pct": 87.49,
-      "life_exp": 81.75
+      "gdp_ppp": 62561.8
     },
     {
       "code": "CZE",
       "name": "Czechia",
       "ladder": 6.845,
       "log_gdp": 10.611,
-      "gdp_ppp": 48390.7,
-      "social_support": 0.953,
-      "life_exp_healthy": 69.05,
-      "freedom": 0.903,
-      "generosity": 0.04,
-      "corruption": 0.859,
-      "internet_pct": 84.54,
-      "urban_pct": 72.7,
-      "life_exp": 78.93
+      "gdp_ppp": 48390.7
     },
     {
       "code": "GBR",
       "name": "United Kingdom",
       "ladder": 6.796,
       "log_gdp": 10.704,
-      "gdp_ppp": 53139.2,
-      "social_support": 0.882,
-      "life_exp_healthy": 70.3,
-      "freedom": 0.852,
-      "generosity": 0.253,
-      "corruption": 0.454,
-      "internet_pct": 95.47,
-      "urban_pct": 83.08,
-      "life_exp": 81.01
+      "gdp_ppp": 53139.2
     },
     {
       "code": "LTU",
       "name": "Lithuania",
       "ladder": 6.763,
       "log_gdp": 10.568,
-      "gdp_ppp": 46651.2,
-      "social_support": 0.939,
-      "life_exp_healthy": 67.397,
-      "freedom": 0.748,
-      "generosity": -0.145,
-      "corruption": 0.805,
-      "internet_pct": 87.72,
-      "urban_pct": 68.29,
-      "life_exp": 75.64
+      "gdp_ppp": 46651.2
     },
     {
       "code": "FRA",
       "name": "France",
       "ladder": 6.661,
       "log_gdp": 10.701,
-      "gdp_ppp": 53673.8,
-      "social_support": 0.909,
-      "life_exp_healthy": 72.3,
-      "freedom": 0.819,
-      "generosity": -0.1,
-      "corruption": 0.553,
-      "internet_pct": 85.33,
-      "urban_pct": 78.76,
-      "life_exp": 82.13
+      "gdp_ppp": 53673.8
     },
     {
       "code": "SVN",
       "name": "Slovenia",
       "ladder": 6.65,
       "log_gdp": 10.588,
-      "gdp_ppp": 47050.1,
-      "social_support": 0.951,
-      "life_exp_healthy": 71.052,
-      "freedom": 0.913,
-      "generosity": 0.014,
-      "corruption": 0.771,
-      "internet_pct": 88.91,
-      "urban_pct": 55.34,
-      "life_exp": 81.28
+      "gdp_ppp": 47050.1
     },
     {
       "code": "CRI",
       "name": "Costa Rica",
       "ladder": 6.609,
       "log_gdp": 9.952,
-      "gdp_ppp": 24831.7,
-      "social_support": 0.872,
-      "life_exp_healthy": 70.0,
-      "freedom": 0.895,
-      "generosity": -0.07,
-      "corruption": 0.768,
-      "internet_pct": 82.6,
-      "urban_pct": 78.44,
-      "life_exp": 79.32
+      "gdp_ppp": 24831.7
     },
     {
       "code": "ROU",
       "name": "Romania",
       "ladder": 6.589,
       "log_gdp": 10.339,
-      "gdp_ppp": 39257.0,
-      "social_support": 0.848,
-      "life_exp_healthy": 67.051,
-      "freedom": 0.856,
-      "generosity": -0.172,
-      "corruption": 0.929,
-      "internet_pct": 85.5,
-      "urban_pct": 52.16,
-      "life_exp": 75.15
+      "gdp_ppp": 39257.0
     },
     {
       "code": "SGP",
       "name": "Singapore",
       "ladder": 6.587,
       "log_gdp": 11.571,
-      "gdp_ppp": 133572.0,
-      "social_support": 0.878,
-      "life_exp_healthy": 73.8,
-      "freedom": 0.878,
-      "generosity": 0.063,
-      "corruption": 0.146,
-      "internet_pct": 95.95,
-      "urban_pct": 100.0,
-      "life_exp": 82.9
+      "gdp_ppp": 133572.0
     },
     {
       "code": "ARE",
       "name": "United Arab Emirates",
       "ladder": 6.571,
       "log_gdp": 11.145,
-      "gdp_ppp": 70075.6,
-      "social_support": 0.826,
-      "life_exp_healthy": 66.243,
-      "freedom": 0.942,
-      "generosity": 0.096,
-      "corruption": 0.584,
-      "internet_pct": 100.0,
-      "urban_pct": 85.51,
-      "life_exp": 80.49
+      "gdp_ppp": 70075.6
     },
     {
       "code": "URY",
       "name": "Uruguay",
       "ladder": 6.494,
       "log_gdp": 10.037,
-      "gdp_ppp": 30804.7,
-      "social_support": 0.913,
-      "life_exp_healthy": 67.5,
-      "freedom": 0.895,
-      "generosity": -0.065,
-      "corruption": 0.575,
-      "internet_pct": 89.87,
-      "urban_pct": 95.5,
-      "life_exp": 76.47
+      "gdp_ppp": 30804.7
     },
     {
       "code": "SVK",
       "name": "Slovakia",
       "ladder": 6.469,
       "log_gdp": 10.353,
-      "gdp_ppp": 38664.9,
-      "social_support": 0.953,
-      "life_exp_healthy": 68.838,
-      "freedom": 0.753,
-      "generosity": -0.016,
-      "corruption": 0.898,
-      "internet_pct": 89.07,
-      "urban_pct": 53.19,
-      "life_exp": 76.97
+      "gdp_ppp": 38664.9
     },
     {
       "code": "SAU",
       "name": "Saudi Arabia",
       "ladder": 6.463,
       "log_gdp": 10.715,
-      "gdp_ppp": 67178.6,
-      "social_support": 0.884,
-      "life_exp_healthy": 64.399,
-      "freedom": 0.894,
-      "generosity": -0.081,
-      "corruption": 0.691,
-      "internet_pct": 100.0,
-      "urban_pct": 84.13,
-      "life_exp": 77.31
+      "gdp_ppp": 67178.6
     },
     {
       "code": "EST",
       "name": "Estonia",
       "ladder": 6.455,
       "log_gdp": 10.541,
-      "gdp_ppp": 43128.6,
-      "social_support": 0.946,
-      "life_exp_healthy": 69.65,
-      "freedom": 0.929,
-      "generosity": 0.032,
-      "corruption": 0.409,
-      "internet_pct": 91.52,
-      "urban_pct": 70.49,
-      "life_exp": 77.84
+      "gdp_ppp": 43128.6
     },
     {
       "code": "ESP",
       "name": "Spain",
       "ladder": 6.436,
       "log_gdp": 10.54,
-      "gdp_ppp": 46733.5,
-      "social_support": 0.932,
-      "life_exp_healthy": 72.35,
-      "freedom": 0.782,
-      "generosity": -0.066,
-      "corruption": 0.711,
-      "internet_pct": 94.49,
-      "urban_pct": 79.95,
-      "life_exp": 83.13
+      "gdp_ppp": 46733.5
     },
     {
       "code": "ITA",
       "name": "Italy",
       "ladder": 6.405,
       "log_gdp": 10.634,
-      "gdp_ppp": 52333.3,
-      "social_support": 0.882,
-      "life_exp_healthy": 72.05,
-      "freedom": 0.711,
-      "generosity": -0.074,
-      "corruption": 0.842,
-      "internet_pct": 85.06,
-      "urban_pct": 69.48,
-      "life_exp": 82.7
+      "gdp_ppp": 52333.3
     },
     {
       "code": "XKX",
       "name": "Kosovo",
       "ladder": 6.368,
       "log_gdp": 9.359,
-      "gdp_ppp": 13022.5,
-      "social_support": 0.844,
-      "life_exp_healthy": 65.195,
-      "freedom": 0.861,
-      "generosity": 0.259,
-      "corruption": 0.866,
-      "internet_pct": null,
-      "urban_pct": 47.8,
-      "life_exp": 77.62
+      "gdp_ppp": 13022.5
     },
     {
       "code": "CHL",
       "name": "Chile",
       "ladder": 6.334,
       "log_gdp": 10.114,
-      "gdp_ppp": 29569.5,
-      "social_support": 0.889,
-      "life_exp_healthy": 70.3,
-      "freedom": 0.792,
-      "generosity": -0.011,
-      "corruption": 0.823,
-      "internet_pct": 92.32,
-      "urban_pct": 88.64,
-      "life_exp": 79.18
+      "gdp_ppp": 29569.5
     },
     {
       "code": "MEX",
       "name": "Mexico",
       "ladder": 6.33,
       "log_gdp": 9.85,
-      "gdp_ppp": 21391.9,
-      "social_support": 0.804,
-      "life_exp_healthy": 65.8,
-      "freedom": 0.856,
-      "generosity": -0.094,
-      "corruption": 0.768,
-      "internet_pct": 78.63,
-      "urban_pct": 79.2,
-      "life_exp": 73.97
+      "gdp_ppp": 21391.9
     },
     {
       "code": "MLT",
       "name": "Malta",
       "ladder": 6.3,
       "log_gdp": 10.661,
-      "gdp_ppp": 56842.0,
-      "social_support": 0.923,
-      "life_exp_healthy": 71.6,
-      "freedom": 0.886,
-      "generosity": 0.119,
-      "corruption": 0.729,
-      "internet_pct": 91.54,
-      "urban_pct": 95.6,
-      "life_exp": 82.3
+      "gdp_ppp": 56842.0
     },
     {
       "code": "PAN",
       "name": "Panama",
       "ladder": 6.265,
       "log_gdp": 10.305,
-      "gdp_ppp": 33915.2,
-      "social_support": 0.896,
-      "life_exp_healthy": 68.95,
-      "freedom": 0.855,
-      "generosity": -0.133,
-      "corruption": 0.878,
-      "internet_pct": 67.28,
-      "urban_pct": 65.82,
-      "life_exp": 79.32
+      "gdp_ppp": 33915.2
     },
     {
       "code": "POL",
       "name": "Poland",
       "ladder": 6.26,
       "log_gdp": 10.453,
-      "gdp_ppp": 43405.0,
-      "social_support": 0.925,
-      "life_exp_healthy": 69.049,
-      "freedom": 0.765,
-      "generosity": -0.031,
-      "corruption": 0.736,
-      "internet_pct": 86.94,
-      "urban_pct": 59.83,
-      "life_exp": 77.16
+      "gdp_ppp": 43405.0
     },
     {
       "code": "NIC",
       "name": "Nicaragua",
       "ladder": 6.259,
       "log_gdp": 8.618,
-      "gdp_ppp": 7277.8,
-      "social_support": 0.853,
-      "life_exp_healthy": 65.65,
-      "freedom": 0.877,
-      "generosity": 0.021,
-      "corruption": 0.625,
-      "internet_pct": 59.38,
-      "urban_pct": 59.0,
-      "life_exp": 74.46
+      "gdp_ppp": 7277.8
     },
     {
       "code": "LVA",
       "name": "Latvia",
       "ladder": 6.213,
       "log_gdp": 10.37,
-      "gdp_ppp": 37718.7,
-      "social_support": 0.937,
-      "life_exp_healthy": 66.4,
-      "freedom": 0.818,
-      "generosity": -0.056,
-      "corruption": 0.83,
-      "internet_pct": 91.03,
-      "urban_pct": 68.26,
-      "life_exp": 74.28
+      "gdp_ppp": 37718.7
     },
     {
       "code": "BHR",
       "name": "Bahrain",
       "ladder": 6.173,
       "log_gdp": 10.776,
-      "gdp_ppp": 57573.0,
-      "social_support": 0.844,
-      "life_exp_healthy": 65.825,
-      "freedom": 0.944,
-      "generosity": 0.117,
-      "corruption": 0.737,
-      "internet_pct": 100.0,
-      "urban_pct": 100.0,
-      "life_exp": 80.99
+      "gdp_ppp": 57573.0
     },
     {
       "code": "GTM",
       "name": "Guatemala",
       "ladder": 6.15,
       "log_gdp": 9.116,
-      "gdp_ppp": 12147.9,
-      "social_support": 0.812,
-      "life_exp_healthy": 62.9,
-      "freedom": 0.856,
-      "generosity": -0.057,
-      "corruption": 0.837,
-      "internet_pct": 54.4,
-      "urban_pct": 55.26,
-      "life_exp": 71.21
+      "gdp_ppp": 12147.9
     },
     {
       "code": "KAZ",
       "name": "Kazakhstan",
       "ladder": 6.144,
       "log_gdp": 10.166,
-      "gdp_ppp": 33506.3,
-      "social_support": 0.931,
-      "life_exp_healthy": 65.802,
-      "freedom": 0.853,
-      "generosity": -0.0,
-      "corruption": 0.721,
-      "internet_pct": 92.3,
-      "urban_pct": 61.44,
-      "life_exp": 73.5
+      "gdp_ppp": 33506.3
     },
     {
       "code": "SRB",
       "name": "Serbia",
       "ladder": 6.144,
       "log_gdp": 9.854,
-      "gdp_ppp": 24652.0,
-      "social_support": 0.873,
-      "life_exp_healthy": 67.088,
-      "freedom": 0.845,
-      "generosity": 0.204,
-      "corruption": 0.816,
-      "internet_pct": 83.54,
-      "urban_pct": 61.9,
-      "life_exp": 75.24
+      "gdp_ppp": 24652.0
     },
     {
       "code": "CYP",
       "name": "Cyprus",
       "ladder": 6.13,
       "log_gdp": 10.611,
-      "gdp_ppp": 50623.8,
-      "social_support": 0.826,
-      "life_exp_healthy": 72.802,
-      "freedom": 0.724,
-      "generosity": -0.06,
-      "corruption": 0.86,
-      "internet_pct": 89.6,
-      "urban_pct": 66.67,
-      "life_exp": 80.43
+      "gdp_ppp": 50623.8
     },
     {
       "code": "JPN",
       "name": "Japan",
       "ladder": 6.129,
       "log_gdp": 10.616,
-      "gdp_ppp": 44972.3,
-      "social_support": 0.894,
-      "life_exp_healthy": 74.349,
-      "freedom": 0.799,
-      "generosity": -0.237,
-      "corruption": 0.64,
-      "internet_pct": 84.92,
-      "urban_pct": 91.98,
-      "life_exp": 84.0
+      "gdp_ppp": 44972.3
     },
     {
       "code": "HRV",
       "name": "Croatia",
       "ladder": 6.125,
       "log_gdp": 10.341,
-      "gdp_ppp": 39864.0,
-      "social_support": 0.917,
-      "life_exp_healthy": 68.95,
-      "freedom": 0.757,
-      "generosity": -0.093,
-      "corruption": 0.925,
-      "internet_pct": 82.07,
-      "urban_pct": 57.0,
-      "life_exp": 77.58
+      "gdp_ppp": 39864.0
     },
     {
       "code": "BRA",
       "name": "Brazil",
       "ladder": 6.125,
       "log_gdp": 9.582,
-      "gdp_ppp": 18554.0,
-      "social_support": 0.836,
-      "life_exp_healthy": 65.749,
-      "freedom": 0.801,
-      "generosity": -0.009,
-      "corruption": 0.738,
-      "internet_pct": 80.53,
-      "urban_pct": 87.35,
-      "life_exp": 74.87
+      "gdp_ppp": 18554.0
     },
     {
       "code": "SLV",
       "name": "El Salvador",
       "ladder": 6.122,
       "log_gdp": 9.089,
-      "gdp_ppp": 11085.6,
-      "social_support": 0.755,
-      "life_exp_healthy": 65.597,
-      "freedom": 0.918,
-      "generosity": -0.108,
-      "corruption": 0.62,
-      "internet_pct": 60.06,
-      "urban_pct": 74.15,
-      "life_exp": 71.97
+      "gdp_ppp": 11085.6
     },
     {
       "code": "HUN",
       "name": "Hungary",
       "ladder": 6.041,
       "log_gdp": 10.419,
-      "gdp_ppp": 40611.0,
-      "social_support": 0.943,
-      "life_exp_healthy": 67.5,
-      "freedom": 0.758,
-      "generosity": -0.059,
-      "corruption": 0.839,
-      "internet_pct": 89.14,
-      "urban_pct": 70.16,
-      "life_exp": 75.87
+      "gdp_ppp": 40611.0
     },
     {
       "code": "ARG",
       "name": "Argentina",
       "ladder": 6.024,
       "log_gdp": 9.959,
-      "gdp_ppp": 27825.0,
-      "social_support": 0.891,
-      "life_exp_healthy": 67.2,
-      "freedom": 0.823,
-      "generosity": -0.089,
-      "corruption": 0.814,
-      "internet_pct": 88.38,
-      "urban_pct": 92.11,
-      "life_exp": 75.81
+      "gdp_ppp": 27825.0
     },
     {
       "code": "HND",
       "name": "Honduras",
       "ladder": 6.023,
       "log_gdp": 8.635,
-      "gdp_ppp": 6352.6,
-      "social_support": 0.766,
-      "life_exp_healthy": 64.063,
-      "freedom": 0.843,
-      "generosity": 0.097,
-      "corruption": 0.843,
-      "internet_pct": 56.88,
-      "urban_pct": 57.84,
-      "life_exp": 72.72
+      "gdp_ppp": 6352.6
     },
     {
       "code": "UZB",
       "name": "Uzbekistan",
       "ladder": 6.014,
       "log_gdp": 8.948,
-      "gdp_ppp": 9607.6,
-      "social_support": 0.875,
-      "life_exp_healthy": 65.301,
-      "freedom": 0.938,
-      "generosity": 0.23,
-      "corruption": 0.638,
-      "internet_pct": 83.9,
-      "urban_pct": 50.98,
-      "life_exp": 72.15
+      "gdp_ppp": 9607.6
     },
     {
       "code": "MYS",
       "name": "Malaysia",
       "ladder": 6.012,
       "log_gdp": 10.169,
-      "gdp_ppp": 32129.2,
-      "social_support": 0.799,
-      "life_exp_healthy": 65.662,
-      "freedom": 0.877,
-      "generosity": 0.16,
-      "corruption": 0.758,
-      "internet_pct": 97.4,
-      "urban_pct": 75.97,
-      "life_exp": 75.44
+      "gdp_ppp": 32129.2
     },
     {
       "code": "PRT",
       "name": "Portugal",
       "ladder": 5.968,
       "log_gdp": 10.429,
-      "gdp_ppp": 41070.9,
-      "social_support": 0.878,
-      "life_exp_healthy": 71.25,
-      "freedom": 0.902,
-      "generosity": -0.196,
-      "corruption": 0.878,
-      "internet_pct": 84.5,
-      "urban_pct": 61.13,
-      "life_exp": 81.63
+      "gdp_ppp": 41070.9
     },
     {
       "code": "KOR",
       "name": "South Korea",
       "ladder": 5.951,
       "log_gdp": 10.693,
-      "gdp_ppp": 53228.6,
-      "social_support": 0.812,
-      "life_exp_healthy": 73.65,
-      "freedom": 0.717,
-      "generosity": -0.046,
-      "corruption": 0.701,
-      "internet_pct": 97.17,
-      "urban_pct": 81.16,
-      "life_exp": 82.68
+      "gdp_ppp": 53228.6
     },
     {
       "code": "GRC",
       "name": "Greece",
       "ladder": 5.931,
       "log_gdp": 10.288,
-      "gdp_ppp": 35831.3,
-      "social_support": 0.835,
-      "life_exp_healthy": 71.15,
-      "freedom": 0.568,
-      "generosity": -0.24,
-      "corruption": 0.793,
-      "internet_pct": 83.17,
-      "urban_pct": 78.55,
-      "life_exp": 80.79
+      "gdp_ppp": 35831.3
     },
     {
       "code": "MUS",
       "name": "Mauritius",
       "ladder": 5.902,
       "log_gdp": 9.957,
-      "gdp_ppp": 25086.0,
-      "social_support": 0.888,
-      "life_exp_healthy": 63.85,
-      "freedom": 0.813,
-      "generosity": -0.028,
-      "corruption": 0.775,
-      "internet_pct": 75.5,
-      "urban_pct": 39.0,
-      "life_exp": 73.51
+      "gdp_ppp": 25086.0
     },
     {
       "code": "THA",
       "name": "Thailand",
       "ladder": 5.843,
       "log_gdp": 9.751,
-      "gdp_ppp": 20762.8,
-      "social_support": 0.874,
-      "life_exp_healthy": 68.45,
-      "freedom": 0.85,
-      "generosity": 0.289,
-      "corruption": 0.91,
-      "internet_pct": 87.98,
-      "urban_pct": 59.74,
-      "life_exp": 75.29
+      "gdp_ppp": 20762.8
     },
     {
       "code": "MNG",
       "name": "Mongolia",
       "ladder": 5.84,
       "log_gdp": 9.372,
-      "gdp_ppp": 15310.4,
-      "social_support": 0.933,
-      "life_exp_healthy": 60.5,
-      "freedom": 0.701,
-      "generosity": 0.19,
-      "corruption": 0.849,
-      "internet_pct": 81.08,
-      "urban_pct": 69.78,
-      "life_exp": 71.9
+      "gdp_ppp": 15310.4
     },
     {
       "code": "KGZ",
       "name": "Kyrgyzstan",
       "ladder": 5.825,
       "log_gdp": 8.486,
-      "gdp_ppp": 6139.8,
-      "social_support": 0.911,
-      "life_exp_healthy": 66.852,
-      "freedom": 0.934,
-      "generosity": 0.181,
-      "corruption": 0.904,
-      "internet_pct": 84.19,
-      "urban_pct": 34.7,
-      "life_exp": 72.05
+      "gdp_ppp": 6139.8
     },
     {
       "code": "MDA",
       "name": "Moldova",
       "ladder": 5.819,
       "log_gdp": 9.499,
-      "gdp_ppp": 15358.0,
-      "social_support": 0.857,
-      "life_exp_healthy": 65.299,
-      "freedom": 0.84,
-      "generosity": -0.08,
-      "corruption": 0.901,
-      "internet_pct": 74.92,
-      "urban_pct": 42.4,
-      "life_exp": 71.55
+      "gdp_ppp": 15358.0
     },
     {
       "code": "CHN",
       "name": "China",
       "ladder": 5.818,
       "log_gdp": 9.738,
-      "gdp_ppp": 21499.4,
-      "social_support": 0.836,
-      "life_exp_healthy": 68.689,
-      "freedom": 0.882,
-      "generosity": -0.041,
-      "corruption": 0.727,
-      "internet_pct": 75.61,
-      "urban_pct": 65.22,
-      "life_exp": 78.2
+      "gdp_ppp": 21499.4
     },
     {
       "code": "VNM",
       "name": "Vietnam",
       "ladder": 5.763,
       "log_gdp": 9.287,
-      "gdp_ppp": 12979.8,
-      "social_support": 0.821,
-      "life_exp_healthy": 65.502,
-      "freedom": 0.939,
-      "generosity": -0.004,
-      "corruption": 0.759,
-      "internet_pct": 78.59,
-      "urban_pct": 37.55,
-      "life_exp": 74.5
+      "gdp_ppp": 12979.8
     },
     {
       "code": "PRY",
       "name": "Paraguay",
       "ladder": 5.738,
       "log_gdp": 9.51,
-      "gdp_ppp": 15259.1,
-      "social_support": 0.906,
-      "life_exp_healthy": 65.9,
-      "freedom": 0.891,
-      "generosity": 0.021,
-      "corruption": 0.843,
-      "internet_pct": 76.26,
-      "urban_pct": 68.64,
-      "life_exp": 72.32
+      "gdp_ppp": 15259.1
     },
     {
       "code": "MNE",
       "name": "Montenegro",
       "ladder": 5.722,
       "log_gdp": 9.813,
-      "gdp_ppp": 25583.4,
-      "social_support": 0.89,
-      "life_exp_healthy": 67.1,
-      "freedom": 0.805,
-      "generosity": 0.063,
-      "corruption": 0.844,
-      "internet_pct": 88.22,
-      "urban_pct": 65.4,
-      "life_exp": 76.19
+      "gdp_ppp": 25583.4
     },
     {
       "code": "JAM",
       "name": "Jamaica",
       "ladder": 5.703,
       "log_gdp": 9.165,
-      "gdp_ppp": 11096.6,
-      "social_support": 0.867,
-      "life_exp_healthy": 66.6,
-      "freedom": 0.822,
-      "generosity": -0.106,
-      "corruption": 0.875,
-      "internet_pct": 85.84,
-      "urban_pct": 57.99,
-      "life_exp": 71.48
+      "gdp_ppp": 11096.6
     },
     {
       "code": "BOL",
       "name": "Bolivia",
       "ladder": 5.684,
       "log_gdp": 8.985,
-      "gdp_ppp": 11487.7,
-      "social_support": 0.811,
-      "life_exp_healthy": 63.599,
-      "freedom": 0.868,
-      "generosity": -0.063,
-      "corruption": 0.846,
-      "internet_pct": 72.62,
-      "urban_pct": 70.64,
-      "life_exp": 67.43
+      "gdp_ppp": 11487.7
     },
     {
       "code": "RUS",
       "name": "Russia",
       "ladder": 5.661,
       "log_gdp": 10.21,
-      "gdp_ppp": 38214.5,
-      "social_support": 0.889,
-      "life_exp_healthy": 64.947,
-      "freedom": 0.719,
-      "generosity": -0.03,
-      "corruption": 0.801,
-      "internet_pct": 90.42,
-      "urban_pct": 74.85,
-      "life_exp": 72.55
+      "gdp_ppp": 38214.5
     },
     {
       "code": "BIH",
       "name": "Bosnia and Herzegovina",
       "ladder": 5.633,
       "log_gdp": 9.616,
-      "gdp_ppp": 19298.2,
-      "social_support": 0.88,
-      "life_exp_healthy": 67.275,
-      "freedom": 0.746,
-      "generosity": 0.206,
-      "corruption": 0.918,
-      "internet_pct": 78.85,
-      "urban_pct": 51.02,
-      "life_exp": 76.78
+      "gdp_ppp": 19298.2
     },
     {
       "code": "COL",
       "name": "Colombia",
       "ladder": 5.63,
       "log_gdp": 9.584,
-      "gdp_ppp": 18458.7,
-      "social_support": 0.822,
-      "life_exp_healthy": 69.35,
-      "freedom": 0.804,
-      "generosity": -0.104,
-      "corruption": 0.834,
-      "internet_pct": 72.8,
-      "urban_pct": 78.05,
-      "life_exp": 76.51
+      "gdp_ppp": 18458.7
     },
     {
       "code": "DOM",
       "name": "Dominican Republic",
       "ladder": 5.569,
       "log_gdp": 9.811,
-      "gdp_ppp": 22987.0,
-      "social_support": 0.827,
-      "life_exp_healthy": 64.399,
-      "freedom": 0.85,
-      "generosity": -0.099,
-      "corruption": 0.657,
-      "internet_pct": 81.51,
-      "urban_pct": 72.42,
-      "life_exp": 74.21
+      "gdp_ppp": 22987.0
     },
     {
       "code": "ECU",
       "name": "Ecuador",
       "ladder": 5.559,
       "log_gdp": 9.27,
-      "gdp_ppp": 14186.6,
-      "social_support": 0.806,
-      "life_exp_healthy": 69.0,
-      "freedom": 0.802,
-      "generosity": -0.108,
-      "corruption": 0.833,
-      "internet_pct": 69.72,
-      "urban_pct": 63.09,
-      "life_exp": 76.58
+      "gdp_ppp": 14186.6
     },
     {
       "code": "PER",
       "name": "Peru",
       "ladder": 5.526,
       "log_gdp": 9.402,
-      "gdp_ppp": 15559.8,
-      "social_support": 0.798,
-      "life_exp_healthy": 69.85,
-      "freedom": 0.794,
-      "generosity": -0.119,
-      "corruption": 0.892,
-      "internet_pct": 74.67,
-      "urban_pct": 84.37,
-      "life_exp": 76.83
+      "gdp_ppp": 15559.8
     },
     {
       "code": "PHL",
       "name": "Philippines",
       "ladder": 5.523,
       "log_gdp": 8.979,
-      "gdp_ppp": 9457.1,
-      "social_support": 0.78,
-      "life_exp_healthy": 62.038,
-      "freedom": 0.919,
-      "generosity": -0.06,
-      "corruption": 0.732,
-      "internet_pct": 75.21,
-      "urban_pct": 54.79,
-      "life_exp": 69.47
+      "gdp_ppp": 9457.1
     },
     {
       "code": "BGR",
       "name": "Bulgaria",
       "ladder": 5.466,
       "log_gdp": 10.087,
-      "gdp_ppp": 32433.8,
-      "social_support": 0.918,
-      "life_exp_healthy": 66.5,
-      "freedom": 0.801,
-      "generosity": -0.057,
-      "corruption": 0.911,
-      "internet_pct": 79.13,
-      "urban_pct": 73.48,
-      "life_exp": 74.16
+      "gdp_ppp": 32433.8
     },
     {
       "code": "NPL",
       "name": "Nepal",
       "ladder": 5.36,
       "log_gdp": 8.256,
-      "gdp_ppp": 4763.4,
-      "social_support": 0.748,
-      "life_exp_healthy": 61.847,
-      "freedom": 0.808,
-      "generosity": 0.146,
-      "corruption": 0.783,
-      "internet_pct": 45.45,
-      "urban_pct": 66.3,
-      "life_exp": 70.09
+      "gdp_ppp": 4763.4
     },
     {
       "code": "ARM",
       "name": "Armenia",
       "ladder": 5.342,
       "log_gdp": 9.615,
-      "gdp_ppp": 17886.2,
-      "social_support": 0.79,
-      "life_exp_healthy": 67.789,
-      "freedom": 0.796,
-      "generosity": -0.155,
-      "corruption": 0.705,
-      "internet_pct": 77.03,
-      "urban_pct": 65.56,
-      "life_exp": 74.77
+      "gdp_ppp": 17886.2
     },
     {
       "code": "TJK",
       "name": "Tajikistan",
       "ladder": 5.33,
       "log_gdp": 8.237,
-      "gdp_ppp": 4213.8,
-      "social_support": 0.836,
-      "life_exp_healthy": 62.226,
-      "freedom": 0.832,
-      "generosity": -0.06,
-      "corruption": 0.522,
-      "internet_pct": 48.91,
-      "urban_pct": 26.2,
-      "life_exp": 71.56
+      "gdp_ppp": 4213.8
     },
     {
       "code": "DZA",
       "name": "Algeria",
       "ladder": 5.329,
       "log_gdp": 9.3,
-      "gdp_ppp": 14782.2,
-      "social_support": 0.855,
-      "life_exp_healthy": 66.549,
-      "freedom": 0.571,
-      "generosity": -0.117,
-      "corruption": 0.717,
-      "internet_pct": 74.78,
-      "urban_pct": 74.18,
-      "life_exp": 76.13
+      "gdp_ppp": 14782.2
     },
     {
       "code": "HKG",
       "name": "Hong Kong S.A.R. of China",
       "ladder": 5.308,
       "log_gdp": 10.966,
-      "gdp_ppp": 64036.6,
-      "social_support": 0.817,
-      "life_exp_healthy": 77.28,
-      "freedom": 0.687,
-      "generosity": -0.026,
-      "corruption": 0.385,
-      "internet_pct": 95.61,
-      "urban_pct": 100.0,
-      "life_exp": 83.66
+      "gdp_ppp": 64036.6
     },
     {
       "code": "ALB",
       "name": "Albania",
       "ladder": 5.277,
       "log_gdp": 9.567,
-      "gdp_ppp": 19388.9,
-      "social_support": 0.718,
-      "life_exp_healthy": 69.15,
-      "freedom": 0.794,
-      "generosity": -0.007,
-      "corruption": 0.878,
-      "internet_pct": 82.61,
-      "urban_pct": 57.86,
-      "life_exp": 78.77
+      "gdp_ppp": 19388.9
     },
     {
       "code": "IDN",
       "name": "Indonesia",
       "ladder": 5.277,
       "log_gdp": 9.385,
-      "gdp_ppp": 13334.3,
-      "social_support": 0.804,
-      "life_exp_healthy": 63.048,
-      "freedom": 0.88,
-      "generosity": 0.531,
-      "corruption": 0.876,
-      "internet_pct": 66.48,
-      "urban_pct": 57.49,
-      "life_exp": 70.92
+      "gdp_ppp": 13334.3
     },
     {
       "code": "ZAF",
       "name": "South Africa",
       "ladder": 5.275,
       "log_gdp": 9.478,
-      "gdp_ppp": 13767.5,
-      "social_support": 0.907,
-      "life_exp_healthy": 56.989,
-      "freedom": 0.73,
-      "generosity": -0.087,
-      "corruption": 0.902,
-      "internet_pct": 78.29,
-      "urban_pct": 63.48,
-      "life_exp": 65.45
+      "gdp_ppp": 13767.5
     },
     {
       "code": "COG",
       "name": "Congo (Brazzaville)",
       "ladder": 5.267,
       "log_gdp": 8.095,
-      "gdp_ppp": 6205.1,
-      "social_support": 0.605,
-      "life_exp_healthy": 56.85,
-      "freedom": 0.73,
-      "generosity": -0.004,
-      "corruption": 0.739,
-      "internet_pct": 40.99,
-      "urban_pct": 63.64,
-      "life_exp": 65.0
+      "gdp_ppp": 6205.1
     },
     {
       "code": "MKD",
       "name": "North Macedonia",
       "ladder": 5.254,
       "log_gdp": 9.703,
-      "gdp_ppp": 22822.3,
-      "social_support": 0.805,
-      "life_exp_healthy": 66.5,
-      "freedom": 0.769,
-      "generosity": 0.131,
-      "corruption": 0.902,
-      "internet_pct": 83.85,
-      "urban_pct": 61.95,
-      "life_exp": 74.42
+      "gdp_ppp": 22822.3
     },
     {
       "code": "VEN",
       "name": "Venezuela",
       "ladder": 5.211,
       "log_gdp": 5.527,
-      "gdp_ppp": null,
-      "social_support": 0.839,
-      "life_exp_healthy": 64.05,
-      "freedom": 0.659,
-      "generosity": 0.128,
-      "corruption": 0.811,
-      "internet_pct": 75.82,
-      "urban_pct": 89.21,
-      "life_exp": 72.57
+      "gdp_ppp": null
     },
     {
       "code": "LAO",
       "name": "Laos",
       "ladder": 5.111,
       "log_gdp": 8.962,
-      "gdp_ppp": 8183.0,
-      "social_support": 0.679,
-      "life_exp_healthy": 60.946,
-      "freedom": 0.919,
-      "generosity": 0.091,
-      "corruption": 0.703,
-      "internet_pct": 64.54,
-      "urban_pct": 38.07,
-      "life_exp": 68.72
+      "gdp_ppp": 8183.0
     },
     {
       "code": "GEO",
       "name": "Georgia",
       "ladder": 5.109,
       "log_gdp": 9.646,
-      "gdp_ppp": 20966.5,
-      "social_support": 0.716,
-      "life_exp_healthy": 64.95,
-      "freedom": 0.786,
-      "generosity": -0.254,
-      "corruption": 0.649,
-      "internet_pct": 78.71,
-      "urban_pct": 60.01,
-      "life_exp": 74.14
+      "gdp_ppp": 20966.5
     },
     {
       "code": "GIN",
       "name": "Guinea",
       "ladder": 5.072,
       "log_gdp": 7.88,
-      "gdp_ppp": 3792.0,
-      "social_support": 0.649,
-      "life_exp_healthy": 54.185,
-      "freedom": 0.659,
-      "generosity": 0.125,
-      "corruption": 0.787,
-      "internet_pct": 31.31,
-      "urban_pct": 37.24,
-      "life_exp": 60.43
+      "gdp_ppp": 3792.0
     },
     {
       "code": "UKR",
       "name": "Ukraine",
       "ladder": 5.071,
       "log_gdp": 9.314,
-      "gdp_ppp": 13787.1,
-      "social_support": 0.878,
-      "life_exp_healthy": 64.55,
-      "freedom": 0.795,
-      "generosity": 0.24,
-      "corruption": 0.907,
-      "internet_pct": 80.47,
-      "urban_pct": 69.42,
-      "life_exp": 72.66
+      "gdp_ppp": 13787.1
     },
     {
       "code": "CIV",
       "name": "Ivory Coast",
       "ladder": 5.053,
       "log_gdp": 8.576,
-      "gdp_ppp": 6272.3,
-      "social_support": 0.572,
-      "life_exp_healthy": 55.953,
-      "freedom": 0.733,
-      "generosity": 0.003,
-      "corruption": 0.746,
-      "internet_pct": 38.41,
-      "urban_pct": 52.85,
-      "life_exp": 61.56
+      "gdp_ppp": 6272.3
     },
     {
       "code": "GAB",
       "name": "Gabon",
       "ladder": 5.035,
       "log_gdp": 9.537,
-      "gdp_ppp": 18662.0,
-      "social_support": 0.746,
-      "life_exp_healthy": 58.252,
-      "freedom": 0.642,
-      "generosity": -0.187,
-      "corruption": 0.786,
-      "internet_pct": 67.67,
-      "urban_pct": 91.22,
-      "life_exp": 67.71
+      "gdp_ppp": 18662.0
     },
     {
       "code": "NGA",
       "name": "Nigeria",
       "ladder": 4.981,
       "log_gdp": 8.496,
-      "gdp_ppp": 7752.3,
-      "social_support": 0.74,
-      "life_exp_healthy": 54.891,
-      "freedom": 0.718,
-      "generosity": 0.073,
-      "corruption": 0.911,
-      "internet_pct": 39.15,
-      "urban_pct": 61.37,
-      "life_exp": 54.08
+      "gdp_ppp": 7752.3
     },
     {
       "code": "CMR",
       "name": "Cameroon",
       "ladder": 4.973,
       "log_gdp": 8.217,
-      "gdp_ppp": 4843.7,
-      "social_support": 0.686,
-      "life_exp_healthy": 55.847,
-      "freedom": 0.686,
-      "generosity": 0.015,
-      "corruption": 0.846,
-      "internet_pct": 40.13,
-      "urban_pct": 54.85,
-      "life_exp": 62.44
+      "gdp_ppp": 4843.7
     },
     {
       "code": "MOZ",
       "name": "Mozambique",
       "ladder": 4.954,
       "log_gdp": 7.116,
-      "gdp_ppp": 1476.7,
-      "social_support": 0.692,
-      "life_exp_healthy": 51.53,
-      "freedom": 0.851,
-      "generosity": 0.047,
-      "corruption": 0.66,
-      "internet_pct": 18.96,
-      "urban_pct": 35.05,
-      "life_exp": 63.01
+      "gdp_ppp": 1476.7
     },
     {
       "code": "IRQ",
       "name": "Iraq",
       "ladder": 4.941,
       "log_gdp": 9.098,
-      "gdp_ppp": 13433.4,
-      "social_support": 0.718,
-      "life_exp_healthy": 63.415,
-      "freedom": 0.646,
-      "generosity": -0.005,
-      "corruption": 0.876,
-      "internet_pct": 78.72,
-      "urban_pct": 69.87,
-      "life_exp": 72.04
+      "gdp_ppp": 13433.4
     },
     {
       "code": "PSE",
       "name": "State of Palestine",
       "ladder": 4.908,
       "log_gdp": 8.716,
-      "gdp_ppp": 5753.1,
-      "social_support": 0.859,
-      "life_exp_healthy": null,
-      "freedom": 0.694,
-      "generosity": -0.132,
-      "corruption": 0.836,
-      "internet_pct": 88.65,
-      "urban_pct": 86.6,
-      "life_exp": 76.66
+      "gdp_ppp": 5753.1
     },
     {
       "code": "MAR",
       "name": "Morocco",
       "ladder": 4.903,
       "log_gdp": 8.973,
-      "gdp_ppp": 8690.4,
-      "social_support": 0.553,
-      "life_exp_healthy": 63.901,
-      "freedom": 0.787,
-      "generosity": -0.231,
-      "corruption": 0.811,
-      "internet_pct": 89.9,
-      "urban_pct": 62.51,
-      "life_exp": 75.16
+      "gdp_ppp": 8690.4
     },
     {
       "code": "IRN",
       "name": "Iran",
       "ladder": 4.876,
       "log_gdp": 9.61,
-      "gdp_ppp": 16378.0,
-      "social_support": 0.778,
-      "life_exp_healthy": 66.6,
-      "freedom": 0.593,
-      "generosity": 0.173,
-      "corruption": 0.747,
-      "internet_pct": 81.72,
-      "urban_pct": 76.33,
-      "life_exp": 76.8
+      "gdp_ppp": 16378.0
     },
     {
       "code": "SEN",
       "name": "Senegal",
       "ladder": 4.855,
       "log_gdp": 8.155,
-      "gdp_ppp": 4228.7,
-      "social_support": 0.629,
-      "life_exp_healthy": 59.999,
-      "freedom": 0.772,
-      "generosity": 0.011,
-      "corruption": 0.846,
-      "internet_pct": 56.83,
-      "urban_pct": 53.44,
-      "life_exp": 67.79
+      "gdp_ppp": 4228.7
     },
     {
       "code": "MRT",
       "name": "Mauritania",
       "ladder": 4.724,
       "log_gdp": 8.591,
-      "gdp_ppp": 6053.3,
-      "social_support": 0.644,
-      "life_exp_healthy": 60.475,
-      "freedom": 0.622,
-      "generosity": -0.013,
-      "corruption": 0.657,
-      "internet_pct": 42.46,
-      "urban_pct": 58.81,
-      "life_exp": 68.28
+      "gdp_ppp": 6053.3
     },
     {
       "code": "BFA",
       "name": "Burkina Faso",
       "ladder": 4.638,
       "log_gdp": 7.667,
-      "gdp_ppp": 2469.2,
-      "social_support": 0.663,
-      "life_exp_healthy": 55.461,
-      "freedom": 0.696,
-      "generosity": 0.095,
-      "corruption": 0.771,
-      "internet_pct": 25.4,
-      "urban_pct": 27.28,
-      "life_exp": 60.7
+      "gdp_ppp": 2469.2
     },
     {
       "code": "NAM",
       "name": "Namibia",
       "ladder": 4.631,
       "log_gdp": 9.121,
-      "gdp_ppp": 9953.1,
-      "social_support": 0.787,
-      "life_exp_healthy": 56.851,
-      "freedom": 0.669,
-      "generosity": -0.126,
-      "corruption": 0.83,
-      "internet_pct": 63.0,
-      "urban_pct": 49.53,
-      "life_exp": 64.19
+      "gdp_ppp": 9953.1
     },
     {
       "code": "TUR",
       "name": "Turkiye",
       "ladder": 4.614,
       "log_gdp": 10.307,
-      "gdp_ppp": 33520.8,
-      "social_support": 0.796,
-      "life_exp_healthy": 68.663,
-      "freedom": 0.475,
-      "generosity": -0.077,
-      "corruption": 0.795,
-      "internet_pct": 83.44,
-      "urban_pct": 89.04,
-      "life_exp": 77.59
+      "gdp_ppp": 33520.8
     },
     {
       "code": "GHA",
       "name": "Ghana",
       "ladder": 4.605,
       "log_gdp": 8.596,
-      "gdp_ppp": 6728.5,
-      "social_support": 0.641,
-      "life_exp_healthy": 58.763,
-      "freedom": 0.777,
-      "generosity": 0.139,
-      "corruption": 0.881,
-      "internet_pct": 69.91,
-      "urban_pct": 57.25,
-      "life_exp": 65.25
+      "gdp_ppp": 6728.5
     },
     {
       "code": "PAK",
       "name": "Pakistan",
       "ladder": 4.555,
       "log_gdp": 8.54,
-      "gdp_ppp": 5526.3,
-      "social_support": 0.601,
-      "life_exp_healthy": 57.312,
-      "freedom": 0.766,
-      "generosity": 0.008,
-      "corruption": 0.787,
-      "internet_pct": null,
-      "urban_pct": 38.37,
-      "life_exp": 67.42
+      "gdp_ppp": 5526.3
     },
     {
       "code": "NER",
       "name": "Niger",
       "ladder": 4.501,
       "log_gdp": 7.091,
-      "gdp_ppp": 1717.5,
-      "social_support": 0.59,
-      "life_exp_healthy": 56.55,
-      "freedom": 0.788,
-      "generosity": 0.032,
-      "corruption": 0.734,
-      "internet_pct": 13.09,
-      "urban_pct": 17.48,
-      "life_exp": 60.4
+      "gdp_ppp": 1717.5
     },
     {
       "code": "TUN",
       "name": "Tunisia",
       "ladder": 4.497,
       "log_gdp": 9.244,
-      "gdp_ppp": 12712.2,
-      "social_support": 0.73,
-      "life_exp_healthy": 67.0,
-      "freedom": 0.576,
-      "generosity": -0.213,
-      "corruption": 0.907,
-      "internet_pct": null,
-      "urban_pct": 69.71,
-      "life_exp": 76.05
+      "gdp_ppp": 12712.2
     },
     {
       "code": "KEN",
       "name": "Kenya",
       "ladder": 4.487,
       "log_gdp": 8.458,
-      "gdp_ppp": 5491.7,
-      "social_support": 0.69,
-      "life_exp_healthy": 58.499,
-      "freedom": 0.696,
-      "generosity": 0.288,
-      "corruption": 0.852,
-      "internet_pct": 29.41,
-      "urban_pct": 31.43,
-      "life_exp": 63.55
+      "gdp_ppp": 5491.7
     },
     {
       "code": "LKA",
       "name": "Sri Lanka",
       "ladder": 4.442,
       "log_gdp": 9.491,
-      "gdp_ppp": 13249.1,
-      "social_support": 0.826,
-      "life_exp_healthy": 67.15,
-      "freedom": 0.787,
-      "generosity": -0.03,
-      "corruption": 0.808,
-      "internet_pct": 48.3,
-      "urban_pct": 19.99,
-      "life_exp": 77.3
+      "gdp_ppp": 13249.1
     },
     {
       "code": "UGA",
       "name": "Uganda",
       "ladder": 4.432,
       "log_gdp": 7.716,
-      "gdp_ppp": 2724.9,
-      "social_support": 0.794,
-      "life_exp_healthy": 58.913,
-      "freedom": 0.701,
-      "generosity": 0.114,
-      "corruption": 0.857,
-      "internet_pct": 9.64,
-      "urban_pct": 29.93,
-      "life_exp": 67.67
+      "gdp_ppp": 2724.9
     },
     {
       "code": "TCD",
       "name": "Chad",
       "ladder": 4.397,
       "log_gdp": 7.261,
-      "gdp_ppp": 2449.5,
-      "social_support": 0.722,
-      "life_exp_healthy": 53.125,
-      "freedom": 0.677,
-      "generosity": 0.221,
-      "corruption": 0.807,
-      "internet_pct": 11.17,
-      "urban_pct": 25.76,
-      "life_exp": 54.53
+      "gdp_ppp": 2449.5
     },
     {
       "code": "KHM",
       "name": "Cambodia",
       "ladder": 4.393,
       "log_gdp": 8.385,
-      "gdp_ppp": 6458.4,
-      "social_support": 0.747,
-      "life_exp_healthy": 61.9,
-      "freedom": 0.958,
-      "generosity": 0.073,
-      "corruption": 0.857,
-      "internet_pct": 65.49,
-      "urban_pct": 40.37,
-      "life_exp": 70.53
+      "gdp_ppp": 6458.4
     },
     {
       "code": "BEN",
       "name": "Benin",
       "ladder": 4.374,
       "log_gdp": 8.103,
-      "gdp_ppp": 3588.3,
-      "social_support": 0.437,
-      "life_exp_healthy": 56.095,
-      "freedom": 0.743,
-      "generosity": -0.043,
-      "corruption": 0.576,
-      "internet_pct": 30.54,
-      "urban_pct": 50.96,
-      "life_exp": 60.48
+      "gdp_ppp": 3588.3
     },
     {
       "code": "MMR",
       "name": "Myanmar",
       "ladder": 4.372,
       "log_gdp": 8.404,
-      "gdp_ppp": 5350.5,
-      "social_support": 0.787,
-      "life_exp_healthy": 61.388,
-      "freedom": 0.727,
-      "generosity": 0.491,
-      "corruption": 0.658,
-      "internet_pct": null,
-      "urban_pct": 30.31,
-      "life_exp": 66.51
+      "gdp_ppp": 5350.5
     },
     {
       "code": "BGD",
       "name": "Bangladesh",
       "ladder": 4.282,
       "log_gdp": 8.685,
-      "gdp_ppp": 7888.2,
-      "social_support": 0.544,
-      "life_exp_healthy": 64.548,
-      "freedom": 0.845,
-      "generosity": 0.005,
-      "corruption": 0.698,
-      "internet_pct": 41.62,
-      "urban_pct": 31.67,
-      "life_exp": 74.27
+      "gdp_ppp": 7888.2
     },
     {
       "code": "GMB",
       "name": "Gambia",
       "ladder": 4.279,
       "log_gdp": 7.648,
-      "gdp_ppp": 2863.2,
-      "social_support": 0.584,
-      "life_exp_healthy": 57.9,
-      "freedom": 0.596,
-      "generosity": 0.364,
-      "corruption": 0.883,
-      "internet_pct": 48.23,
-      "urban_pct": 63.29,
-      "life_exp": 64.86
+      "gdp_ppp": 2863.2
     },
     {
       "code": "MLI",
       "name": "Mali",
       "ladder": 4.198,
       "log_gdp": 7.655,
-      "gdp_ppp": 2813.8,
-      "social_support": 0.593,
-      "life_exp_healthy": 55.403,
-      "freedom": 0.713,
-      "generosity": -0.028,
-      "corruption": 0.846,
-      "internet_pct": 35.2,
-      "urban_pct": 30.4,
-      "life_exp": 60.03
+      "gdp_ppp": 2813.8
     },
     {
       "code": "EGY",
       "name": "Egypt",
       "ladder": 4.17,
       "log_gdp": 9.367,
-      "gdp_ppp": 16360.4,
-      "social_support": 0.726,
-      "life_exp_healthy": 63.503,
-      "freedom": 0.732,
-      "generosity": -0.183,
-      "corruption": 0.58,
-      "internet_pct": 72.2,
-      "urban_pct": 42.63,
-      "life_exp": 71.01
+      "gdp_ppp": 16360.4
     },
     {
       "code": "TGO",
       "name": "Togo",
       "ladder": 4.137,
       "log_gdp": 7.673,
-      "gdp_ppp": 2739.7,
-      "social_support": 0.595,
-      "life_exp_healthy": 57.449,
-      "freedom": 0.657,
-      "generosity": 0.024,
-      "corruption": 0.74,
-      "internet_pct": 35.61,
-      "urban_pct": 42.73,
-      "life_exp": 62.29
+      "gdp_ppp": 2739.7
     },
     {
       "code": "JOR",
       "name": "Jordan",
       "ladder": 4.12,
       "log_gdp": 9.13,
-      "gdp_ppp": 9266.6,
-      "social_support": 0.729,
-      "life_exp_healthy": 67.6,
-      "freedom": 0.77,
-      "generosity": -0.15,
-      "corruption": 0.687,
-      "internet_pct": 90.5,
-      "urban_pct": 92.4,
-      "life_exp": 77.09
+      "gdp_ppp": 9266.6
     },
     {
       "code": "ETH",
       "name": "Ethiopia",
       "ladder": 4.091,
       "log_gdp": 7.739,
-      "gdp_ppp": 2655.6,
-      "social_support": 0.782,
-      "life_exp_healthy": 60.698,
-      "freedom": 0.72,
-      "generosity": 0.273,
-      "corruption": 0.789,
-      "internet_pct": 17.98,
-      "urban_pct": 22.74,
-      "life_exp": 66.9
+      "gdp_ppp": 2655.6
     },
     {
       "code": "LBR",
       "name": "Liberia",
       "ladder": 4.042,
       "log_gdp": 7.277,
-      "gdp_ppp": 1579.0,
-      "social_support": 0.596,
-      "life_exp_healthy": 56.7,
-      "freedom": 0.735,
-      "generosity": 0.154,
-      "corruption": 0.83,
-      "internet_pct": 30.38,
-      "urban_pct": 54.46,
-      "life_exp": 61.93
+      "gdp_ppp": 1579.0
     },
     {
       "code": "IND",
       "name": "India",
       "ladder": 4.036,
       "log_gdp": 8.759,
-      "gdp_ppp": 8594.4,
-      "social_support": 0.608,
-      "life_exp_healthy": 60.777,
-      "freedom": 0.897,
-      "generosity": 0.072,
-      "corruption": 0.774,
-      "internet_pct": 55.9,
-      "urban_pct": 34.76,
-      "life_exp": 71.7
+      "gdp_ppp": 8594.4
     },
     {
       "code": "MDG",
       "name": "Madagascar",
       "ladder": 4.019,
       "log_gdp": 7.29,
-      "gdp_ppp": 1602.7,
-      "social_support": 0.65,
-      "life_exp_healthy": 58.05,
-      "freedom": 0.522,
-      "generosity": 0.075,
-      "corruption": 0.742,
-      "internet_pct": 17.81,
-      "urban_pct": 31.54,
-      "life_exp": 63.07
+      "gdp_ppp": 1602.7
     },
     {
       "code": "ZMB",
       "name": "Zambia",
       "ladder": 3.982,
       "log_gdp": 8.074,
-      "gdp_ppp": 3585.1,
-      "social_support": 0.694,
-      "life_exp_healthy": 55.032,
-      "freedom": 0.791,
-      "generosity": 0.098,
-      "corruption": 0.818,
-      "internet_pct": 15.0,
-      "urban_pct": 44.6,
-      "life_exp": 65.28
+      "gdp_ppp": 3585.1
     },
     {
       "code": "TZA",
       "name": "Tanzania",
       "ladder": 3.694,
       "log_gdp": 7.857,
-      "gdp_ppp": 3547.0,
-      "social_support": 0.653,
-      "life_exp_healthy": 59.401,
-      "freedom": 0.838,
-      "generosity": 0.182,
-      "corruption": 0.554,
-      "internet_pct": 26.86,
-      "urban_pct": 34.82,
-      "life_exp": 66.88
+      "gdp_ppp": 3547.0
     },
     {
       "code": "COM",
       "name": "Comoros",
       "ladder": 3.545,
       "log_gdp": 8.075,
-      "gdp_ppp": 3399.3,
-      "social_support": 0.471,
-      "life_exp_healthy": 59.425,
-      "freedom": 0.47,
-      "generosity": -0.014,
-      "corruption": 0.727,
-      "internet_pct": 31.37,
-      "urban_pct": 32.77,
-      "life_exp": 66.48
+      "gdp_ppp": 3399.3
     },
     {
       "code": "MWI",
       "name": "Malawi",
       "ladder": 3.495,
       "log_gdp": 7.302,
-      "gdp_ppp": 1660.0,
-      "social_support": 0.531,
-      "life_exp_healthy": 58.475,
-      "freedom": 0.75,
-      "generosity": 0.005,
-      "corruption": 0.749,
-      "internet_pct": 16.85,
-      "urban_pct": 16.71,
-      "life_exp": 66.04
+      "gdp_ppp": 1660.0
     },
     {
       "code": "BWA",
       "name": "Botswana",
       "ladder": 3.435,
       "log_gdp": 9.629,
-      "gdp_ppp": 18647.4,
-      "social_support": 0.753,
-      "life_exp_healthy": 54.725,
-      "freedom": 0.742,
-      "generosity": -0.215,
-      "corruption": 0.83,
-      "internet_pct": 57.9,
-      "urban_pct": 66.59,
-      "life_exp": 68.75
+      "gdp_ppp": 18647.4
     },
     {
       "code": "COD",
       "name": "Congo (Kinshasa)",
       "ladder": 3.207,
       "log_gdp": 7.007,
-      "gdp_ppp": 1484.3,
-      "social_support": 0.652,
-      "life_exp_healthy": 55.375,
-      "freedom": 0.664,
-      "generosity": 0.086,
-      "corruption": 0.834,
-      "internet_pct": 18.0,
-      "urban_pct": 44.0,
-      "life_exp": 60.98
+      "gdp_ppp": 1484.3
     },
     {
       "code": "ZWE",
       "name": "Zimbabwe",
       "ladder": 3.204,
       "log_gdp": 7.641,
-      "gdp_ppp": 5036.8,
-      "social_support": 0.69,
-      "life_exp_healthy": 54.05,
-      "freedom": 0.654,
-      "generosity": -0.046,
-      "corruption": 0.766,
-      "internet_pct": 36.26,
-      "urban_pct": 38.71,
-      "life_exp": 62.36
+      "gdp_ppp": 5036.8
     },
     {
       "code": "SLE",
       "name": "Sierra Leone",
       "ladder": 3.138,
       "log_gdp": 7.394,
-      "gdp_ppp": 2934.7,
-      "social_support": 0.555,
-      "life_exp_healthy": 54.9,
-      "freedom": 0.66,
-      "generosity": 0.105,
-      "corruption": 0.858,
-      "internet_pct": 21.51,
-      "urban_pct": 44.27,
-      "life_exp": 61.27
+      "gdp_ppp": 2934.7
     },
     {
       "code": "LBN",
       "name": "Lebanon",
       "ladder": 2.392,
       "log_gdp": 9.478,
-      "gdp_ppp": 11474.8,
-      "social_support": 0.53,
-      "life_exp_healthy": 66.149,
-      "freedom": 0.474,
-      "generosity": -0.141,
-      "corruption": 0.891,
-      "internet_pct": 81.46,
-      "urban_pct": 90.21,
-      "life_exp": 78.0
+      "gdp_ppp": 11474.8
     },
     {
       "code": "AFG",
       "name": "Afghanistan",
       "ladder": 1.859,
       "log_gdp": 7.324,
-      "gdp_ppp": 1981.7,
-      "social_support": 0.341,
-      "life_exp_healthy": 54.712,
-      "freedom": 0.382,
-      "generosity": -0.081,
-      "corruption": 0.847,
-      "internet_pct": 15.87,
-      "urban_pct": 25.39,
-      "life_exp": 65.62
+      "gdp_ppp": 1981.7
     }
   ],
   "gdp_smoother": [
@@ -2740,1233 +1652,1187 @@ window.SITE_DATA = {
   },
   "cate": [
     {
-      "code": "BHR",
-      "name": "Bahrain",
-      "ladder": 6.173,
-      "gdp_ppp": 57573.0,
-      "cate": 0.148,
-      "ci_lo": -0.122,
-      "ci_hi": 0.418
-    },
-    {
-      "code": "LUX",
-      "name": "Luxembourg",
-      "ladder": 7.228,
-      "gdp_ppp": 132570.8,
-      "cate": 0.118,
-      "ci_lo": -0.145,
-      "ci_hi": 0.381
-    },
-    {
-      "code": "ARE",
-      "name": "United Arab Emirates",
-      "ladder": 6.571,
-      "gdp_ppp": 70075.6,
-      "cate": 0.115,
-      "ci_lo": -0.198,
-      "ci_hi": 0.428
-    },
-    {
-      "code": "ISL",
-      "name": "Iceland",
-      "ladder": 7.53,
-      "gdp_ppp": 65380.3,
-      "cate": 0.105,
-      "ci_lo": -0.109,
-      "ci_hi": 0.32
-    },
-    {
-      "code": "SAU",
-      "name": "Saudi Arabia",
-      "ladder": 6.463,
-      "gdp_ppp": 67178.6,
-      "cate": 0.104,
-      "ci_lo": -0.057,
-      "ci_hi": 0.265
-    },
-    {
-      "code": "MYS",
-      "name": "Malaysia",
-      "ladder": 6.012,
-      "gdp_ppp": 32129.2,
-      "cate": 0.101,
-      "ci_lo": -0.217,
-      "ci_hi": 0.419
-    },
-    {
-      "code": "MLT",
-      "name": "Malta",
-      "ladder": 6.3,
-      "gdp_ppp": 56842.0,
-      "cate": 0.097,
-      "ci_lo": -0.184,
-      "ci_hi": 0.378
-    },
-    {
-      "code": "DNK",
-      "name": "Denmark",
-      "ladder": 7.586,
-      "gdp_ppp": 69475.3,
-      "cate": 0.097,
-      "ci_lo": -0.105,
-      "ci_hi": 0.299
-    },
-    {
-      "code": "SGP",
-      "name": "Singapore",
-      "ladder": 6.587,
-      "gdp_ppp": 133572.0,
-      "cate": 0.097,
-      "ci_lo": -0.147,
-      "ci_hi": 0.341
-    },
-    {
-      "code": "SWE",
-      "name": "Sweden",
-      "ladder": 7.395,
-      "gdp_ppp": 63088.4,
-      "cate": 0.096,
-      "ci_lo": -0.104,
-      "ci_hi": 0.295
-    },
-    {
-      "code": "AUS",
-      "name": "Australia",
-      "ladder": 7.095,
-      "gdp_ppp": 60029.1,
-      "cate": 0.093,
-      "ci_lo": -0.08,
-      "ci_hi": 0.266
-    },
-    {
-      "code": "CHE",
-      "name": "Switzerland",
-      "ladder": 7.24,
-      "gdp_ppp": 82777.3,
-      "cate": 0.09,
-      "ci_lo": -0.088,
-      "ci_hi": 0.267
-    },
-    {
-      "code": "NOR",
-      "name": "Norway",
-      "ladder": 7.316,
-      "gdp_ppp": 91051.1,
-      "cate": 0.088,
-      "ci_lo": -0.081,
-      "ci_hi": 0.256
-    },
-    {
-      "code": "NLD",
-      "name": "Netherlands",
-      "ladder": 7.403,
-      "gdp_ppp": 71324.0,
-      "cate": 0.088,
-      "ci_lo": -0.098,
-      "ci_hi": 0.273
-    },
-    {
-      "code": "IND",
-      "name": "India",
-      "ladder": 4.036,
-      "gdp_ppp": 8594.4,
-      "cate": 0.078,
-      "ci_lo": -0.344,
-      "ci_hi": 0.5
-    },
-    {
-      "code": "MEX",
-      "name": "Mexico",
-      "ladder": 6.33,
-      "gdp_ppp": 21391.9,
-      "cate": 0.074,
-      "ci_lo": -0.25,
-      "ci_hi": 0.399
-    },
-    {
-      "code": "CAN",
-      "name": "Canada",
-      "ladder": 6.961,
-      "gdp_ppp": 58321.1,
-      "cate": 0.068,
-      "ci_lo": -0.087,
-      "ci_hi": 0.223
-    },
-    {
-      "code": "CRI",
-      "name": "Costa Rica",
-      "ladder": 6.609,
-      "gdp_ppp": 24831.7,
-      "cate": 0.067,
-      "ci_lo": -0.22,
-      "ci_hi": 0.355
-    },
-    {
-      "code": "NZL",
-      "name": "New Zealand",
-      "ladder": 7.123,
-      "gdp_ppp": 49964.2,
-      "cate": 0.066,
-      "ci_lo": -0.082,
-      "ci_hi": 0.215
-    },
-    {
-      "code": "VNM",
-      "name": "Vietnam",
-      "ladder": 5.763,
-      "gdp_ppp": 12979.8,
-      "cate": 0.066,
-      "ci_lo": -0.193,
-      "ci_hi": 0.325
-    },
-    {
       "code": "LBN",
       "name": "Lebanon",
       "ladder": 2.392,
       "gdp_ppp": 11474.8,
-      "cate": 0.062,
-      "ci_lo": -0.339,
-      "ci_hi": 0.463
-    },
-    {
-      "code": "MDG",
-      "name": "Madagascar",
-      "ladder": 4.019,
-      "gdp_ppp": 1602.7,
-      "cate": 0.045,
-      "ci_lo": -0.493,
-      "ci_hi": 0.584
-    },
-    {
-      "code": "LAO",
-      "name": "Laos",
-      "ladder": 5.111,
-      "gdp_ppp": 8183.0,
-      "cate": 0.043,
-      "ci_lo": -0.254,
-      "ci_hi": 0.339
-    },
-    {
-      "code": "COM",
-      "name": "Comoros",
-      "ladder": 3.545,
-      "gdp_ppp": 3399.3,
-      "cate": 0.038,
-      "ci_lo": -0.485,
-      "ci_hi": 0.562
-    },
-    {
-      "code": "URY",
-      "name": "Uruguay",
-      "ladder": 6.494,
-      "gdp_ppp": 30804.7,
-      "cate": 0.036,
-      "ci_lo": -0.247,
-      "ci_hi": 0.319
-    },
-    {
-      "code": "GIN",
-      "name": "Guinea",
-      "ladder": 5.072,
-      "gdp_ppp": 3792.0,
-      "cate": 0.035,
-      "ci_lo": -0.617,
-      "ci_hi": 0.687
-    },
-    {
-      "code": "TGO",
-      "name": "Togo",
-      "ladder": 4.137,
-      "gdp_ppp": 2739.7,
-      "cate": 0.035,
-      "ci_lo": -0.479,
-      "ci_hi": 0.549
-    },
-    {
-      "code": "UZB",
-      "name": "Uzbekistan",
-      "ladder": 6.014,
-      "gdp_ppp": 9607.6,
-      "cate": 0.033,
-      "ci_lo": -0.075,
-      "ci_hi": 0.142
-    },
-    {
-      "code": "PHL",
-      "name": "Philippines",
-      "ladder": 5.523,
-      "gdp_ppp": 9457.1,
-      "cate": 0.033,
-      "ci_lo": -0.214,
-      "ci_hi": 0.279
-    },
-    {
-      "code": "SVN",
-      "name": "Slovenia",
-      "ladder": 6.65,
-      "gdp_ppp": 47050.1,
-      "cate": 0.031,
-      "ci_lo": -0.17,
-      "ci_hi": 0.232
-    },
-    {
-      "code": "BFA",
-      "name": "Burkina Faso",
-      "ladder": 4.638,
-      "gdp_ppp": 2469.2,
-      "cate": 0.029,
-      "ci_lo": -0.569,
-      "ci_hi": 0.627
-    },
-    {
-      "code": "ROU",
-      "name": "Romania",
-      "ladder": 6.589,
-      "gdp_ppp": 39257.0,
-      "cate": 0.028,
-      "ci_lo": -0.23,
-      "ci_hi": 0.285
-    },
-    {
-      "code": "BGD",
-      "name": "Bangladesh",
-      "ladder": 4.282,
-      "gdp_ppp": 7888.2,
-      "cate": 0.027,
-      "ci_lo": -0.221,
-      "ci_hi": 0.274
-    },
-    {
-      "code": "HKG",
-      "name": "Hong Kong S.A.R. of China",
-      "ladder": 5.309,
-      "gdp_ppp": 64036.7,
-      "cate": 0.025,
-      "ci_lo": -0.408,
-      "ci_hi": 0.457
-    },
-    {
-      "code": "PRT",
-      "name": "Portugal",
-      "ladder": 5.968,
-      "gdp_ppp": 41070.9,
-      "cate": 0.024,
-      "ci_lo": -0.243,
-      "ci_hi": 0.291
-    },
-    {
-      "code": "TUR",
-      "name": "Turkiye",
-      "ladder": 4.614,
-      "gdp_ppp": 33520.8,
-      "cate": 0.023,
-      "ci_lo": -0.405,
-      "ci_hi": 0.451
-    },
-    {
-      "code": "ZWE",
-      "name": "Zimbabwe",
-      "ladder": 3.204,
-      "gdp_ppp": 5036.8,
-      "cate": 0.019,
-      "ci_lo": -0.534,
-      "ci_hi": 0.572
-    },
-    {
-      "code": "GBR",
-      "name": "United Kingdom",
-      "ladder": 6.796,
-      "gdp_ppp": 53139.2,
-      "cate": 0.017,
-      "ci_lo": -0.119,
-      "ci_hi": 0.154
-    },
-    {
-      "code": "TZA",
-      "name": "Tanzania",
-      "ladder": 3.694,
-      "gdp_ppp": 3547.0,
-      "cate": 0.014,
-      "ci_lo": -0.354,
-      "ci_hi": 0.382
-    },
-    {
-      "code": "KHM",
-      "name": "Cambodia",
-      "ladder": 4.394,
-      "gdp_ppp": 6458.4,
-      "cate": 0.012,
-      "ci_lo": -0.263,
-      "ci_hi": 0.286
-    },
-    {
-      "code": "KOR",
-      "name": "South Korea",
-      "ladder": 5.951,
-      "gdp_ppp": 53228.6,
-      "cate": 0.011,
-      "ci_lo": -0.399,
-      "ci_hi": 0.422
-    },
-    {
-      "code": "KAZ",
-      "name": "Kazakhstan",
-      "ladder": 6.144,
-      "gdp_ppp": 33506.3,
-      "cate": 0.01,
-      "ci_lo": -0.14,
-      "ci_hi": 0.16
-    },
-    {
-      "code": "GAB",
-      "name": "Gabon",
-      "ladder": 5.035,
-      "gdp_ppp": 18662.0,
-      "cate": 0.01,
-      "ci_lo": -0.464,
-      "ci_hi": 0.484
-    },
-    {
-      "code": "IDN",
-      "name": "Indonesia",
-      "ladder": 5.277,
-      "gdp_ppp": 13334.3,
-      "cate": 0.009,
-      "ci_lo": -0.252,
-      "ci_hi": 0.27
-    },
-    {
-      "code": "DEU",
-      "name": "Germany",
-      "ladder": 6.892,
-      "gdp_ppp": 63676.1,
-      "cate": 0.009,
-      "ci_lo": -0.131,
-      "ci_hi": 0.149
-    },
-    {
-      "code": "FIN",
-      "name": "Finland",
-      "ladder": 7.804,
-      "gdp_ppp": 57068.3,
-      "cate": 0.007,
-      "ci_lo": -0.153,
-      "ci_hi": 0.167
-    },
-    {
-      "code": "AFG",
-      "name": "Afghanistan",
-      "ladder": 1.859,
-      "gdp_ppp": 1981.7,
-      "cate": 0.007,
-      "ci_lo": -0.596,
-      "ci_hi": 0.61
-    },
-    {
-      "code": "GRC",
-      "name": "Greece",
-      "ladder": 5.931,
-      "gdp_ppp": 35831.3,
-      "cate": 0.007,
-      "ci_lo": -0.387,
-      "ci_hi": 0.4
-    },
-    {
-      "code": "BRA",
-      "name": "Brazil",
-      "ladder": 6.125,
-      "gdp_ppp": 18554.0,
-      "cate": 0.005,
-      "ci_lo": -0.271,
-      "ci_hi": 0.282
-    },
-    {
-      "code": "BOL",
-      "name": "Bolivia",
-      "ladder": 5.684,
-      "gdp_ppp": 11487.7,
-      "cate": 0.004,
-      "ci_lo": -0.286,
-      "ci_hi": 0.295
+      "cate": 0.622,
+      "ci_lo": -0.062,
+      "ci_hi": 1.306
     },
     {
       "code": "KGZ",
       "name": "Kyrgyzstan",
       "ladder": 5.825,
       "gdp_ppp": 6139.8,
-      "cate": 0.004,
-      "ci_lo": -0.216,
-      "ci_hi": 0.224
-    },
-    {
-      "code": "SLV",
-      "name": "El Salvador",
-      "ladder": 6.122,
-      "gdp_ppp": 11085.6,
-      "cate": 0.004,
-      "ci_lo": -0.293,
-      "ci_hi": 0.301
-    },
-    {
-      "code": "SLE",
-      "name": "Sierra Leone",
-      "ladder": 3.138,
-      "gdp_ppp": 2934.7,
-      "cate": 0.004,
-      "ci_lo": -0.557,
-      "ci_hi": 0.564
-    },
-    {
-      "code": "MDA",
-      "name": "Moldova",
-      "ladder": 5.819,
-      "gdp_ppp": 15358.0,
-      "cate": 0.004,
-      "ci_lo": -0.186,
-      "ci_hi": 0.193
-    },
-    {
-      "code": "ARG",
-      "name": "Argentina",
-      "ladder": 6.024,
-      "gdp_ppp": 27825.0,
-      "cate": 0.003,
-      "ci_lo": -0.329,
-      "ci_hi": 0.335
+      "cate": 0.531,
+      "ci_lo": 0.426,
+      "ci_hi": 0.636
     },
     {
       "code": "CZE",
       "name": "Czechia",
       "ladder": 6.845,
       "gdp_ppp": 48390.7,
-      "cate": 0.002,
-      "ci_lo": -0.271,
-      "ci_hi": 0.275
+      "cate": 0.523,
+      "ci_lo": 0.353,
+      "ci_hi": 0.693
     },
     {
-      "code": "MAR",
-      "name": "Morocco",
-      "ladder": 4.903,
-      "gdp_ppp": 8690.5,
-      "cate": 0.002,
-      "ci_lo": -0.483,
-      "ci_hi": 0.486
+      "code": "TUR",
+      "name": "Turkiye",
+      "ladder": 4.614,
+      "gdp_ppp": 33520.8,
+      "cate": 0.514,
+      "ci_lo": 0.093,
+      "ci_hi": 0.935
     },
     {
-      "code": "IRL",
-      "name": "Ireland",
-      "ladder": 6.911,
-      "gdp_ppp": 123219.1,
-      "cate": 0.0,
-      "ci_lo": -0.123,
-      "ci_hi": 0.124
+      "code": "ROU",
+      "name": "Romania",
+      "ladder": 6.589,
+      "gdp_ppp": 39257.0,
+      "cate": 0.507,
+      "ci_lo": 0.343,
+      "ci_hi": 0.672
     },
     {
-      "code": "DOM",
-      "name": "Dominican Republic",
-      "ladder": 5.569,
-      "gdp_ppp": 22987.0,
-      "cate": -0.0,
-      "ci_lo": -0.189,
-      "ci_hi": 0.188
+      "code": "HKG",
+      "name": "Hong Kong S.A.R. of China",
+      "ladder": 5.309,
+      "gdp_ppp": 64036.7,
+      "cate": 0.506,
+      "ci_lo": 0.193,
+      "ci_hi": 0.82
     },
     {
-      "code": "ISR",
-      "name": "Israel",
-      "ladder": 7.473,
-      "gdp_ppp": 48098.2,
-      "cate": -0.001,
-      "ci_lo": -0.167,
-      "ci_hi": 0.166
-    },
-    {
-      "code": "MWI",
-      "name": "Malawi",
-      "ladder": 3.495,
-      "gdp_ppp": 1660.0,
-      "cate": -0.002,
-      "ci_lo": -0.576,
-      "ci_hi": 0.571
-    },
-    {
-      "code": "CHN",
-      "name": "China",
-      "ladder": 5.818,
-      "gdp_ppp": 21499.4,
-      "cate": -0.004,
-      "ci_lo": -0.249,
-      "ci_hi": 0.242
-    },
-    {
-      "code": "JAM",
-      "name": "Jamaica",
-      "ladder": 5.703,
-      "gdp_ppp": 11096.6,
-      "cate": -0.004,
-      "ci_lo": -0.212,
-      "ci_hi": 0.204
-    },
-    {
-      "code": "NER",
-      "name": "Niger",
-      "ladder": 4.501,
-      "gdp_ppp": 1717.5,
-      "cate": -0.004,
-      "ci_lo": -0.498,
-      "ci_hi": 0.49
-    },
-    {
-      "code": "THA",
-      "name": "Thailand",
-      "ladder": 5.843,
-      "gdp_ppp": 20762.8,
-      "cate": -0.004,
-      "ci_lo": -0.213,
-      "ci_hi": 0.205
-    },
-    {
-      "code": "IRN",
-      "name": "Iran",
-      "ladder": 4.876,
-      "gdp_ppp": 16378.0,
-      "cate": -0.006,
-      "ci_lo": -0.391,
-      "ci_hi": 0.379
-    },
-    {
-      "code": "IRQ",
-      "name": "Iraq",
-      "ladder": 4.941,
-      "gdp_ppp": 13433.4,
-      "cate": -0.006,
-      "ci_lo": -0.421,
-      "ci_hi": 0.409
-    },
-    {
-      "code": "ALB",
-      "name": "Albania",
-      "ladder": 5.277,
-      "gdp_ppp": 19388.9,
-      "cate": -0.007,
-      "ci_lo": -0.3,
-      "ci_hi": 0.286
-    },
-    {
-      "code": "MOZ",
-      "name": "Mozambique",
-      "ladder": 4.954,
-      "gdp_ppp": 1476.7,
-      "cate": -0.007,
-      "ci_lo": -0.287,
-      "ci_hi": 0.272
-    },
-    {
-      "code": "GHA",
-      "name": "Ghana",
-      "ladder": 4.605,
-      "gdp_ppp": 6728.4,
-      "cate": -0.008,
-      "ci_lo": -0.422,
-      "ci_hi": 0.406
-    },
-    {
-      "code": "BEL",
-      "name": "Belgium",
-      "ladder": 6.859,
-      "gdp_ppp": 62561.8,
-      "cate": -0.011,
-      "ci_lo": -0.184,
-      "ci_hi": 0.161
-    },
-    {
-      "code": "RUS",
-      "name": "Russia",
-      "ladder": 5.661,
-      "gdp_ppp": 38214.5,
-      "cate": -0.012,
-      "ci_lo": -0.291,
-      "ci_hi": 0.267
-    },
-    {
-      "code": "NIC",
-      "name": "Nicaragua",
-      "ladder": 6.259,
-      "gdp_ppp": 7277.8,
-      "cate": -0.012,
-      "ci_lo": -0.26,
-      "ci_hi": 0.235
+      "code": "URY",
+      "name": "Uruguay",
+      "ladder": 6.494,
+      "gdp_ppp": 30804.7,
+      "cate": 0.497,
+      "ci_lo": 0.224,
+      "ci_hi": 0.77
     },
     {
       "code": "JOR",
       "name": "Jordan",
       "ladder": 4.12,
       "gdp_ppp": 9266.6,
-      "cate": -0.013,
-      "ci_lo": -0.381,
-      "ci_hi": 0.355
+      "cate": 0.497,
+      "ci_lo": 0.146,
+      "ci_hi": 0.849
     },
     {
-      "code": "KEN",
-      "name": "Kenya",
-      "ladder": 4.487,
-      "gdp_ppp": 5491.7,
-      "cate": -0.016,
-      "ci_lo": -0.466,
-      "ci_hi": 0.434
+      "code": "IRQ",
+      "name": "Iraq",
+      "ladder": 4.941,
+      "gdp_ppp": 13433.4,
+      "cate": 0.493,
+      "ci_lo": -0.109,
+      "ci_hi": 1.094
     },
     {
-      "code": "SRB",
-      "name": "Serbia",
-      "ladder": 6.144,
-      "gdp_ppp": 24652.0,
-      "cate": -0.019,
-      "ci_lo": -0.314,
-      "ci_hi": 0.277
+      "code": "SWE",
+      "name": "Sweden",
+      "ladder": 7.395,
+      "gdp_ppp": 63088.4,
+      "cate": 0.492,
+      "ci_lo": 0.248,
+      "ci_hi": 0.735
     },
     {
-      "code": "MUS",
-      "name": "Mauritius",
-      "ladder": 5.902,
-      "gdp_ppp": 25086.0,
-      "cate": -0.019,
-      "ci_lo": -0.25,
-      "ci_hi": 0.211
+      "code": "PRT",
+      "name": "Portugal",
+      "ladder": 5.968,
+      "gdp_ppp": 41070.9,
+      "cate": 0.489,
+      "ci_lo": 0.338,
+      "ci_hi": 0.641
     },
     {
-      "code": "PRY",
-      "name": "Paraguay",
-      "ladder": 5.738,
-      "gdp_ppp": 15259.1,
-      "cate": -0.02,
-      "ci_lo": -0.282,
-      "ci_hi": 0.243
+      "code": "DNK",
+      "name": "Denmark",
+      "ladder": 7.586,
+      "gdp_ppp": 69475.3,
+      "cate": 0.488,
+      "ci_lo": 0.245,
+      "ci_hi": 0.731
     },
     {
-      "code": "EST",
-      "name": "Estonia",
-      "ladder": 6.455,
-      "gdp_ppp": 43128.6,
-      "cate": -0.021,
-      "ci_lo": -0.17,
-      "ci_hi": 0.128
+      "code": "MLT",
+      "name": "Malta",
+      "ladder": 6.3,
+      "gdp_ppp": 56842.0,
+      "cate": 0.488,
+      "ci_lo": 0.317,
+      "ci_hi": 0.658
     },
     {
-      "code": "CHL",
-      "name": "Chile",
-      "ladder": 6.334,
-      "gdp_ppp": 29569.5,
-      "cate": -0.022,
-      "ci_lo": -0.385,
-      "ci_hi": 0.34
+      "code": "ISL",
+      "name": "Iceland",
+      "ladder": 7.53,
+      "gdp_ppp": 65380.3,
+      "cate": 0.487,
+      "ci_lo": 0.194,
+      "ci_hi": 0.781
     },
     {
-      "code": "PER",
-      "name": "Peru",
-      "ladder": 5.526,
-      "gdp_ppp": 15559.8,
-      "cate": -0.024,
-      "ci_lo": -0.381,
-      "ci_hi": 0.334
+      "code": "THA",
+      "name": "Thailand",
+      "ladder": 5.843,
+      "gdp_ppp": 20762.8,
+      "cate": 0.486,
+      "ci_lo": 0.271,
+      "ci_hi": 0.701
     },
     {
-      "code": "GMB",
-      "name": "Gambia",
-      "ladder": 4.279,
-      "gdp_ppp": 2863.2,
-      "cate": -0.024,
-      "ci_lo": -0.56,
-      "ci_hi": 0.512
-    },
-    {
-      "code": "MRT",
-      "name": "Mauritania",
-      "ladder": 4.724,
-      "gdp_ppp": 6053.3,
-      "cate": -0.024,
-      "ci_lo": -0.568,
-      "ci_hi": 0.519
-    },
-    {
-      "code": "USA",
-      "name": "United States",
-      "ladder": 6.894,
-      "gdp_ppp": 72679.3,
-      "cate": -0.026,
-      "ci_lo": -0.322,
-      "ci_hi": 0.271
-    },
-    {
-      "code": "MLI",
-      "name": "Mali",
-      "ladder": 4.198,
-      "gdp_ppp": 2813.8,
-      "cate": -0.028,
-      "ci_lo": -0.6,
-      "ci_hi": 0.543
-    },
-    {
-      "code": "TCD",
-      "name": "Chad",
-      "ladder": 4.397,
-      "gdp_ppp": 2449.5,
-      "cate": -0.029,
-      "ci_lo": -0.603,
-      "ci_hi": 0.546
-    },
-    {
-      "code": "COD",
-      "name": "Congo (Kinshasa)",
-      "ladder": 3.207,
-      "gdp_ppp": 1484.3,
-      "cate": -0.029,
-      "ci_lo": -0.652,
-      "ci_hi": 0.594
-    },
-    {
-      "code": "AUT",
-      "name": "Austria",
-      "ladder": 7.097,
-      "gdp_ppp": 65694.6,
-      "cate": -0.031,
-      "ci_lo": -0.15,
-      "ci_hi": 0.088
-    },
-    {
-      "code": "GEO",
-      "name": "Georgia",
-      "ladder": 5.109,
-      "gdp_ppp": 20966.5,
-      "cate": -0.032,
-      "ci_lo": -0.344,
-      "ci_hi": 0.28
-    },
-    {
-      "code": "EGY",
-      "name": "Egypt",
-      "ladder": 4.17,
-      "gdp_ppp": 16360.4,
-      "cate": -0.038,
-      "ci_lo": -0.355,
-      "ci_hi": 0.28
-    },
-    {
-      "code": "FRA",
-      "name": "France",
-      "ladder": 6.661,
-      "gdp_ppp": 53673.8,
-      "cate": -0.039,
-      "ci_lo": -0.226,
-      "ci_hi": 0.149
-    },
-    {
-      "code": "JPN",
-      "name": "Japan",
-      "ladder": 6.129,
-      "gdp_ppp": 44972.3,
-      "cate": -0.039,
-      "ci_lo": -0.259,
-      "ci_hi": 0.181
-    },
-    {
-      "code": "ESP",
-      "name": "Spain",
-      "ladder": 6.436,
-      "gdp_ppp": 46733.5,
-      "cate": -0.039,
-      "ci_lo": -0.388,
-      "ci_hi": 0.31
-    },
-    {
-      "code": "UKR",
-      "name": "Ukraine",
-      "ladder": 5.071,
-      "gdp_ppp": 13787.1,
-      "cate": -0.041,
-      "ci_lo": -0.313,
-      "ci_hi": 0.23
-    },
-    {
-      "code": "CYP",
-      "name": "Cyprus",
-      "ladder": 6.13,
-      "gdp_ppp": 50623.8,
-      "cate": -0.045,
-      "ci_lo": -0.462,
-      "ci_hi": 0.371
-    },
-    {
-      "code": "DZA",
-      "name": "Algeria",
-      "ladder": 5.329,
-      "gdp_ppp": 14782.2,
-      "cate": -0.046,
-      "ci_lo": -0.359,
-      "ci_hi": 0.268
-    },
-    {
-      "code": "BEN",
-      "name": "Benin",
-      "ladder": 4.374,
-      "gdp_ppp": 3588.3,
-      "cate": -0.046,
-      "ci_lo": -0.498,
-      "ci_hi": 0.405
-    },
-    {
-      "code": "MNG",
-      "name": "Mongolia",
-      "ladder": 5.84,
-      "gdp_ppp": 15310.4,
-      "cate": -0.047,
-      "ci_lo": -0.379,
-      "ci_hi": 0.286
-    },
-    {
-      "code": "MKD",
-      "name": "North Macedonia",
-      "ladder": 5.254,
-      "gdp_ppp": 22822.3,
-      "cate": -0.047,
-      "ci_lo": -0.395,
-      "ci_hi": 0.301
-    },
-    {
-      "code": "CIV",
-      "name": "Ivory Coast",
-      "ladder": 5.053,
-      "gdp_ppp": 6272.3,
-      "cate": -0.047,
-      "ci_lo": -0.571,
-      "ci_hi": 0.477
-    },
-    {
-      "code": "LVA",
-      "name": "Latvia",
-      "ladder": 6.213,
-      "gdp_ppp": 37718.7,
-      "cate": -0.047,
-      "ci_lo": -0.358,
-      "ci_hi": 0.263
-    },
-    {
-      "code": "COL",
-      "name": "Colombia",
-      "ladder": 5.63,
-      "gdp_ppp": 18458.7,
-      "cate": -0.047,
-      "ci_lo": -0.448,
-      "ci_hi": 0.353
-    },
-    {
-      "code": "GTM",
-      "name": "Guatemala",
-      "ladder": 6.15,
-      "gdp_ppp": 12147.9,
-      "cate": -0.048,
-      "ci_lo": -0.437,
-      "ci_hi": 0.342
-    },
-    {
-      "code": "PAN",
-      "name": "Panama",
-      "ladder": 6.264,
-      "gdp_ppp": 33915.2,
-      "cate": -0.051,
-      "ci_lo": -0.282,
-      "ci_hi": 0.179
-    },
-    {
-      "code": "ITA",
-      "name": "Italy",
-      "ladder": 6.404,
-      "gdp_ppp": 52333.3,
-      "cate": -0.053,
-      "ci_lo": -0.36,
-      "ci_hi": 0.254
-    },
-    {
-      "code": "CMR",
-      "name": "Cameroon",
-      "ladder": 4.973,
-      "gdp_ppp": 4843.6,
-      "cate": -0.054,
-      "ci_lo": -0.534,
-      "ci_hi": 0.425
+      "code": "NOR",
+      "name": "Norway",
+      "ladder": 7.316,
+      "gdp_ppp": 91051.1,
+      "cate": 0.485,
+      "ci_lo": 0.262,
+      "ci_hi": 0.709
     },
     {
       "code": "SVK",
       "name": "Slovakia",
       "ladder": 6.469,
       "gdp_ppp": 38664.9,
-      "cate": -0.058,
-      "ci_lo": -0.307,
-      "ci_hi": 0.192
+      "cate": 0.485,
+      "ci_lo": 0.249,
+      "ci_hi": 0.722
     },
     {
-      "code": "ZAF",
-      "name": "South Africa",
-      "ladder": 5.275,
-      "gdp_ppp": 13767.5,
-      "cate": -0.058,
-      "ci_lo": -0.429,
-      "ci_hi": 0.312
+      "code": "GRC",
+      "name": "Greece",
+      "ladder": 5.931,
+      "gdp_ppp": 35831.3,
+      "cate": 0.484,
+      "ci_lo": 0.06,
+      "ci_hi": 0.907
     },
     {
-      "code": "UGA",
-      "name": "Uganda",
-      "ladder": 4.433,
-      "gdp_ppp": 2724.9,
-      "cate": -0.061,
-      "ci_lo": -0.484,
-      "ci_hi": 0.363
+      "code": "NLD",
+      "name": "Netherlands",
+      "ladder": 7.403,
+      "gdp_ppp": 71324.0,
+      "cate": 0.484,
+      "ci_lo": 0.249,
+      "ci_hi": 0.718
     },
     {
-      "code": "TJK",
-      "name": "Tajikistan",
-      "ladder": 5.33,
-      "gdp_ppp": 4213.8,
-      "cate": -0.061,
-      "ci_lo": -0.322,
-      "ci_hi": 0.2
-    },
-    {
-      "code": "NAM",
-      "name": "Namibia",
-      "ladder": 4.631,
-      "gdp_ppp": 9953.1,
-      "cate": -0.061,
-      "ci_lo": -0.568,
-      "ci_hi": 0.446
-    },
-    {
-      "code": "HND",
-      "name": "Honduras",
-      "ladder": 6.022,
-      "gdp_ppp": 6352.6,
-      "cate": -0.061,
-      "ci_lo": -0.361,
-      "ci_hi": 0.238
+      "code": "MDA",
+      "name": "Moldova",
+      "ladder": 5.819,
+      "gdp_ppp": 15358.0,
+      "cate": 0.484,
+      "ci_lo": 0.225,
+      "ci_hi": 0.742
     },
     {
       "code": "HRV",
       "name": "Croatia",
       "ladder": 6.125,
       "gdp_ppp": 39864.0,
-      "cate": -0.062,
-      "ci_lo": -0.294,
-      "ci_hi": 0.17
+      "cate": 0.483,
+      "ci_lo": 0.205,
+      "ci_hi": 0.761
     },
     {
-      "code": "COG",
-      "name": "Congo (Brazzaville)",
-      "ladder": 5.267,
-      "gdp_ppp": 6205.1,
-      "cate": -0.064,
-      "ci_lo": -0.641,
-      "ci_hi": 0.513
+      "code": "JAM",
+      "name": "Jamaica",
+      "ladder": 5.703,
+      "gdp_ppp": 11096.6,
+      "cate": 0.483,
+      "ci_lo": 0.312,
+      "ci_hi": 0.654
     },
     {
-      "code": "MNE",
-      "name": "Montenegro",
-      "ladder": 5.722,
-      "gdp_ppp": 25583.4,
-      "cate": -0.066,
-      "ci_lo": -0.374,
-      "ci_hi": 0.243
+      "code": "AUS",
+      "name": "Australia",
+      "ladder": 7.095,
+      "gdp_ppp": 60029.1,
+      "cate": 0.483,
+      "ci_lo": 0.243,
+      "ci_hi": 0.723
     },
     {
-      "code": "ZMB",
-      "name": "Zambia",
-      "ladder": 3.982,
-      "gdp_ppp": 3585.1,
-      "cate": -0.066,
-      "ci_lo": -0.476,
-      "ci_hi": 0.343
+      "code": "ARG",
+      "name": "Argentina",
+      "ladder": 6.024,
+      "gdp_ppp": 27825.0,
+      "cate": 0.483,
+      "ci_lo": 0.201,
+      "ci_hi": 0.764
+    },
+    {
+      "code": "CHE",
+      "name": "Switzerland",
+      "ladder": 7.24,
+      "gdp_ppp": 82777.3,
+      "cate": 0.482,
+      "ci_lo": 0.25,
+      "ci_hi": 0.714
+    },
+    {
+      "code": "ESP",
+      "name": "Spain",
+      "ladder": 6.436,
+      "gdp_ppp": 46733.5,
+      "cate": 0.482,
+      "ci_lo": 0.098,
+      "ci_hi": 0.865
+    },
+    {
+      "code": "KOR",
+      "name": "South Korea",
+      "ladder": 5.951,
+      "gdp_ppp": 53228.6,
+      "cate": 0.482,
+      "ci_lo": 0.13,
+      "ci_hi": 0.834
     },
     {
       "code": "BIH",
       "name": "Bosnia and Herzegovina",
       "ladder": 5.633,
       "gdp_ppp": 19298.2,
-      "cate": -0.068,
-      "ci_lo": -0.306,
-      "ci_hi": 0.17
-    },
-    {
-      "code": "ETH",
-      "name": "Ethiopia",
-      "ladder": 4.091,
-      "gdp_ppp": 2655.6,
-      "cate": -0.072,
-      "ci_lo": -0.602,
-      "ci_hi": 0.458
-    },
-    {
-      "code": "ARM",
-      "name": "Armenia",
-      "ladder": 5.342,
-      "gdp_ppp": 17886.2,
-      "cate": -0.073,
-      "ci_lo": -0.382,
-      "ci_hi": 0.237
+      "cate": 0.48,
+      "ci_lo": 0.224,
+      "ci_hi": 0.736
     },
     {
       "code": "BGR",
       "name": "Bulgaria",
       "ladder": 5.466,
       "gdp_ppp": 32433.8,
-      "cate": -0.074,
-      "ci_lo": -0.376,
-      "ci_hi": 0.228
+      "cate": 0.48,
+      "ci_lo": 0.127,
+      "ci_hi": 0.833
     },
     {
-      "code": "NPL",
-      "name": "Nepal",
-      "ladder": 5.36,
-      "gdp_ppp": 4763.4,
-      "cate": -0.079,
-      "ci_lo": -0.54,
-      "ci_hi": 0.381
+      "code": "NZL",
+      "name": "New Zealand",
+      "ladder": 7.123,
+      "gdp_ppp": 49964.2,
+      "cate": 0.48,
+      "ci_lo": 0.253,
+      "ci_hi": 0.707
     },
     {
-      "code": "SEN",
-      "name": "Senegal",
-      "ladder": 4.855,
-      "gdp_ppp": 4228.7,
-      "cate": -0.08,
-      "ci_lo": -0.603,
-      "ci_hi": 0.442
+      "code": "PRY",
+      "name": "Paraguay",
+      "ladder": 5.738,
+      "gdp_ppp": 15259.1,
+      "cate": 0.476,
+      "ci_lo": 0.143,
+      "ci_hi": 0.809
     },
     {
-      "code": "ECU",
-      "name": "Ecuador",
-      "ladder": 5.559,
-      "gdp_ppp": 14186.6,
-      "cate": -0.081,
-      "ci_lo": -0.433,
-      "ci_hi": 0.271
+      "code": "ALB",
+      "name": "Albania",
+      "ladder": 5.277,
+      "gdp_ppp": 19388.9,
+      "cate": 0.473,
+      "ci_lo": 0.039,
+      "ci_hi": 0.907
     },
     {
-      "code": "LTU",
-      "name": "Lithuania",
-      "ladder": 6.763,
-      "gdp_ppp": 46651.2,
-      "cate": -0.084,
-      "ci_lo": -0.474,
-      "ci_hi": 0.306
+      "code": "ISR",
+      "name": "Israel",
+      "ladder": 7.473,
+      "gdp_ppp": 48098.2,
+      "cate": 0.468,
+      "ci_lo": 0.173,
+      "ci_hi": 0.764
     },
     {
-      "code": "LKA",
-      "name": "Sri Lanka",
-      "ladder": 4.442,
-      "gdp_ppp": 13249.1,
-      "cate": -0.085,
-      "ci_lo": -0.377,
-      "ci_hi": 0.208
-    },
-    {
-      "code": "POL",
-      "name": "Poland",
-      "ladder": 6.26,
-      "gdp_ppp": 43405.0,
-      "cate": -0.085,
-      "ci_lo": -0.359,
-      "ci_hi": 0.188
+      "code": "CAN",
+      "name": "Canada",
+      "ladder": 6.961,
+      "gdp_ppp": 58321.1,
+      "cate": 0.468,
+      "ci_lo": 0.26,
+      "ci_hi": 0.676
     },
     {
       "code": "HUN",
       "name": "Hungary",
       "ladder": 6.041,
       "gdp_ppp": 40611.0,
-      "cate": -0.09,
-      "ci_lo": -0.422,
-      "ci_hi": 0.241
+      "cate": 0.467,
+      "ci_lo": 0.111,
+      "ci_hi": 0.824
     },
     {
-      "code": "LBR",
-      "name": "Liberia",
-      "ladder": 4.042,
-      "gdp_ppp": 1579.0,
-      "cate": -0.106,
-      "ci_lo": -0.716,
-      "ci_hi": 0.504
+      "code": "IRN",
+      "name": "Iran",
+      "ladder": 4.876,
+      "gdp_ppp": 16378.0,
+      "cate": 0.466,
+      "ci_lo": -0.0,
+      "ci_hi": 0.932
+    },
+    {
+      "code": "BEL",
+      "name": "Belgium",
+      "ladder": 6.859,
+      "gdp_ppp": 62561.8,
+      "cate": 0.465,
+      "ci_lo": 0.183,
+      "ci_hi": 0.748
+    },
+    {
+      "code": "PER",
+      "name": "Peru",
+      "ladder": 5.526,
+      "gdp_ppp": 15559.8,
+      "cate": 0.464,
+      "ci_lo": 0.005,
+      "ci_hi": 0.923
+    },
+    {
+      "code": "CRI",
+      "name": "Costa Rica",
+      "ladder": 6.609,
+      "gdp_ppp": 24831.7,
+      "cate": 0.462,
+      "ci_lo": 0.18,
+      "ci_hi": 0.744
+    },
+    {
+      "code": "PAN",
+      "name": "Panama",
+      "ladder": 6.264,
+      "gdp_ppp": 33915.2,
+      "cate": 0.461,
+      "ci_lo": 0.332,
+      "ci_hi": 0.591
+    },
+    {
+      "code": "CYP",
+      "name": "Cyprus",
+      "ladder": 6.13,
+      "gdp_ppp": 50623.8,
+      "cate": 0.46,
+      "ci_lo": 0.026,
+      "ci_hi": 0.895
+    },
+    {
+      "code": "ITA",
+      "name": "Italy",
+      "ladder": 6.404,
+      "gdp_ppp": 52333.3,
+      "cate": 0.459,
+      "ci_lo": 0.153,
+      "ci_hi": 0.764
+    },
+    {
+      "code": "MKD",
+      "name": "North Macedonia",
+      "ladder": 5.254,
+      "gdp_ppp": 22822.3,
+      "cate": 0.456,
+      "ci_lo": 0.135,
+      "ci_hi": 0.777
+    },
+    {
+      "code": "CHL",
+      "name": "Chile",
+      "ladder": 6.334,
+      "gdp_ppp": 29569.5,
+      "cate": 0.453,
+      "ci_lo": 0.17,
+      "ci_hi": 0.737
+    },
+    {
+      "code": "RUS",
+      "name": "Russia",
+      "ladder": 5.661,
+      "gdp_ppp": 38214.5,
+      "cate": 0.451,
+      "ci_lo": 0.026,
+      "ci_hi": 0.875
+    },
+    {
+      "code": "BHR",
+      "name": "Bahrain",
+      "ladder": 6.173,
+      "gdp_ppp": 57573.0,
+      "cate": 0.45,
+      "ci_lo": 0.115,
+      "ci_hi": 0.786
+    },
+    {
+      "code": "DZA",
+      "name": "Algeria",
+      "ladder": 5.329,
+      "gdp_ppp": 14782.2,
+      "cate": 0.45,
+      "ci_lo": 0.057,
+      "ci_hi": 0.842
+    },
+    {
+      "code": "LUX",
+      "name": "Luxembourg",
+      "ladder": 7.228,
+      "gdp_ppp": 132570.8,
+      "cate": 0.447,
+      "ci_lo": 0.135,
+      "ci_hi": 0.758
+    },
+    {
+      "code": "FRA",
+      "name": "France",
+      "ladder": 6.661,
+      "gdp_ppp": 53673.8,
+      "cate": 0.447,
+      "ci_lo": 0.111,
+      "ci_hi": 0.783
+    },
+    {
+      "code": "LTU",
+      "name": "Lithuania",
+      "ladder": 6.763,
+      "gdp_ppp": 46651.2,
+      "cate": 0.446,
+      "ci_lo": 0.16,
+      "ci_hi": 0.732
+    },
+    {
+      "code": "ARE",
+      "name": "United Arab Emirates",
+      "ladder": 6.571,
+      "gdp_ppp": 70075.6,
+      "cate": 0.446,
+      "ci_lo": 0.128,
+      "ci_hi": 0.765
+    },
+    {
+      "code": "EST",
+      "name": "Estonia",
+      "ladder": 6.455,
+      "gdp_ppp": 43128.6,
+      "cate": 0.445,
+      "ci_lo": 0.204,
+      "ci_hi": 0.686
+    },
+    {
+      "code": "MNG",
+      "name": "Mongolia",
+      "ladder": 5.84,
+      "gdp_ppp": 15310.4,
+      "cate": 0.442,
+      "ci_lo": -0.06,
+      "ci_hi": 0.943
+    },
+    {
+      "code": "SRB",
+      "name": "Serbia",
+      "ladder": 6.144,
+      "gdp_ppp": 24652.0,
+      "cate": 0.439,
+      "ci_lo": 0.174,
+      "ci_hi": 0.703
+    },
+    {
+      "code": "LVA",
+      "name": "Latvia",
+      "ladder": 6.213,
+      "gdp_ppp": 37718.7,
+      "cate": 0.439,
+      "ci_lo": 0.207,
+      "ci_hi": 0.67
+    },
+    {
+      "code": "GBR",
+      "name": "United Kingdom",
+      "ladder": 6.796,
+      "gdp_ppp": 53139.2,
+      "cate": 0.438,
+      "ci_lo": 0.204,
+      "ci_hi": 0.672
+    },
+    {
+      "code": "FIN",
+      "name": "Finland",
+      "ladder": 7.804,
+      "gdp_ppp": 57068.3,
+      "cate": 0.438,
+      "ci_lo": 0.254,
+      "ci_hi": 0.622
+    },
+    {
+      "code": "GHA",
+      "name": "Ghana",
+      "ladder": 4.605,
+      "gdp_ppp": 6728.4,
+      "cate": 0.438,
+      "ci_lo": -0.176,
+      "ci_hi": 1.052
+    },
+    {
+      "code": "UKR",
+      "name": "Ukraine",
+      "ladder": 5.071,
+      "gdp_ppp": 13787.1,
+      "cate": 0.436,
+      "ci_lo": 0.051,
+      "ci_hi": 0.822
+    },
+    {
+      "code": "SGP",
+      "name": "Singapore",
+      "ladder": 6.587,
+      "gdp_ppp": 133572.0,
+      "cate": 0.436,
+      "ci_lo": 0.138,
+      "ci_hi": 0.734
+    },
+    {
+      "code": "USA",
+      "name": "United States",
+      "ladder": 6.894,
+      "gdp_ppp": 72679.3,
+      "cate": 0.436,
+      "ci_lo": 0.176,
+      "ci_hi": 0.696
+    },
+    {
+      "code": "DEU",
+      "name": "Germany",
+      "ladder": 6.892,
+      "gdp_ppp": 63676.1,
+      "cate": 0.436,
+      "ci_lo": 0.199,
+      "ci_hi": 0.673
+    },
+    {
+      "code": "SVN",
+      "name": "Slovenia",
+      "ladder": 6.65,
+      "gdp_ppp": 47050.1,
+      "cate": 0.435,
+      "ci_lo": 0.165,
+      "ci_hi": 0.705
+    },
+    {
+      "code": "MAR",
+      "name": "Morocco",
+      "ladder": 4.903,
+      "gdp_ppp": 8690.5,
+      "cate": 0.435,
+      "ci_lo": -0.047,
+      "ci_hi": 0.917
+    },
+    {
+      "code": "MNE",
+      "name": "Montenegro",
+      "ladder": 5.722,
+      "gdp_ppp": 25583.4,
+      "cate": 0.433,
+      "ci_lo": 0.295,
+      "ci_hi": 0.572
+    },
+    {
+      "code": "SAU",
+      "name": "Saudi Arabia",
+      "ladder": 6.463,
+      "gdp_ppp": 67178.6,
+      "cate": 0.433,
+      "ci_lo": 0.165,
+      "ci_hi": 0.702
+    },
+    {
+      "code": "KAZ",
+      "name": "Kazakhstan",
+      "ladder": 6.144,
+      "gdp_ppp": 33506.3,
+      "cate": 0.431,
+      "ci_lo": 0.213,
+      "ci_hi": 0.65
+    },
+    {
+      "code": "MEX",
+      "name": "Mexico",
+      "ladder": 6.33,
+      "gdp_ppp": 21391.9,
+      "cate": 0.428,
+      "ci_lo": -0.075,
+      "ci_hi": 0.931
+    },
+    {
+      "code": "VNM",
+      "name": "Vietnam",
+      "ladder": 5.763,
+      "gdp_ppp": 12979.8,
+      "cate": 0.424,
+      "ci_lo": 0.068,
+      "ci_hi": 0.78
+    },
+    {
+      "code": "MYS",
+      "name": "Malaysia",
+      "ladder": 6.012,
+      "gdp_ppp": 32129.2,
+      "cate": 0.424,
+      "ci_lo": 0.033,
+      "ci_hi": 0.814
+    },
+    {
+      "code": "BOL",
+      "name": "Bolivia",
+      "ladder": 5.684,
+      "gdp_ppp": 11487.7,
+      "cate": 0.423,
+      "ci_lo": -0.087,
+      "ci_hi": 0.932
+    },
+    {
+      "code": "ZAF",
+      "name": "South Africa",
+      "ladder": 5.275,
+      "gdp_ppp": 13767.5,
+      "cate": 0.419,
+      "ci_lo": -0.019,
+      "ci_hi": 0.857
+    },
+    {
+      "code": "COL",
+      "name": "Colombia",
+      "ladder": 5.63,
+      "gdp_ppp": 18458.7,
+      "cate": 0.415,
+      "ci_lo": -0.006,
+      "ci_hi": 0.835
+    },
+    {
+      "code": "MUS",
+      "name": "Mauritius",
+      "ladder": 5.902,
+      "gdp_ppp": 25086.0,
+      "cate": 0.413,
+      "ci_lo": 0.113,
+      "ci_hi": 0.713
+    },
+    {
+      "code": "POL",
+      "name": "Poland",
+      "ladder": 6.26,
+      "gdp_ppp": 43405.0,
+      "cate": 0.412,
+      "ci_lo": 0.199,
+      "ci_hi": 0.625
+    },
+    {
+      "code": "IRL",
+      "name": "Ireland",
+      "ladder": 6.911,
+      "gdp_ppp": 123219.1,
+      "cate": 0.41,
+      "ci_lo": 0.124,
+      "ci_hi": 0.697
+    },
+    {
+      "code": "KHM",
+      "name": "Cambodia",
+      "ladder": 4.394,
+      "gdp_ppp": 6458.4,
+      "cate": 0.41,
+      "ci_lo": 0.122,
+      "ci_hi": 0.698
+    },
+    {
+      "code": "IDN",
+      "name": "Indonesia",
+      "ladder": 5.277,
+      "gdp_ppp": 13334.3,
+      "cate": 0.409,
+      "ci_lo": 0.086,
+      "ci_hi": 0.732
+    },
+    {
+      "code": "UZB",
+      "name": "Uzbekistan",
+      "ladder": 6.014,
+      "gdp_ppp": 9607.6,
+      "cate": 0.408,
+      "ci_lo": 0.136,
+      "ci_hi": 0.68
+    },
+    {
+      "code": "JPN",
+      "name": "Japan",
+      "ladder": 6.129,
+      "gdp_ppp": 44972.3,
+      "cate": 0.408,
+      "ci_lo": 0.102,
+      "ci_hi": 0.714
+    },
+    {
+      "code": "GAB",
+      "name": "Gabon",
+      "ladder": 5.035,
+      "gdp_ppp": 18662.0,
+      "cate": 0.405,
+      "ci_lo": -0.248,
+      "ci_hi": 1.057
+    },
+    {
+      "code": "BRA",
+      "name": "Brazil",
+      "ladder": 6.125,
+      "gdp_ppp": 18554.0,
+      "cate": 0.402,
+      "ci_lo": -0.044,
+      "ci_hi": 0.849
+    },
+    {
+      "code": "DOM",
+      "name": "Dominican Republic",
+      "ladder": 5.569,
+      "gdp_ppp": 22987.0,
+      "cate": 0.388,
+      "ci_lo": 0.082,
+      "ci_hi": 0.694
+    },
+    {
+      "code": "CHN",
+      "name": "China",
+      "ladder": 5.818,
+      "gdp_ppp": 21499.4,
+      "cate": 0.387,
+      "ci_lo": 0.07,
+      "ci_hi": 0.705
+    },
+    {
+      "code": "ARM",
+      "name": "Armenia",
+      "ladder": 5.342,
+      "gdp_ppp": 17886.2,
+      "cate": 0.383,
+      "ci_lo": -0.002,
+      "ci_hi": 0.769
+    },
+    {
+      "code": "GEO",
+      "name": "Georgia",
+      "ladder": 5.109,
+      "gdp_ppp": 20966.5,
+      "cate": 0.381,
+      "ci_lo": -0.049,
+      "ci_hi": 0.811
+    },
+    {
+      "code": "AUT",
+      "name": "Austria",
+      "ladder": 7.097,
+      "gdp_ppp": 65694.6,
+      "cate": 0.381,
+      "ci_lo": 0.161,
+      "ci_hi": 0.601
+    },
+    {
+      "code": "PHL",
+      "name": "Philippines",
+      "ladder": 5.523,
+      "gdp_ppp": 9457.1,
+      "cate": 0.377,
+      "ci_lo": -0.017,
+      "ci_hi": 0.77
+    },
+    {
+      "code": "EGY",
+      "name": "Egypt",
+      "ladder": 4.17,
+      "gdp_ppp": 16360.4,
+      "cate": 0.372,
+      "ci_lo": -0.005,
+      "ci_hi": 0.749
+    },
+    {
+      "code": "LAO",
+      "name": "Laos",
+      "ladder": 5.111,
+      "gdp_ppp": 8183.0,
+      "cate": 0.368,
+      "ci_lo": -0.05,
+      "ci_hi": 0.786
+    },
+    {
+      "code": "ECU",
+      "name": "Ecuador",
+      "ladder": 5.559,
+      "gdp_ppp": 14186.6,
+      "cate": 0.353,
+      "ci_lo": 0.032,
+      "ci_hi": 0.675
+    },
+    {
+      "code": "GMB",
+      "name": "Gambia",
+      "ladder": 4.279,
+      "gdp_ppp": 2863.2,
+      "cate": 0.348,
+      "ci_lo": -0.689,
+      "ci_hi": 1.384
+    },
+    {
+      "code": "SLE",
+      "name": "Sierra Leone",
+      "ladder": 3.138,
+      "gdp_ppp": 2934.7,
+      "cate": 0.336,
+      "ci_lo": -0.69,
+      "ci_hi": 1.362
+    },
+    {
+      "code": "MRT",
+      "name": "Mauritania",
+      "ladder": 4.724,
+      "gdp_ppp": 6053.3,
+      "cate": 0.311,
+      "ci_lo": -0.443,
+      "ci_hi": 1.064
+    },
+    {
+      "code": "COM",
+      "name": "Comoros",
+      "ladder": 3.545,
+      "gdp_ppp": 3399.3,
+      "cate": 0.305,
+      "ci_lo": -0.425,
+      "ci_hi": 1.035
+    },
+    {
+      "code": "AFG",
+      "name": "Afghanistan",
+      "ladder": 1.859,
+      "gdp_ppp": 1981.7,
+      "cate": 0.299,
+      "ci_lo": -0.769,
+      "ci_hi": 1.367
+    },
+    {
+      "code": "BGD",
+      "name": "Bangladesh",
+      "ladder": 4.282,
+      "gdp_ppp": 7888.2,
+      "cate": 0.297,
+      "ci_lo": -0.148,
+      "ci_hi": 0.743
+    },
+    {
+      "code": "NAM",
+      "name": "Namibia",
+      "ladder": 4.631,
+      "gdp_ppp": 9953.1,
+      "cate": 0.295,
+      "ci_lo": -0.337,
+      "ci_hi": 0.926
+    },
+    {
+      "code": "KEN",
+      "name": "Kenya",
+      "ladder": 4.487,
+      "gdp_ppp": 5491.7,
+      "cate": 0.285,
+      "ci_lo": -0.627,
+      "ci_hi": 1.196
+    },
+    {
+      "code": "CMR",
+      "name": "Cameroon",
+      "ladder": 4.973,
+      "gdp_ppp": 4843.6,
+      "cate": 0.268,
+      "ci_lo": -0.708,
+      "ci_hi": 1.245
+    },
+    {
+      "code": "TGO",
+      "name": "Togo",
+      "ladder": 4.137,
+      "gdp_ppp": 2739.7,
+      "cate": 0.265,
+      "ci_lo": -0.64,
+      "ci_hi": 1.17
+    },
+    {
+      "code": "IND",
+      "name": "India",
+      "ladder": 4.036,
+      "gdp_ppp": 8594.4,
+      "cate": 0.264,
+      "ci_lo": -0.362,
+      "ci_hi": 0.889
+    },
+    {
+      "code": "UGA",
+      "name": "Uganda",
+      "ladder": 4.433,
+      "gdp_ppp": 2724.9,
+      "cate": 0.258,
+      "ci_lo": -0.289,
+      "ci_hi": 0.805
+    },
+    {
+      "code": "SLV",
+      "name": "El Salvador",
+      "ladder": 6.122,
+      "gdp_ppp": 11085.6,
+      "cate": 0.257,
+      "ci_lo": -0.198,
+      "ci_hi": 0.712
+    },
+    {
+      "code": "MDG",
+      "name": "Madagascar",
+      "ladder": 4.019,
+      "gdp_ppp": 1602.7,
+      "cate": 0.256,
+      "ci_lo": -0.64,
+      "ci_hi": 1.152
     },
     {
       "code": "NGA",
       "name": "Nigeria",
       "ladder": 4.981,
       "gdp_ppp": 7752.3,
-      "cate": -0.11,
-      "ci_lo": -0.591,
-      "ci_hi": 0.371
+      "cate": 0.255,
+      "ci_lo": -0.617,
+      "ci_hi": 1.128
+    },
+    {
+      "code": "COD",
+      "name": "Congo (Kinshasa)",
+      "ladder": 3.207,
+      "gdp_ppp": 1484.3,
+      "cate": 0.251,
+      "ci_lo": -0.824,
+      "ci_hi": 1.327
+    },
+    {
+      "code": "HND",
+      "name": "Honduras",
+      "ladder": 6.022,
+      "gdp_ppp": 6352.6,
+      "cate": 0.237,
+      "ci_lo": -0.211,
+      "ci_hi": 0.685
+    },
+    {
+      "code": "MLI",
+      "name": "Mali",
+      "ladder": 4.198,
+      "gdp_ppp": 2813.8,
+      "cate": 0.234,
+      "ci_lo": -0.811,
+      "ci_hi": 1.279
+    },
+    {
+      "code": "GTM",
+      "name": "Guatemala",
+      "ladder": 6.15,
+      "gdp_ppp": 12147.9,
+      "cate": 0.232,
+      "ci_lo": -0.144,
+      "ci_hi": 0.608
+    },
+    {
+      "code": "LKA",
+      "name": "Sri Lanka",
+      "ladder": 4.442,
+      "gdp_ppp": 13249.1,
+      "cate": 0.223,
+      "ci_lo": -0.183,
+      "ci_hi": 0.63
+    },
+    {
+      "code": "SEN",
+      "name": "Senegal",
+      "ladder": 4.855,
+      "gdp_ppp": 4228.7,
+      "cate": 0.223,
+      "ci_lo": -0.598,
+      "ci_hi": 1.044
+    },
+    {
+      "code": "NIC",
+      "name": "Nicaragua",
+      "ladder": 6.259,
+      "gdp_ppp": 7277.8,
+      "cate": 0.222,
+      "ci_lo": -0.086,
+      "ci_hi": 0.531
+    },
+    {
+      "code": "GIN",
+      "name": "Guinea",
+      "ladder": 5.072,
+      "gdp_ppp": 3792.0,
+      "cate": 0.222,
+      "ci_lo": -0.838,
+      "ci_hi": 1.283
+    },
+    {
+      "code": "ZWE",
+      "name": "Zimbabwe",
+      "ladder": 3.204,
+      "gdp_ppp": 5036.8,
+      "cate": 0.212,
+      "ci_lo": -0.702,
+      "ci_hi": 1.127
+    },
+    {
+      "code": "COG",
+      "name": "Congo (Brazzaville)",
+      "ladder": 5.267,
+      "gdp_ppp": 6205.1,
+      "cate": 0.207,
+      "ci_lo": -0.795,
+      "ci_hi": 1.21
+    },
+    {
+      "code": "BFA",
+      "name": "Burkina Faso",
+      "ladder": 4.638,
+      "gdp_ppp": 2469.2,
+      "cate": 0.175,
+      "ci_lo": -0.817,
+      "ci_hi": 1.168
+    },
+    {
+      "code": "TZA",
+      "name": "Tanzania",
+      "ladder": 3.694,
+      "gdp_ppp": 3547.0,
+      "cate": 0.174,
+      "ci_lo": -0.531,
+      "ci_hi": 0.879
+    },
+    {
+      "code": "LBR",
+      "name": "Liberia",
+      "ladder": 4.042,
+      "gdp_ppp": 1579.0,
+      "cate": 0.168,
+      "ci_lo": -0.917,
+      "ci_hi": 1.254
+    },
+    {
+      "code": "CIV",
+      "name": "Ivory Coast",
+      "ladder": 5.053,
+      "gdp_ppp": 6272.3,
+      "cate": 0.167,
+      "ci_lo": -0.831,
+      "ci_hi": 1.165
+    },
+    {
+      "code": "NPL",
+      "name": "Nepal",
+      "ladder": 5.36,
+      "gdp_ppp": 4763.4,
+      "cate": 0.163,
+      "ci_lo": -0.393,
+      "ci_hi": 0.719
+    },
+    {
+      "code": "TCD",
+      "name": "Chad",
+      "ladder": 4.397,
+      "gdp_ppp": 2449.5,
+      "cate": 0.158,
+      "ci_lo": -0.708,
+      "ci_hi": 1.025
+    },
+    {
+      "code": "MWI",
+      "name": "Malawi",
+      "ladder": 3.495,
+      "gdp_ppp": 1660.0,
+      "cate": 0.149,
+      "ci_lo": -0.765,
+      "ci_hi": 1.062
+    },
+    {
+      "code": "TJK",
+      "name": "Tajikistan",
+      "ladder": 5.33,
+      "gdp_ppp": 4213.8,
+      "cate": 0.14,
+      "ci_lo": -0.21,
+      "ci_hi": 0.491
     },
     {
       "code": "BWA",
       "name": "Botswana",
       "ladder": 3.435,
       "gdp_ppp": 18647.4,
-      "cate": -0.162,
-      "ci_lo": -0.807,
-      "ci_hi": 0.483
+      "cate": 0.129,
+      "ci_lo": -0.753,
+      "ci_hi": 1.012
+    },
+    {
+      "code": "NER",
+      "name": "Niger",
+      "ladder": 4.501,
+      "gdp_ppp": 1717.5,
+      "cate": 0.128,
+      "ci_lo": -0.796,
+      "ci_hi": 1.053
+    },
+    {
+      "code": "ETH",
+      "name": "Ethiopia",
+      "ladder": 4.091,
+      "gdp_ppp": 2655.6,
+      "cate": 0.126,
+      "ci_lo": -0.409,
+      "ci_hi": 0.661
+    },
+    {
+      "code": "BEN",
+      "name": "Benin",
+      "ladder": 4.374,
+      "gdp_ppp": 3588.3,
+      "cate": 0.125,
+      "ci_lo": -0.879,
+      "ci_hi": 1.129
+    },
+    {
+      "code": "MOZ",
+      "name": "Mozambique",
+      "ladder": 4.954,
+      "gdp_ppp": 1476.7,
+      "cate": 0.115,
+      "ci_lo": -0.641,
+      "ci_hi": 0.872
+    },
+    {
+      "code": "ZMB",
+      "name": "Zambia",
+      "ladder": 3.982,
+      "gdp_ppp": 3585.1,
+      "cate": 0.072,
+      "ci_lo": -0.818,
+      "ci_hi": 0.962
     }
   ],
   "cate_headline": {
-    "ate": -0.004,
+    "ate": 0.382,
     "ate_ci": [
-      -0.365,
-      0.357
+      -0.152,
+      0.916
     ],
-    "cate_min": -0.162,
-    "cate_med": -0.005,
-    "cate_max": 0.148,
+    "cate_min": 0.072,
+    "cate_med": 0.433,
+    "cate_max": 0.622,
     "n": 130
   },
-  "ate_sensitivity": {
-    "headline": {
-      "label": "Above-median GDP",
-      "cutoff_usd": 18601.0,
-      "ate": -0.004,
-      "ci": [
-        -0.365,
-        0.357
-      ]
-    },
-    "robust": {
-      "label": "Above 75th percentile",
-      "cutoff_usd": 44581.0,
-      "ate": 0.321,
-      "ci": [
-        0.051,
-        0.591
-      ]
-    }
-  },
-  "cf_importance": [
-    {
-      "feature": "Internet (%)",
-      "importance": 0.2491
-    },
-    {
-      "feature": "Social support",
-      "importance": 0.2121
-    },
-    {
-      "feature": "Corruption",
-      "importance": 0.1422
-    },
-    {
-      "feature": "Healthy life exp.",
-      "importance": 0.1397
-    },
-    {
-      "feature": "Freedom",
-      "importance": 0.1307
-    },
-    {
-      "feature": "Urban (%)",
-      "importance": 0.1261
-    }
-  ],
   "regressions": [
     {
       "model": "m1",
@@ -4211,600 +3077,5 @@ window.SITE_DATA = {
       "r2": 0.8308,
       "n": 134
     }
-  ],
-  "timeseries": {
-    "Brazil": [
-      {
-        "year": 2020,
-        "ladder": 6.37559986114502
-      },
-      {
-        "year": 2021,
-        "ladder": 6.330100059509277
-      },
-      {
-        "year": 2022,
-        "ladder": 6.292799949645996
-      },
-      {
-        "year": 2023,
-        "ladder": 6.124599933624268
-      },
-      {
-        "year": 2024,
-        "ladder": 6.271999835968018
-      }
-    ],
-    "China": [
-      {
-        "year": 2020,
-        "ladder": 5.123899936676025
-      },
-      {
-        "year": 2021,
-        "ladder": 5.339099884033203
-      },
-      {
-        "year": 2022,
-        "ladder": 5.585299968719482
-      },
-      {
-        "year": 2023,
-        "ladder": 5.81790018081665
-      },
-      {
-        "year": 2024,
-        "ladder": 5.972700119018555
-      }
-    ],
-    "Costa Rica": [
-      {
-        "year": 2020,
-        "ladder": 7.121399879455566
-      },
-      {
-        "year": 2021,
-        "ladder": 7.069399833679199
-      },
-      {
-        "year": 2022,
-        "ladder": 6.581999778747559
-      },
-      {
-        "year": 2023,
-        "ladder": 6.608500003814697
-      },
-      {
-        "year": 2024,
-        "ladder": 6.955399990081787
-      }
-    ],
-    "Denmark": [
-      {
-        "year": 2020,
-        "ladder": 7.645599842071533
-      },
-      {
-        "year": 2021,
-        "ladder": 7.619500160217285
-      },
-      {
-        "year": 2022,
-        "ladder": 7.636199951171875
-      },
-      {
-        "year": 2023,
-        "ladder": 7.586400032043457
-      },
-      {
-        "year": 2024,
-        "ladder": 7.582699775695801
-      }
-    ],
-    "Finland": [
-      {
-        "year": 2020,
-        "ladder": 7.808700084686279
-      },
-      {
-        "year": 2021,
-        "ladder": 7.842100143432617
-      },
-      {
-        "year": 2022,
-        "ladder": 7.821000099182129
-      },
-      {
-        "year": 2023,
-        "ladder": 7.804200172424316
-      },
-      {
-        "year": 2024,
-        "ladder": 7.740699768066406
-      }
-    ],
-    "India": [
-      {
-        "year": 2020,
-        "ladder": 3.5732998847961426
-      },
-      {
-        "year": 2021,
-        "ladder": 3.8189001083374015
-      },
-      {
-        "year": 2022,
-        "ladder": 3.777100086212158
-      },
-      {
-        "year": 2023,
-        "ladder": 4.035799980163574
-      },
-      {
-        "year": 2024,
-        "ladder": 4.054100036621094
-      }
-    ],
-    "United Kingdom": [
-      {
-        "year": 2020,
-        "ladder": 7.164500236511231
-      },
-      {
-        "year": 2021,
-        "ladder": 7.063600063323975
-      },
-      {
-        "year": 2022,
-        "ladder": 6.942500114440918
-      },
-      {
-        "year": 2023,
-        "ladder": 6.795599937438965
-      },
-      {
-        "year": 2024,
-        "ladder": 6.749000072479248
-      }
-    ],
-    "United States": [
-      {
-        "year": 2020,
-        "ladder": 6.939599990844727
-      },
-      {
-        "year": 2021,
-        "ladder": 6.951499938964844
-      },
-      {
-        "year": 2022,
-        "ladder": 6.976799964904785
-      },
-      {
-        "year": 2023,
-        "ladder": 6.893700122833252
-      },
-      {
-        "year": 2024,
-        "ladder": 6.724800109863281
-      }
-    ]
-  },
-  "chapters": [
-    {
-      "year": 2020,
-      "n_chapters": 8,
-      "mean_read_min": 26.75,
-      "mean_authors": 3.0
-    },
-    {
-      "year": 2021,
-      "n_chapters": 8,
-      "mean_read_min": 31.38,
-      "mean_authors": 3.25
-    },
-    {
-      "year": 2022,
-      "n_chapters": 7,
-      "mean_read_min": 31.0,
-      "mean_authors": 4.71
-    },
-    {
-      "year": 2023,
-      "n_chapters": 6,
-      "mean_read_min": 33.0,
-      "mean_authors": 4.0
-    },
-    {
-      "year": 2024,
-      "n_chapters": 5,
-      "mean_read_min": 40.2,
-      "mean_authors": 4.4
-    },
-    {
-      "year": 2025,
-      "n_chapters": 8,
-      "mean_read_min": 37.12,
-      "mean_authors": 4.75
-    },
-    {
-      "year": 2026,
-      "n_chapters": 9,
-      "mean_read_min": 35.44,
-      "mean_authors": 3.78
-    }
-  ],
-  "chapters_by_year": {
-    "2020": [
-      {
-        "title": "Annex: Using a New Global Urban-Rural Definition, Called the Degree of Urbanisation, to Assess Happiness",
-        "authors": "Lewis Dijkstra; Eleni Papadimitriou",
-        "n_authors": 2,
-        "reading_time_min": 5,
-        "url": "https://www.worldhappiness.report/ed/2020/annex-using-a-new-global-urban-rural-definition-called-the-degree-of-urbanisation-to-assess-happiness/"
-      },
-      {
-        "title": "Cities and Happiness: A Global Ranking and Analysis",
-        "authors": "Jan-Emmanuel De Neve; Christian Krekel",
-        "n_authors": 2,
-        "reading_time_min": 21,
-        "url": "https://www.worldhappiness.report/ed/2020/cities-and-happiness-a-global-ranking-and-analysis/"
-      },
-      {
-        "title": "Environments for Happiness: An Overview",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve",
-        "n_authors": 4,
-        "reading_time_min": 12,
-        "url": "https://www.worldhappiness.report/ed/2020/environments-for-happiness-an-overview/"
-      },
-      {
-        "title": "How Environmental Quality Affects Our Happiness",
-        "authors": "Christian Krekel; George MacKerron",
-        "n_authors": 2,
-        "reading_time_min": 33,
-        "url": "https://www.worldhappiness.report/ed/2020/how-environmental-quality-affects-our-happiness/"
-      },
-      {
-        "title": "Social Environments for World Happiness",
-        "authors": "John F. Helliwell; Haifang Huang; Shun Wang; Max Norton",
-        "n_authors": 4,
-        "reading_time_min": 52,
-        "url": "https://www.worldhappiness.report/ed/2020/social-environments-for-world-happiness/"
-      },
-      {
-        "title": "Sustainable Development and Human Well-Being",
-        "authors": "Jan-Emmanuel De Neve; Jeffrey D. Sachs",
-        "n_authors": 2,
-        "reading_time_min": 20,
-        "url": "https://www.worldhappiness.report/ed/2020/sustainable-development-and-human-well-being/"
-      },
-      {
-        "title": "The Nordic Exceptionalism: What Explains Why the Nordic Countries Are Constantly Among the Happiest in the World",
-        "authors": "Frank Martela; Bent Greve; Bo Rothstein; Juho Saari",
-        "n_authors": 4,
-        "reading_time_min": 29,
-        "url": "https://www.worldhappiness.report/ed/2020/the-nordic-exceptionalism-what-explains-why-the-nordic-countries-are-constantly-among-the-happiest-in-the-world/"
-      },
-      {
-        "title": "Urban-Rural Happiness Differentials Across the World",
-        "authors": "Martijn J. Burger; Philip S. Morrison; Martijn Hendriks; Marloes M. Hoogerbrugge",
-        "n_authors": 4,
-        "reading_time_min": 42,
-        "url": "https://www.worldhappiness.report/ed/2020/urban-rural-happiness-differentials-across-the-world/"
-      }
-    ],
-    "2021": [
-      {
-        "title": "COVID-19 Prevalence and Well-being: Lessons from East Asia",
-        "authors": "Mingming Ma; Shun Wang; Fengyu Wu",
-        "n_authors": 3,
-        "reading_time_min": 44,
-        "url": "https://www.worldhappiness.report/ed/2021/covid-19-prevalence-and-well-being-lessons-from-east-asia/"
-      },
-      {
-        "title": "Happiness, trust, and deaths under COVID-19",
-        "authors": "John F. Helliwell; Haifang Huang; Shun Wang; Max Norton",
-        "n_authors": 4,
-        "reading_time_min": 56,
-        "url": "https://www.worldhappiness.report/ed/2021/happiness-trust-and-deaths-under-covid-19/"
-      },
-      {
-        "title": "Living long and living well: The WELLBY approach",
-        "authors": "Richard Layard; Ekaterina Oparina",
-        "n_authors": 2,
-        "reading_time_min": 19,
-        "url": "https://www.worldhappiness.report/ed/2021/living-long-and-living-well-the-wellby-approach/"
-      },
-      {
-        "title": "Mental health and the COVID-19 pandemic",
-        "authors": "James Banks; Daisy Fancourt; Xiaowei Xu",
-        "n_authors": 3,
-        "reading_time_min": 27,
-        "url": "https://www.worldhappiness.report/ed/2021/mental-health-and-the-covid-19-pandemic/"
-      },
-      {
-        "title": "Overview: Life under COVID-19",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve; Lara B. Aknin; Shun Wang",
-        "n_authors": 6,
-        "reading_time_min": 8,
-        "url": "https://www.worldhappiness.report/ed/2021/overview-life-under-covid-19/"
-      },
-      {
-        "title": "Reasons for Asia-Pacific Success in suppressing COVID-19",
-        "authors": "Jeffrey D. Sachs",
-        "n_authors": 1,
-        "reading_time_min": 15,
-        "url": "https://www.worldhappiness.report/ed/2021/reasons-for-asia-pacific-success-in-suppressing-covid-19/"
-      },
-      {
-        "title": "Social Connection and Well-Being during COVID-19",
-        "authors": "Karynna Okabe-Miyamoto; Sonja Lyubomirsky",
-        "n_authors": 2,
-        "reading_time_min": 36,
-        "url": "https://www.worldhappiness.report/ed/2021/social-connection-and-well-being-during-covid-19/"
-      },
-      {
-        "title": "Work and Well-being during COVID-19: Impact, Inequalities, Resilience, and the Future of Work",
-        "authors": "Maria Cotofan; Jan-Emmanuel De Neve; Marta Golin; Micah Kaats; George Ward",
-        "n_authors": 5,
-        "reading_time_min": 46,
-        "url": "https://www.worldhappiness.report/ed/2021/work-and-well-being-during-covid-19-impact-inequalities-resilience-and-the-future-of-work/"
-      }
-    ],
-    "2022": [
-      {
-        "title": "Exploring the Biological Basis for Happiness",
-        "authors": "Meike Bartels; Ragnhild Bang Nes; Jessica M. Armitage; Margot P. van de Weijer; Lianne P. de Vries; Claire M.A. Haworth",
-        "n_authors": 6,
-        "reading_time_min": 32,
-        "url": "https://www.worldhappiness.report/ed/2022/exploring-the-biological-basis-for-happiness/"
-      },
-      {
-        "title": "Foreword",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve; Lara B. Aknin; Shun Wang; Sharon Paculor",
-        "n_authors": 7,
-        "reading_time_min": 3,
-        "url": "https://www.worldhappiness.report/ed/2022/foreword"
-      },
-      {
-        "title": "Happiness, Benevolence, and Trust During COVID-19 and Beyond",
-        "authors": "John F. Helliwell; Haifang Huang; Shun Wang; Max Norton",
-        "n_authors": 4,
-        "reading_time_min": 59,
-        "url": "https://www.worldhappiness.report/ed/2022/happiness-benevolence-and-trust-during-covid-19-and-beyond/"
-      },
-      {
-        "title": "Insights from the First Global Survey of Balance and Harmony",
-        "authors": "Tim Lomas; Alden Yuanhong Lai; Koichiro Shiba; Pablo Diego-Rosell; Yukiko Uchida; Tyler J VanderWeele",
-        "n_authors": 6,
-        "reading_time_min": 47,
-        "url": "https://www.worldhappiness.report/ed/2022/insights-from-the-first-global-survey-of-balance-and-harmony/"
-      },
-      {
-        "title": "Overview on Our Tenth Anniversary",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve; Lara B. Aknin; Shun Wang",
-        "n_authors": 6,
-        "reading_time_min": 7,
-        "url": "https://www.worldhappiness.report/ed/2022/overview-on-our-tenth-anniversary/"
-      },
-      {
-        "title": "Trends in Conceptions of Progress and Well-being",
-        "authors": "Christopher P. Barrington-Leigh",
-        "n_authors": 1,
-        "reading_time_min": 30,
-        "url": "https://www.worldhappiness.report/ed/2022/trends-in-conceptions-of-progress-and-well-being/"
-      },
-      {
-        "title": "Using Social Media Data to Capture Emotions Before and During COVID-19",
-        "authors": "Hannah Metzler; Max Pellert; David Garcia",
-        "n_authors": 3,
-        "reading_time_min": 39,
-        "url": "https://www.worldhappiness.report/ed/2022/using-social-media-data-to-capture-emotions-before-and-during-covid-19/"
-      }
-    ],
-    "2023": [
-      {
-        "title": "Doing Good and Feeling Good: Relationships Between Altruism and Well-being for Altruists, Beneficiaries, and Observers",
-        "authors": "Shawn A. Rhoads; Abigail A. Marsh",
-        "n_authors": 2,
-        "reading_time_min": 38,
-        "url": "https://www.worldhappiness.report/ed/2023/doing-good-and-feeling-good-relationships-between-altruism-and-well-being-for-altruists-beneficiaries-and-observers/"
-      },
-      {
-        "title": "Executive Summary",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve; Lara B. Aknin; Shun Wang; Sharon Paculor",
-        "n_authors": 7,
-        "reading_time_min": 6,
-        "url": "https://www.worldhappiness.report/ed/2023/executive-summary/"
-      },
-      {
-        "title": "The Happiness Agenda: The Next 10 Year",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs",
-        "n_authors": 3,
-        "reading_time_min": 21,
-        "url": "https://www.worldhappiness.report/ed/2023/the-happiness-agenda-the-next-10-year/"
-      },
-      {
-        "title": "Towards Well-Being Measurement with Social Media Across Space, Time and Cultures: Three Generations of Progress",
-        "authors": "Oscar Kjell; Salvatore Giorgi; H. Andrew Schwartz; Johannes C. Eichstaedt",
-        "n_authors": 4,
-        "reading_time_min": 42,
-        "url": "https://www.worldhappiness.report/ed/2023/towards-well-being-measurement-with-social-media-across-space-time-and-cultures-three-generations-of-progress/"
-      },
-      {
-        "title": "Well-being and State Effectiveness",
-        "authors": "Timothy Besley; Joseph Marshall; Torsten Persson",
-        "n_authors": 3,
-        "reading_time_min": 33,
-        "url": "https://www.worldhappiness.report/ed/2023/well-being-and-state-effectiveness/"
-      },
-      {
-        "title": "World Happiness, Trust and Social Connections in Times of Crisis",
-        "authors": "John F. Helliwell; Haifang Huang; Max Norton; Leonard Goff; Shun Wang",
-        "n_authors": 5,
-        "reading_time_min": 58,
-        "url": "https://www.worldhappiness.report/ed/2023/world-happiness-trust-and-social-connections-in-times-of-crisis/"
-      }
-    ],
-    "2024": [
-      {
-        "title": "Child and Adolescent Well-being: Global Trends, Challenges and Opportunities",
-        "authors": "Jose Marquez; Laura Taylor; Leoni Boyle; Wanying Zhou; Jan-Emmanuel De Neve",
-        "n_authors": 5,
-        "reading_time_min": 56,
-        "url": "https://www.worldhappiness.report/ed/2024/child-and-adolescent-well-being-global-trends-challenges-and-opportunities/"
-      },
-      {
-        "title": "Differences in Life Satisfaction among Older Adults in India",
-        "authors": "Ronak Paul; Manacy Pai, Ph.D.; Muhammad Thalil, Ph.D.; Shobhit Srivastava, Ph.D.",
-        "n_authors": 4,
-        "reading_time_min": 34,
-        "url": "https://www.worldhappiness.report/ed/2024/differences-in-life-satisfaction-among-older-adults-in-india/"
-      },
-      {
-        "title": "Happiness and Age: Summary",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve; Lara B. Aknin; Shun Wang",
-        "n_authors": 6,
-        "reading_time_min": 6,
-        "url": "https://www.worldhappiness.report/ed/2024/happiness-and-age-summary/"
-      },
-      {
-        "title": "Happiness of the younger, the older, and those in between",
-        "authors": "John F. Helliwell; Haifang Huang; Hugh Shiplett; Shun Wang",
-        "n_authors": 4,
-        "reading_time_min": 67,
-        "url": "https://www.worldhappiness.report/ed/2024/happiness-of-the-younger-the-older-and-those-in-between/"
-      },
-      {
-        "title": "Supporting the Well-being of an Aging Global Population: Associations between Well-being and Dementia",
-        "authors": "Karysa Britton; Kyrsten C. Hill; Emily C. Willroth",
-        "n_authors": 3,
-        "reading_time_min": 38,
-        "url": "https://www.worldhappiness.report/ed/2024/supporting-the-well-being-of-an-aging-global-population-associations-between-well-being-and-dementia/"
-      }
-    ],
-    "2025": [
-      {
-        "title": "Caring and sharing: Global analysis of happiness and kindness",
-        "authors": "John F. Helliwell; Lara B. Aknin; Haifang Huang; Max Norton; Shun Wang; Felix Cheung; Yeeun Archer Lee; Sara Konrath",
-        "n_authors": 8,
-        "reading_time_min": 66,
-        "url": "https://www.worldhappiness.report/ed/2025/caring-and-sharing-global-analysis-of-happiness-and-kindness/"
-      },
-      {
-        "title": "Connecting with others: How social connections improve the happiness of young adults",
-        "authors": "Rui Pei*; Jamil Zaki*",
-        "n_authors": 2,
-        "reading_time_min": 39,
-        "url": "https://www.worldhappiness.report/ed/2025/connecting-with-others-how-social-connections-improve-the-happiness-of-young-adults/"
-      },
-      {
-        "title": "Executive summary",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve; Lara B. Aknin; Shun Wang",
-        "n_authors": 6,
-        "reading_time_min": 8,
-        "url": "https://www.worldhappiness.report/ed/2025/executive-summary/"
-      },
-      {
-        "title": "Giving to others: How to convert your money into greater happiness for others",
-        "authors": "Michael Plant; Joel McGuire; Samuel Dupret; Ryan Dwyer; Ben Stewart",
-        "n_authors": 5,
-        "reading_time_min": 46,
-        "url": "https://www.worldhappiness.report/ed/2025/giving-to-others-how-to-convert-your-money-into-greater-happiness-for-others/"
-      },
-      {
-        "title": "Living with others: How household size and family bonds relate to happiness",
-        "authors": "Mariano Rojas; Lina Martínez; Gerardo Leyva Parra; Roberto Castellanos; Margarita Tarragona",
-        "n_authors": 5,
-        "reading_time_min": 30,
-        "url": "https://www.worldhappiness.report/ed/2025/living-with-others-how-household-size-and-family-bonds-relate-to-happiness/"
-      },
-      {
-        "title": "Sharing meals with others: How sharing meals supports happiness and social connections",
-        "authors": "Jan-Emmanuel De Neve; Andrew Dugan; Micah Kaats; Alberto Prati",
-        "n_authors": 4,
-        "reading_time_min": 41,
-        "url": "https://www.worldhappiness.report/ed/2025/sharing-meals-with-others-how-sharing-meals-supports-happiness-and-social-connections/"
-      },
-      {
-        "title": "Supporting others: How prosocial behaviour reduces deaths of despair",
-        "authors": "Kelsey J. O’Connor; Chiara Peroni; Francesco Sarracino; Giulia Slater; Fengyu Wu",
-        "n_authors": 5,
-        "reading_time_min": 43,
-        "url": "https://www.worldhappiness.report/ed/2025/supporting-others-how-prosocial-behaviour-reduces-deaths-of-despair/"
-      },
-      {
-        "title": "Trusting others: How unhappiness and social distrust explain populism",
-        "authors": "Yann Algan; Corin Blanc; Claudia Senik",
-        "n_authors": 3,
-        "reading_time_min": 24,
-        "url": "https://www.worldhappiness.report/ed/2025/trusting-others-how-unhappiness-and-social-distrust-explain-populism/"
-      }
-    ],
-    "2026": [
-      {
-        "title": "Adolescent life satisfaction and social media use: gender differences in an international dataset",
-        "authors": "Jean M. Twenge; Alexis Diomino; Alana Rio",
-        "n_authors": 3,
-        "reading_time_min": 15,
-        "url": "https://www.worldhappiness.report/ed/2026/adolescent-life-satisfaction-and-social-media-use-gender-differences-in-an-international-dataset/"
-      },
-      {
-        "title": "Executive summary: happiness and social media",
-        "authors": "John F. Helliwell; Richard Layard; Jeffrey D. Sachs; Jan-Emmanuel De Neve; Lara B. Aknin; Shun Wang",
-        "n_authors": 6,
-        "reading_time_min": 12,
-        "url": "https://www.worldhappiness.report/ed/2026/executive-summary-happiness-and-social-media/"
-      },
-      {
-        "title": "International evidence on happiness and social media",
-        "authors": "John F. Helliwell; Lara B. Aknin; Haifang Huang; Mariano Rojas; Shun Wang; Vicente Guerra; Adam Danyluk",
-        "n_authors": 7,
-        "reading_time_min": 61,
-        "url": "https://www.worldhappiness.report/ed/2026/international-evidence-on-happiness-and-social-media/"
-      },
-      {
-        "title": "Internet use, social media, and wellbeing: the role of trust, social connections, and emotional bonds",
-        "authors": "Zeynep Ozkok; Jonathan Rosborough; Brandon Malloy",
-        "n_authors": 3,
-        "reading_time_min": 50,
-        "url": "https://www.worldhappiness.report/ed/2026/internet-use-social-media-and-wellbeing-the-role-of-trust-social-connections-and-emotional-bonds/"
-      },
-      {
-        "title": "Problematic social media use and adolescent wellbeing: the role of family socioeconomic status across 43 countries",
-        "authors": "Pablo Gracia; Roger Fernandez-Urbano; Maria Rubio-Cabañez; Seyma Celik; Beyda Cineli",
-        "n_authors": 5,
-        "reading_time_min": 21,
-        "url": "https://www.worldhappiness.report/ed/2026/problematic-social-media-use-and-adolescent-wellbeing-the-role-of-family-socioeconomic-status-across-43-countries/"
-      },
-      {
-        "title": "Social media is harming adolescents at a scale large enough to cause changes at the population level",
-        "authors": "Jonathan Haidt; Zachary Rausch",
-        "n_authors": 2,
-        "reading_time_min": 61,
-        "url": "https://www.worldhappiness.report/ed/2026/social-media-is-harming-adolescents-at-a-scale-large-enough-to-cause-changes-at-the-population-level/"
-      },
-      {
-        "title": "Social media use and wellbeing in the Middle East and North Africa",
-        "authors": "Martijn Burger; Talita Greyling; Stephanie Rossouw; Francesco Sarracino; Fengyu Wu",
-        "n_authors": 5,
-        "reading_time_min": 33,
-        "url": "https://www.worldhappiness.report/ed/2026/social-media-use-and-wellbeing-in-the-middle-east-and-north-africa/"
-      },
-      {
-        "title": "Social media, wasting time, and product traps",
-        "authors": "Cass R. Sunstein",
-        "n_authors": 1,
-        "reading_time_min": 19,
-        "url": "https://www.worldhappiness.report/ed/2026/social-media-wasting-time-and-product-traps/"
-      },
-      {
-        "title": "Translating scientific evidence into effective policies for health and technology requires care",
-        "authors": "Sophie Lloyd-Hurwitz; Andrew Przybylski",
-        "n_authors": 2,
-        "reading_time_min": 47,
-        "url": "https://www.worldhappiness.report/ed/2026/translating-scientific-evidence-into-effective-policies-for-health-and-technology-requires-care/"
-      }
-    ]
-  }
+  ]
 };

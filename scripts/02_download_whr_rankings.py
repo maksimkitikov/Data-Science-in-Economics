@@ -1,4 +1,4 @@
-"""Download WHR Figure 2.1 spreadsheets for 2020-2024 and stack them into one panel."""
+"""WHR Figure 2.1 xls files for 2020-2024, stacked into one panel."""
 import os
 import time
 
@@ -19,7 +19,6 @@ KEEP = ["Country name", "Ladder score", "Logged GDP per capita",
 
 
 def download(url, n_tries=4):
-    """Try a few times in case the WHR origin is flaky, this is the retry-with-back-off pattern from the Workflow lecture."""
     for k in range(n_tries):
         try:
             r = requests.get(url, headers=HEAD, timeout=60)
@@ -44,25 +43,21 @@ for y in YEARS:
 
     df = pd.read_excel(fname)
 
-    # different WHR editions ship different column names, so we standardise them with a single rename map
+    # only the country/score columns disagree across editions
     rename_map = {
         "Country": "Country name",
         "Happiness score": "Ladder score",
-        "Explained by: GDP per capita": "Logged GDP per capita",
-        "Explained by: Log GDP per capita": "Logged GDP per capita",
-        "Explained by: Social support": "Social support",
-        "Explained by: Healthy life expectancy": "Healthy life expectancy",
-        "Explained by: Freedom to make life choices": "Freedom to make life choices",
-        "Explained by: Generosity": "Generosity",
-        "Explained by: Perceptions of corruption": "Perceptions of corruption",
     }
-    drop_cols = [src for src, dst in rename_map.items()
-                 if src in df.columns and dst in df.columns]
-    df = df.drop(columns=drop_cols).rename(columns=rename_map)
+    df = df.rename(columns=rename_map)
 
-    # fail loudly if WHR ever changes its schema again, this is the assertion idea from Workflow lecture slide 33
-    missing = [c for c in KEEP if c not in df.columns]
-    assert not missing, f"WHR {y} missing columns: {missing}"
+    # 2022 and 2024 ship only the "Explained by:" decomposition columns,
+    # not the raw covariates. Those are contributions to Ladder, not the
+    # raw values, so leave them as NaN rather than miscategorising them.
+    for c in KEEP:
+        if c not in df.columns:
+            df[c] = pd.NA
+
+    assert "Country name" in df.columns and "Ladder score" in df.columns
 
     df = df[KEEP].copy()
     df["year"] = y

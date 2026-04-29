@@ -12,7 +12,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
 
@@ -25,7 +25,6 @@
   <a class="brand" href="#top">Beyond&nbsp;GDP</a>
   <nav>
     <a href="#headlines">Rankings</a>
-    <a href="#explorer">Explore</a>
     <a href="#scatter">GDP &amp; Happiness</a>
     <a href="#decomposition">Decomposition</a>
     <a href="#regressions">Regressions</a>
@@ -86,37 +85,6 @@
       <div id="rank-chart" class="chart-tall"></div>
       <figcaption>Top and bottom ten countries by 2023 Ladder score. Hover or tap for details. Source: World Happiness Report.</figcaption>
     </figure>
-  </div>
-</section>
-
-
-<section id="explorer" class="alt">
-  <div class="container">
-    <p class="kicker">1.5 &middot; Find a country</p>
-    <h2>Anywhere in the sample, two clicks away</h2>
-    <p>
-      The 136 countries in the analysis sample each carry the eight
-      indicators below. Type any country in the box and its profile appears
-      with its rank, Ladder score, GDP, the four core institutional
-      measures and the two digital-development covariates the causal
-      forest uses.
-    </p>
-
-    <div class="country-search">
-      <label for="country-input" class="visually-hidden">Country</label>
-      <div class="search-wrap">
-        <input type="text" id="country-input"
-               placeholder="Start typing: Finland, Costa Rica, Ghana, ..."
-               autocomplete="off" spellcheck="false"
-               aria-autocomplete="list" aria-controls="country-suggestions">
-        <ul id="country-suggestions" class="suggestions" role="listbox" hidden></ul>
-      </div>
-      <button type="button" id="country-random" aria-label="Pick a random country">Random</button>
-    </div>
-
-    <div id="country-card" class="country-card">
-      <p class="cc-hint">Pick a country above and its profile appears here.</p>
-    </div>
   </div>
 </section>
 
@@ -202,9 +170,10 @@
     <p class="kicker">4 &middot; OLS, six ways</p>
     <h2>Adding social support roughly halves the log-GDP coefficient</h2>
     <p>
-      I fit six progressively richer specifications. Robust HC3 standard
-      errors throughout. The coefficients on log GDP and the social-capital
-      variables tell most of the story.
+      I fit six progressively richer specifications on the 2023
+      cross-section, all with HC3 robust standard errors. The
+      coefficients on log GDP and the social-capital variables tell most
+      of the story.
     </p>
 
     <div class="table-wrap">
@@ -223,7 +192,7 @@
         <span><span class="stars">**</span>p &lt; 0.05</span>
         <span><span class="stars">*</span>p &lt; 0.10</span>
       </p>
-      <p id="ols-caption" class="caption">All specifications use Robust (HC3) standard errors. (m6) is fitted on z-scored variables. (m5) swaps WHR's bundled log-GDP for the World Bank's PPP series as a cross-source sanity check. N is 134 because two countries are missing the corruption variable.</p>
+      <p id="ols-caption" class="caption">All six specifications use HC3 robust standard errors. (m6) uses z-scored variables for direct comparability. (m5) swaps WHR's bundled log-GDP for the World Bank's PPP series. N = 134 because two countries are missing the corruption variable.</p>
     </div>
 
     <p>
@@ -234,23 +203,22 @@
     </p>
 
     <p>
-      The pattern is consistent with a long line of work in the economics
-      of well-being. Easterlin (1974) first noted that within rich
-      countries the income-happiness relationship flattens after basic
-      needs are met; later work (Stevenson &amp; Wolfers, 2008; Layard,
-      Mayraz &amp; Nickell, 2009) finds the gradient survives in
-      <em>cross</em>-country data but is much smaller once mediating
-      institutions are accounted for. Specification (6) makes the size
-      comparable: a one-standard-deviation rise in social support is
-      worth roughly the same as a one-standard-deviation rise in log GDP,
-      and freedom is not far behind.
+      This lines up with a long literature on the economics of
+      well-being. Easterlin (1974) first noted that within rich
+      countries the income-happiness link flattens once basic needs are
+      met. Later work (Stevenson &amp; Wolfers, 2008; Layard, Mayraz &amp;
+      Nickell, 2009) finds the gradient does survive in cross-country
+      data but shrinks a lot once mediating institutions are added.
+      Specification (6) makes the magnitudes comparable: a one-SD rise
+      in social support is worth roughly as much as a one-SD rise in log
+      GDP, and freedom is not far behind.
     </p>
 
     <p>
-      Specification (5) is a sanity check: replacing WHR's bundled log
-      GDP with the independent World Bank PPP series leaves the
-      coefficient almost unchanged (0.27 vs 0.26), so the headline does
-      not depend on which income series we use.
+      Specification (5) is a quick cross-source check: swapping WHR's
+      bundled log GDP for the World Bank's PPP series leaves the
+      coefficient almost unchanged (0.27 vs 0.26), so the headline is
+      not driven by which income series we use.
     </p>
   </div>
 </section>
@@ -261,13 +229,21 @@
     <p class="kicker">5 &middot; A causal forest</p>
     <h2>When does income still buy happiness?</h2>
     <p>
-      Cross-country comparisons aren't a randomised trial; rich and poor
-      countries differ on dozens of margins at once. To probe heterogeneity
-      flexibly I fit a <em>causal forest</em> (Wager &amp; Athey, 2018) with
+      Cross-country comparisons are not a randomised trial: rich and poor
+      countries differ in many ways at once. To explore heterogeneity I fit a
+      <em>causal forest</em> (Wager &amp; Athey, 2018) with
       <code>econml.dml.CausalForestDML</code>. The "treatment" is being above
-      the median income; X covers six potential moderators. The forest is
-      fitted on n = 130: six of the 136 countries fall out because their
-      internet- or urban-share data is missing.
+      the median income, and X covers six potential moderators. The forest
+      runs on n = 130: six of the 136 countries fall out because internet
+      or urban-share data are missing.
+    </p>
+
+    <p>
+      <strong>This is descriptive, not causal.</strong> Cross-country
+      data does not give us unconfoundedness: countries are not randomly
+      assigned to be rich, and X is not an exhaustive conditioning set.
+      So I read the CATEs as heterogeneity in conditional means, not as
+      what would happen to Ladder if a poor country suddenly became rich.
     </p>
 
     <div class="callout-banner" id="ate-banner">
@@ -277,105 +253,74 @@
     </div>
 
     <p>
-      The average treatment effect is essentially zero once the moderators
-      are controlled for. Almost all of the apparent income premium is
-      mediated by them, but the conditional effects do vary. The
-      <strong>distribution of CATEs</strong> below is the main result for
-      this section; the next two charts and the robustness table are
-      diagnostics that probe the same number from different angles.
+      The average treatment effect is statistically indistinguishable from
+      zero once the moderators are controlled for: the 95&nbsp;% CI spans
+      both signs. Most of the apparent income premium runs through the
+      mediators, and the conditional effects vary across countries.
     </p>
 
     <figure class="chart-card">
       <div id="cate-hist" class="chart"></div>
-      <figcaption>Distribution of conditional average treatment effects across countries. The dashed gold line marks the ATE. <em>This is the main output of the section.</em></figcaption>
+      <figcaption>Distribution of conditional average treatment effects across countries. The dashed gold line marks the ATE.</figcaption>
     </figure>
 
-    <h3 class="aside-heading">Diagnostics</h3>
-    <p class="aside-lead">
-      Two follow-up plots probe the same number from different angles:
-      where in the GDP distribution the CATE varies, and which
-      moderators are doing the work inside the forest.
+    <p>
+      The forest's split-importance ranks <strong>internet penetration</strong>
+      first among the moderators, ahead of social support, corruption,
+      healthy life expectancy, urbanisation and freedom. Once we know
+      whether a country's residents are online, the leftover role of GDP
+      per capita shrinks sharply, lining up with recent work on digital
+      connectivity and the WHR 2026 edition's own pivot to social-media
+      research.
     </p>
 
-    <div class="chart-grid">
-      <figure class="chart-card aside">
-        <div id="cate-vs-gdp" class="chart"></div>
-        <figcaption>Country-level CATE plotted against GDP per capita. No clean monotone trend with income.</figcaption>
-      </figure>
-      <figure class="chart-card aside">
-        <div id="cf-importance" class="chart"></div>
-        <figcaption>Causal-forest split-importance: which variables drive the heterogeneity. Internet penetration leads.</figcaption>
-      </figure>
-    </div>
+    <table class="mini-table" aria-label="Causal-forest split importance">
+      <thead>
+        <tr><th scope="col">Moderator</th><th scope="col">Importance</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Internet (%)</th><td>0.314</td></tr>
+        <tr><th scope="row">Social support</th><td>0.165</td></tr>
+        <tr><th scope="row">Corruption</th><td>0.153</td></tr>
+        <tr><th scope="row">Healthy life exp.</th><td>0.138</td></tr>
+        <tr><th scope="row">Urban (%)</th><td>0.129</td></tr>
+        <tr><th scope="row">Freedom</th><td>0.100</td></tr>
+      </tbody>
+    </table>
+    <p class="caption">Split-importance from <code>cf.feature_importances_</code>. Sums to 1.0; full table in <code>output/tables/cf_importance.csv</code>.</p>
 
     <p>
-      <strong>Internet penetration</strong> is the single most important
-      moderator. Once we know whether a country's residents are
-      <em>online</em>, the leftover role of GDP per capita shrinks
-      sharply, an echo of the digital-connectivity literature and
-      the WHR 2026 edition's own pivot to social-media research.
+      <strong>Robustness check.</strong> The "above median" cut is convenient
+      but arbitrary. Refitting at the 75th percentile (around $44k PPP)
+      sharpens the result: the ATE is about <strong>+0.28 Ladder
+      points</strong> with a 95% CI clear of zero. The income effect
+      concentrates in the richest quartile rather than at the median.
     </p>
-
-    <div class="sensitivity">
-      <h3 class="aside-heading">Robustness check: where exactly is "rich"?</h3>
-      <p>
-        The "above median" treatment is one defensible choice; the natural
-        alternative is the top quartile. Refitting with a 75th-percentile
-        cut-off (around $44k PPP) actually flips the headline:
-        the ATE rises to about <strong>+0.32 Ladder points</strong> with a
-        95&nbsp;% CI clear of zero. So the median split was hiding a
-        real income effect at the very top of the distribution - being
-        rich-rich does buy a small but measurable happiness premium even
-        once moderators are accounted for.
-      </p>
-      <table id="sensitivity-table" class="mini-table" aria-describedby="sens-cap">
-        <thead>
-          <tr><th scope="col">Treatment</th><th scope="col">Cut-off</th><th scope="col">ATE</th><th scope="col">95&nbsp;% CI</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-      <p id="sens-cap" class="caption">
-        Both fits use the same Y, X and seed; only the binarisation of GDP changes.
-      </p>
-    </div>
   </div>
 </section>
 
 
 <section id="scrape" class="alt">
   <div class="container">
-    <p class="kicker">6 &middot; A bonus from the scrape</p>
-    <h2>The Report itself is changing</h2>
+    <p class="kicker">6 &middot; A note on the scrape</p>
+    <h2>The Report has been growing</h2>
     <p>
-      The rankings spreadsheets are the core of the analysis, but the
-      chapter metadata I scraped from the seven WHR editions has its own
-      story. Across 2020-2026 I collected 51 chapters with their author
-      lists, affiliations and reading times - a tidy table that does not
-      exist anywhere on the WHR website itself.
+      Alongside the rankings spreadsheets, I scraped chapter metadata for
+      every WHR edition from 2020 to 2026 (titles, authors, affiliations,
+      reading times, DOIs). This isn't visualised on the page but it
+      sits in <code>data/raw/whr_chapters.csv</code> and feeds the
+      <code>whr_chapters</code> table in the SQLite db.
     </p>
-
-    <figure class="chart-card">
-      <div id="chapters-chart" class="chart"></div>
-      <figcaption>Chapters per edition (bars) and average reading time (line). Hover any bar to peek at that year's chapter titles. Source: scraped from each annual edition page on worldhappiness.report.</figcaption>
-    </figure>
-
+    <ul class="scrape-stats">
+      <li><strong>51</strong> chapters scraped</li>
+      <li><strong>7</strong> editions, 2020-2026</li>
+      <li><strong>27 -&gt; 35</strong> mean reading time (min)</li>
+      <li><strong>+72%</strong> longer reads vs 2020</li>
+    </ul>
     <p>
-      Chapter counts are volatile (2024 was unusually slim with five
-      chapters), but average reading time has risen sharply: roughly 27
-      minutes in 2020 to 40 in 2024. The Report is, quite literally, a
-      longer read.
-    </p>
-
-    <figure class="chart-card">
-      <div id="ts-chart" class="chart"></div>
-      <figcaption>Ladder score over time for a handful of selected countries, scraped from each annual <code>Figure_2.1.xls</code> file. Hit <strong>Play</strong> or drag the slider to step through 2020-2024 year by year.</figcaption>
-    </figure>
-
-    <p>
-      The very top of the ranking is essentially flat (Finland barely
-      moves), but the time series show the slow erosion of US scores
-      relative to Northern Europe and a small post-pandemic recovery in
-      parts of Latin America.
+      The 2026 edition leans heavily into social-media and digital
+      connectivity, which is what motivated putting <code>internet_pct</code>
+      and <code>urban_pct</code> into the causal forest in the first place.
     </p>
   </div>
 </section>
@@ -384,7 +329,7 @@
 <section id="takeaways">
   <div class="container">
     <p class="kicker">7 &middot; Take-aways</p>
-    <h2>Five things I take from this</h2>
+    <h2>Four things I take from this</h2>
     <ol class="takeaways">
       <li><strong>Money matters, but mostly indirectly.</strong>
         Once you control for social support, freedom, life expectancy and
@@ -396,7 +341,7 @@
       <li><strong>The link is non-linear and concentrated at the top.</strong>
         Splitting at the median gives an ATE indistinguishable from zero,
         but moving the cut to the 75th percentile (~$44k PPP) lifts it to
-        about +0.32 Ladder points with a 95&nbsp;% CI clear of zero. So
+        about +0.28 Ladder points with a 95&nbsp;% CI clear of zero. So
         the income effect has not vanished, it has migrated into the
         richest tail of the distribution.</li>
       <li><strong>Social capital is at least as potent as material wealth.</strong>
@@ -405,10 +350,7 @@
         GDP.</li>
       <li><strong>Internet penetration is the dominant moderator.</strong>
         Split-importance ranks it ahead of social support, corruption,
-        life expectancy, freedom and urbanisation.</li>
-      <li><strong>The Report itself is changing.</strong>
-        Chapters have got longer and the 2026 edition pivots sharply onto
-        social media. The scrape lets us watch that shift in real time.</li>
+        life expectancy, urbanisation and freedom.</li>
     </ol>
   </div>
 </section>
@@ -427,9 +369,9 @@ cd Data-Science-in-Economics
 pip install -r requirements.txt
 make all</code></pre>
     <p>
-      The Makefile walks the nine numbered scripts in <code>src/</code>,
-      regenerates the SQLite database, the OLS table and the figures,
-      executes the Jupyter notebook and re-renders this page.
+      The Makefile walks the eight numbered scripts in <code>scripts/</code>,
+      regenerates the SQLite database, the OLS table, the figures and the
+      JSON consumed by this page.
     </p>
 
     <h3>Sources &amp; further reading</h3>

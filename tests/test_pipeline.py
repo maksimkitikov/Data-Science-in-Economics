@@ -1,4 +1,4 @@
-"""Sanity checks plus a couple of unit tests on the helper functions."""
+"""sanity checks + unit tests on helpers."""
 import json
 import re
 from pathlib import Path
@@ -35,7 +35,6 @@ def test_ate_is_a_number():
 
 
 def test_to_iso_strips_asterisk_and_whitespace():
-    """Same logic as in 04_build_database.py, kept here so the helper is unit-tested."""
     name2iso = {"Finland": "FIN", "United States": "USA"}
 
     def to_iso(n):
@@ -47,7 +46,6 @@ def test_to_iso_strips_asterisk_and_whitespace():
 
 
 def test_doi_pattern():
-    """The regex used in 01_scrape_whr_chapters.py to pull DOIs out of chapter text."""
     text = "DOI: 10.18724/whr-z6ws-dp10 published 2026"
     m = re.search(r"10\.\d{4,9}/[^\s\"']+", text)
     assert m and m.group(0) == "10.18724/whr-z6ws-dp10"

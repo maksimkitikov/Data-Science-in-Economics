@@ -1,4 +1,4 @@
-"""Six OLS specifications of WHR Ladder on its covariates with HC3 robust standard errors."""
+"""OLS Ladder ~ covariates, HC3 SEs."""
 import os
 
 import numpy as np
@@ -12,13 +12,11 @@ os.makedirs(TAB, exist_ok=True)
 
 df = pd.read_csv(CLN + "analysis.csv")
 
-# WB log GDP serves as an independent cross-check on the WHR's bundled value
+# WB log GDP as a cross-check on WHR's own value
 df["log_gdp_wb"] = np.log(df["gdp_pc_ppp"])
 
 needed = ["ladder", "log_gdp", "life_exp_healthy", "social_support",
           "freedom", "corruption", "log_gdp_wb"]
-for c in needed:
-    assert c in df.columns, f"missing column: {c}"
 df = df.dropna(subset=needed).reset_index(drop=True)
 print(f"n = {len(df)}")
 
@@ -26,18 +24,17 @@ Y = df["ladder"]
 
 
 def fit(rhs):
-    """OLS with HC3 robust standard errors, the spec from the modelling lecture."""
     return sm.OLS(Y, sm.add_constant(df[rhs])).fit(cov_type="HC3")
 
 
-# add covariates one block at a time, so that each column shows the marginal contribution of the new regressor
+# nest the specs: each step adds one block of regressors
 m1 = fit(["log_gdp"])
 m2 = fit(["log_gdp", "life_exp_healthy"])
 m3 = fit(["log_gdp", "life_exp_healthy", "social_support"])
 m4 = fit(["log_gdp", "life_exp_healthy", "social_support", "freedom", "corruption"])
 m5 = fit(["log_gdp_wb", "life_exp_healthy", "social_support", "freedom", "corruption"])
 
-# m6 uses z-scored variables so that the coefficients are in standard-deviation units and directly comparable
+# z-score so coefs are in sd units
 z = (df[needed] - df[needed].mean()) / df[needed].std()
 m6 = sm.OLS(z["ladder"],
             sm.add_constant(z[["log_gdp", "life_exp_healthy",
@@ -63,8 +60,8 @@ labels = {
 pystout(
     models=list(models.values()),
     file=TAB + "regression_table.tex",
-    addnotes=["Robust (HC3) standard errors in parentheses.",
-              r"Specification (6) uses standardised variables.",
+    addnotes=["HC3 robust SEs in parentheses.",
+              r"Specification (6) uses z-scored variables.",
               r"$^*\,p<0.10$, $^{**}\,p<0.05$, $^{***}\,p<0.01$."],
     digits=3,
     endog_names=["WHR Ladder score (2023)"] * 6,
@@ -78,7 +75,6 @@ pystout(
     stars={.1: "*", .05: "**", .01: "***"},
 )
 
-# tidy long CSV that the website JSON pipeline reads
 rows = []
 for name, m in models.items():
     for var in m.params.index:
