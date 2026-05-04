@@ -324,7 +324,7 @@ async function drawCausalForest() {
     `[${headline.ate_ci[0].toFixed(3)}, ${headline.ate_ci[1].toFixed(3)}]`;
 
   // CATE histogram — keep ATE annotation OUTSIDE the plot area (above)
-  // so it never overlaps the bars themselves.
+  // so it never overlaps the bars themselves. Big top margin guarantees room.
   const cateValues = cate.map(d => d.cate);
   await Plotly.newPlot('cate-hist',
     [{
@@ -334,9 +334,9 @@ async function drawCausalForest() {
       hovertemplate: 'CATE: %{x:.3f}<br>Countries: %{y}<extra></extra>',
       name: 'CATE',
     }],
-    { ...BASE_LAYOUT, height: 380,
-      margin: { l: 60, r: 28, t: 64, b: 60 },
-      title: { text: '<b>Distribution of CATEs</b>', x: 0, xanchor: 'left', y: 0.98, font: { size: 14, color: PALETTE.navy } },
+    { ...BASE_LAYOUT, height: 400,
+      margin: { l: 64, r: 32, t: 96, b: 60 },
+      title: { text: '<b>Distribution of CATEs</b>', x: 0, xanchor: 'left', y: 1, yanchor: 'top', yref: 'container', pad: { t: 14 }, font: { size: 14, color: PALETTE.navy } },
       xaxis: { ...BASE_LAYOUT.xaxis, title: { text: 'CATE: Ladder gain from above-median GDP', font: { size: 12, color: PALETTE.slate }, standoff: 12 } },
       yaxis: { ...BASE_LAYOUT.yaxis, title: { text: 'Number of countries', font: { size: 12, color: PALETTE.slate }, standoff: 8 } },
       shapes: [{
@@ -344,12 +344,16 @@ async function drawCausalForest() {
         line: { color: PALETTE.gold, width: 2, dash: 'dash' },
       }],
       annotations: [{
-        x: ate, y: 1.04, yref: 'paper',
+        x: ate, y: 1.0, yref: 'paper',
         text: `<b>ATE = ${(ate >= 0 ? '+' : '−') + Math.abs(ate).toFixed(3)}</b>`,
         showarrow: false,
         xanchor: 'center', yanchor: 'bottom',
+        yshift: 8,
         font: { color: PALETTE.gold, size: 12, family: 'Inter, sans-serif' },
-        bgcolor: 'rgba(255,255,255,0.0)',
+        bgcolor: 'rgba(255,255,255,0.92)',
+        bordercolor: PALETTE.gold,
+        borderwidth: 1,
+        borderpad: 4,
       }],
     }, BASE_CONFIG);
   register('cate-hist');
@@ -365,9 +369,9 @@ async function drawCausalForest() {
        marker: { color: PALETTE.teal, size: 9, opacity: 0.7, line: { color: PALETTE.white, width: 1 } },
        name: 'Country',
      }],
-    { ...BASE_LAYOUT, height: 380,
-      margin: { l: 60, r: 32, t: 64, b: 60 },
-      title: { text: '<b>CATE versus GDP per capita</b>', x: 0, xanchor: 'left', y: 0.98, font: { size: 14, color: PALETTE.navy } },
+    { ...BASE_LAYOUT, height: 400,
+      margin: { l: 64, r: 60, t: 70, b: 60 },
+      title: { text: '<b>CATE versus GDP per capita</b>', x: 0, xanchor: 'left', y: 1, yanchor: 'top', yref: 'container', pad: { t: 14 }, font: { size: 14, color: PALETTE.navy } },
       xaxis: { ...BASE_LAYOUT.xaxis, type: 'log', title: { text: 'GDP per capita, PPP (log axis, US$)', font: { size: 12, color: PALETTE.slate }, standoff: 12 } },
       yaxis: { ...BASE_LAYOUT.yaxis, title: { text: 'Estimated CATE', font: { size: 12, color: PALETTE.slate }, standoff: 8 } },
       shapes: [{ type: 'line', x0: 0, x1: 1, xref: 'paper', y0: ate, y1: ate,
@@ -378,9 +382,10 @@ async function drawCausalForest() {
           xanchor: 'left', xshift: 7, yshift: 3,
           font: { size: 10, color: PALETTE.navy, weight: 600 },
         })),
-        { x: 1, xref: 'paper', y: ate, text: `ATE`, showarrow: false,
-          xanchor: 'right', yanchor: 'bottom', xshift: -4, yshift: 2,
-          font: { color: PALETTE.gold, size: 11, weight: 600 } },
+        { x: 1, xref: 'paper', y: ate, yref: 'y', text: '<b>ATE</b>', showarrow: false,
+          xanchor: 'left', yanchor: 'middle', xshift: 4,
+          font: { color: PALETTE.gold, size: 11 },
+          bgcolor: 'rgba(255,255,255,0.92)', bordercolor: PALETTE.gold, borderwidth: 1, borderpad: 3 },
       ],
     }, BASE_CONFIG);
   register('cate-vs-gdp');
