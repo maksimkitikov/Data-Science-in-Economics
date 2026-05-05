@@ -1,4 +1,4 @@
-/* Beyond GDP — interactive Plotly charts.
+/* Beyond GDP - interactive Plotly charts.
    Loads JSON and renders every chart with a shared palette. */
 
 const PALETTE = {
@@ -151,7 +151,7 @@ async function drawGdpScatter() {
     margin: { l: 64, r: 32, t: 24, b: 64 },
     xaxis: {
       ...BASE_LAYOUT.xaxis, type: 'log',
-      title: { text: 'GDP per capita, PPP — log scale (US$, World Bank 2022)', font: { size: 12, color: PALETTE.slate }, standoff: 14 }
+      title: { text: 'GDP per capita, PPP - log scale (US$, World Bank 2022)', font: { size: 12, color: PALETTE.slate }, standoff: 14 }
     },
     yaxis: {
       ...BASE_LAYOUT.yaxis,
@@ -289,7 +289,7 @@ async function drawOlsTable() {
         cell.title = `coef = ${v.coef.toFixed(4)}, p = ${v.p.toFixed(4)}`;
       } else {
         cell.classList.add('muted');
-        cell.textContent = '—';
+        cell.textContent = '-';
       }
       row.appendChild(cell);
     });
@@ -309,18 +309,20 @@ async function drawOlsTable() {
 
 /* ---------- Section 5: Causal forest -------------------------------- */
 async function drawCausalForest() {
-  const cate     = await loadJSON('data/cate.json');
+  const cate = await loadJSON('data/cate.json');
   const headline = await loadJSON('data/cate_headline.json');
-  const imp      = await loadJSON('data/cf_importance.json');
+  const imp = await loadJSON('data/cf_importance.json');
 
   const ate = headline.ate;
   const ateValueEl = document.getElementById('ate-value');
-  const ateCiEl    = document.getElementById('ate-ci');
-  if (ateValueEl) ateValueEl.textContent = (ate >= 0 ? '+' : '−') + Math.abs(ate).toFixed(3);
-  if (ateCiEl)    ateCiEl.textContent =
-    `[${headline.ate_ci[0].toFixed(3)}, ${headline.ate_ci[1].toFixed(3)}]`;
+  const ateCiEl = document.getElementById('ate-ci');
+  if (ateValueEl) ateValueEl.textContent = (ate >= 0 ? '+' : '-') + Math.abs(ate).toFixed(3);
+  if (ateCiEl) {
+    ateCiEl.textContent =
+      `[${headline.ate_ci[0].toFixed(3)}, ${headline.ate_ci[1].toFixed(3)}]`;
+  }
 
-  // CATE histogram — keep ATE annotation OUTSIDE the plot area (above)
+  // CATE histogram: keep ATE annotation OUTSIDE the plot area (above)
   // so it never overlaps the bars themselves.
   const cateValues = cate.map(d => d.cate);
   await Plotly.newPlot('cate-hist',
@@ -342,7 +344,7 @@ async function drawCausalForest() {
       }],
       annotations: [{
         x: ate, y: 1.04, yref: 'paper',
-        text: `<b>ATE = ${(ate >= 0 ? '+' : '−') + Math.abs(ate).toFixed(3)}</b>`,
+        text: `<b>ATE = ${(ate >= 0 ? '+' : '-') + Math.abs(ate).toFixed(3)}</b>`,
         showarrow: false,
         xanchor: 'center', yanchor: 'bottom',
         font: { color: PALETTE.gold, size: 12, family: 'Inter, sans-serif' },
@@ -351,7 +353,7 @@ async function drawCausalForest() {
     }, BASE_CONFIG);
   register('cate-hist');
 
-  // CATE vs GDP — keep the ATE reference dashed line, label it once at the right edge
+  // CATE vs GDP: keep the ATE reference dashed line, label it once at the right edge
   const labels = ['IND', 'CRI', 'BRA', 'FIN', 'NOR', 'USA'];
   await Plotly.newPlot('cate-vs-gdp',
     [{ type: 'scatter', mode: 'markers',
@@ -382,7 +384,7 @@ async function drawCausalForest() {
     }, BASE_CONFIG);
   register('cate-vs-gdp');
 
-  // Feature importance — keep value labels INSIDE the bar so they never run
+  // Feature importance: keep value labels INSIDE the bar so they never run
   // off the plot area on narrow screens. Pad x-axis right side a hair.
   const sorted = [...imp].sort((a, b) => a.importance - b.importance);
   const xMax = Math.max(...sorted.map(d => d.importance)) * 1.18;
@@ -415,7 +417,7 @@ async function drawCausalForest() {
 async function drawChaptersAndTs() {
   const ch = await loadJSON('data/chapters.json');
 
-  // Chapters chart — secondary axis on the right needs extra right margin
+  // Chapters chart: secondary axis on the right needs extra right margin
   // so its title "Mean reading time (min)" never gets clipped.
   await Plotly.newPlot('chapters-chart',
     [
@@ -501,6 +503,271 @@ function animateNumber(el, end, decimals = 0, suffix = '') {
   requestAnimationFrame(tick);
 }
 
+/* ---------- Causal-forest sensitivity table ------------------------- */
+async function fillSensitivityTable() {
+  const tbody = document.querySelector('#sensitivity-table tbody');
+  if (!tbody) return;
+  let s;
+  try { s = await loadJSON('data/ate_sensitivity.json'); }
+  catch (_) { return; }   // file not built yet - just skip silently
+
+  const fmtUSD = v => '$' + Math.round(v).toLocaleString('en-US');
+  const sign = v => (v >= 0 ? '+' : '') + Number(v).toFixed(3);
+  const row = (k) => {
+    const r = s[k];
+    return `<tr>
+      <td>${r.label}</td>
+      <td>${fmtUSD(r.cutoff_usd)}</td>
+      <td><strong>${sign(r.ate)}</strong></td>
+      <td>[${sign(r.ci[0])}, ${sign(r.ci[1])}]</td>
+    </tr>`;
+  };
+  tbody.innerHTML = row('headline') + row('robust');
+}
+
+
+/* ---------- Section 1.5: Interactive country explorer --------------- */
+async function wireCountryExplorer() {
+  const input = document.getElementById('country-input');
+  const card = document.getElementById('country-card');
+  const random = document.getElementById('country-random');
+  const suggestions = document.getElementById('country-suggestions');
+  if (!input || !card || !suggestions) return;
+
+  const countries = await loadJSON('data/countries.json');
+
+  // CATEs are in a separate JSON; if the file is missing we just hide the
+  // row, the rest of the card still works.
+  let cateMap = {};
+  try {
+    const cate = await loadJSON('data/cate.json');
+    cate.forEach(r => { cateMap[r.code] = r; });
+  } catch (_) { /* noop */ }
+
+  // Pre-compute the rank-by-Ladder map so we don't re-sort on every render.
+  const ranking = [...countries].sort((a, b) => b.ladder - a.ladder);
+  const rankByCode = new Map(ranking.map((c, i) => [c.code, i + 1]));
+
+  // Animate one numeric cell from its previous value to a new target.
+  // Picks one of three formatters based on opts and tweens over 700 ms
+  // with cubic ease-out. Falls back to a plain assignment if the user
+  // has prefers-reduced-motion.
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function animateValue(el, target, decimals, opts = {}) {
+    if (target == null || Number.isNaN(target)) {
+      el.textContent = '-';
+      return;
+    }
+    function fmt(v) {
+      if (opts.usd) return '$' + Math.round(v).toLocaleString('en-US');
+      if (opts.signed) return (v >= 0 ? '+' : '') + v.toFixed(decimals);
+      if (decimals > 0) return v.toFixed(decimals);
+      return Math.round(v).toLocaleString('en-US');
+    }
+    if (reduceMotion) {
+      el.textContent = fmt(target) + (opts.suffix || '');
+      return;
+    }
+
+    const from = parseFloat(el.dataset.value != null ? el.dataset.value : '0') || 0;
+    const dur = 700;
+    const t0 = performance.now();
+    function tick(now) {
+      const t = Math.min(1, (now - t0) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const v = from + (target - from) * eased;
+      el.textContent = fmt(v) + (opts.suffix || '');
+      if (t < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        el.dataset.value = String(target);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  function renderCard(c) {
+    const rank = rankByCode.get(c.code) || '-';
+    const ct = cateMap[c.code];
+
+    // Build the static skeleton once per render. The numeric cells get
+    // updated by animateValue() right after.
+    const cateBlock = ct
+      ? `<div><span class="cc-label">CATE (causal forest)</span>
+           <span class="cc-val">
+             <span data-stat="cate"></span>
+             <span class="cc-ci">[<span data-stat="cate_lo"></span>, <span data-stat="cate_hi"></span>]</span>
+           </span></div>`
+      : '';
+
+    card.innerHTML = `
+      <div class="cc-head">
+        <div class="cc-id">
+          <span class="cc-flag">${c.code}</span>
+          <h3>${c.name}</h3>
+        </div>
+        <span class="cc-rank">Rank <strong data-stat="rank"></strong> / ${countries.length}</span>
+      </div>
+      <div class="cc-grid">
+        <div><span class="cc-label">Ladder score</span><span class="cc-val" data-stat="ladder"></span></div>
+        <div><span class="cc-label">GDP per capita PPP</span><span class="cc-val" data-stat="gdp"></span></div>
+        <div><span class="cc-label">Healthy life exp.</span><span class="cc-val" data-stat="life_exp"></span></div>
+        <div><span class="cc-label">Social support</span><span class="cc-val" data-stat="social"></span></div>
+        <div><span class="cc-label">Freedom</span><span class="cc-val" data-stat="freedom"></span></div>
+        <div><span class="cc-label">Corruption (perceptions)</span><span class="cc-val" data-stat="corruption"></span></div>
+        <div><span class="cc-label">Internet (%)</span><span class="cc-val" data-stat="internet"></span></div>
+        <div><span class="cc-label">Urban (%)</span><span class="cc-val" data-stat="urban"></span></div>
+        ${cateBlock}
+      </div>`;
+
+    // Carry over previous numeric values so the new render animates from
+    // them rather than from zero.
+    Object.entries(prev).forEach(([k, v]) => {
+      const el = card.querySelector(`[data-stat="${k}"]`);
+      if (el) el.dataset.value = String(v);
+    });
+
+    const set = (key, target, decimals, opts) => {
+      const el = card.querySelector(`[data-stat="${key}"]`);
+      if (!el) return;
+      animateValue(el, target, decimals, opts);
+      if (target != null && !Number.isNaN(target)) prev[key] = target;
+    };
+
+    set('rank', rank, 0);
+    set('ladder', c.ladder, 2);
+    set('gdp', c.gdp_ppp, 0, { usd: true });
+    set('life_exp', c.life_exp_healthy, 1, { suffix: ' yrs' });
+    set('social', c.social_support, 2);
+    set('freedom', c.freedom, 2);
+    set('corruption', c.corruption, 2);
+    set('internet', c.internet_pct, 1);
+    set('urban', c.urban_pct, 1);
+    if (ct) {
+      set('cate', ct.cate, 3, { signed: true });
+      set('cate_lo', ct.ci_lo, 3, { signed: true });
+      set('cate_hi', ct.ci_hi, 3, { signed: true });
+    }
+  }
+
+  // Tracks last-rendered numeric values so animations are smooth when the
+  // user hops from country to country.
+  const prev = {};
+
+  function pickByName(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) return null;
+    return countries.find(x => x.name.toLowerCase() === q)
+        || countries.find(x => x.name.toLowerCase().startsWith(q))
+        || countries.find(x => x.code.toLowerCase() === q);
+  }
+
+  function show(query) {
+    if (!query.trim()) {
+      card.innerHTML = '<p class="cc-hint">Pick a country above and its profile appears here.</p>';
+      return;
+    }
+    const c = pickByName(query);
+    if (!c) {
+      card.innerHTML = `<p class="cc-hint">No match for <em>${query}</em> - try a different spelling.</p>`;
+      return;
+    }
+    renderCard(c);
+  }
+
+  const sortedNames = [...countries].sort((a, b) => a.name.localeCompare(b.name));
+  let activeIdx = -1;
+
+  function closeSuggestions() {
+    suggestions.hidden = true;
+    suggestions.innerHTML = '';
+    activeIdx = -1;
+  }
+
+  function buildSuggestions(query) {
+    const q = query.toLowerCase().trim();
+    if (!q) { closeSuggestions(); return; }
+    const startsWith = sortedNames.filter(c => c.name.toLowerCase().startsWith(q));
+    const contains = sortedNames.filter(c => !c.name.toLowerCase().startsWith(q)
+        && c.name.toLowerCase().includes(q));
+    const matches = [...startsWith, ...contains].slice(0, 8);
+    if (!matches.length) { closeSuggestions(); return; }
+    suggestions.innerHTML = matches.map((c, i) =>
+      `<li role="option" data-name="${c.name}" data-code="${c.code}" class="suggestion${i === 0 ? ' active' : ''}">
+         <span class="s-flag">${c.code}</span><span>${c.name}</span>
+       </li>`
+    ).join('');
+    suggestions.hidden = false;
+    activeIdx = 0;
+  }
+
+  function selectSuggestion(li) {
+    if (!li) return;
+    input.value = li.dataset.name;
+    closeSuggestions();
+    show(li.dataset.name);
+    input.blur();
+  }
+
+  input.addEventListener('input', () => {
+    buildSuggestions(input.value);
+    show(input.value);
+  });
+
+  input.addEventListener('keydown', (e) => {
+    const items = suggestions.querySelectorAll('.suggestion');
+    if (suggestions.hidden || !items.length) {
+      if (e.key === 'Enter') show(input.value);
+      return;
+    }
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      activeIdx = (activeIdx + 1) % items.length;
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      activeIdx = (activeIdx - 1 + items.length) % items.length;
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      selectSuggestion(items[activeIdx >= 0 ? activeIdx : 0]);
+      return;
+    } else if (e.key === 'Escape') {
+      closeSuggestions();
+      return;
+    } else {
+      return;
+    }
+    items.forEach((li, i) => li.classList.toggle('active', i === activeIdx));
+  });
+
+  suggestions.addEventListener('mousedown', (e) => {
+    // Use mousedown so we beat the input's blur event.
+    const li = e.target.closest('.suggestion');
+    if (li) {
+      e.preventDefault();
+      selectSuggestion(li);
+    }
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-wrap')) closeSuggestions();
+  });
+
+  if (random) {
+    random.addEventListener('click', () => {
+      const c = countries[Math.floor(Math.random() * countries.length)];
+      input.value = c.name;
+      closeSuggestions();
+      show(c.name);
+    });
+  }
+
+  // Pre-populate with Finland on first load so the card is never empty.
+  input.value = 'Finland';
+  show('Finland');
+}
+
+
 async function fillStats() {
   try {
     const countries = await loadJSON('data/countries.json');
@@ -550,25 +817,25 @@ function wireNav() {
 
 /* ---------- Scroll progress + topbar shadow + back-to-top ------------ */
 function wireScrollUI() {
-  const bar       = document.querySelector('.scroll-progress > span');
-  const topbar    = document.querySelector('.topbar');
-  const toTop     = document.querySelector('.to-top');
-  const navLinks  = Array.from(document.querySelectorAll('.topbar nav a[href^="#"]'));
-  const sections  = navLinks
+  const bar = document.querySelector('.scroll-progress > span');
+  const topbar = document.querySelector('.topbar');
+  const toTop = document.querySelector('.to-top');
+  const navLinks = Array.from(document.querySelectorAll('.topbar nav a[href^="#"]'));
+  const sections = navLinks
     .map(a => document.querySelector(a.getAttribute('href')))
     .filter(Boolean);
 
   let ticking = false;
 
   const update = () => {
-    const doc    = document.documentElement;
+    const doc = document.documentElement;
     const scroll = window.scrollY || doc.scrollTop;
-    const max    = (doc.scrollHeight - doc.clientHeight) || 1;
-    const pct    = Math.max(0, Math.min(1, scroll / max));
+    const max = (doc.scrollHeight - doc.clientHeight) || 1;
+    const pct = Math.max(0, Math.min(1, scroll / max));
 
     if (bar) bar.style.width = (pct * 100) + '%';
     if (topbar) topbar.classList.toggle('scrolled', scroll > 4);
-    if (toTop)  toTop.classList.toggle('show', scroll > 480);
+    if (toTop) toTop.classList.toggle('show', scroll > 480);
 
     // Active-section highlight
     if (sections.length) {
@@ -650,15 +917,17 @@ window.addEventListener('DOMContentLoaded', async () => {
   wireResize();
   fillStats();
 
-  // Render charts. We don't await each one in series elsewhere — just collect
+  // Render charts. We don't await each one in series elsewhere; just collect
   // errors so a single failure cannot block the rest.
   const tasks = [
-    ['rank',     drawRankings],
-    ['gdp',      drawGdpScatter],
-    ['decomp',   drawDecomposition],
-    ['ols',      drawOlsTable],
-    ['cf',       drawCausalForest],
-    ['chapters', drawChaptersAndTs],
+    ['rank',         drawRankings],
+    ['explorer',     wireCountryExplorer],
+    ['gdp',          drawGdpScatter],
+    ['decomp',       drawDecomposition],
+    ['ols',          drawOlsTable],
+    ['cf',           drawCausalForest],
+    ['sensitivity',  fillSensitivityTable],
+    ['chapters',     drawChaptersAndTs],
   ];
   for (const [name, fn] of tasks) {
     try { await fn(); } catch (e) { console.error(name, e); }

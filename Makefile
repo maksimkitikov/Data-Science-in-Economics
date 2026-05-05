@@ -5,19 +5,19 @@
 PY := python3
 
 RAW_CHAPTERS := data/raw/whr_chapters.csv
-RAW_PANEL    := data/raw/whr_panel.csv
-RAW_WB       := data/raw/wb_indicators.csv
+RAW_PANEL := data/raw/whr_panel.csv
+RAW_WB := data/raw/wb_indicators.csv
 
-ANALYSIS     := data/clean/analysis.csv
+ANALYSIS := data/clean/analysis.csv
 
-TABLES       := output/tables/regression_summary.csv
-FIGS_STAMP   := output/figures/.stamp
+TABLES := output/tables/regression_summary.csv
+FIGS_STAMP := output/figures/.stamp
 
-SITE_DATA     := docs/data/.stamp
-NOTEBOOK      := blog.ipynb
+SITE_DATA := docs/data/.stamp
+NOTEBOOK := blog.ipynb
 NOTEBOOK_HTML := docs/notebook.html
 
-.PHONY: all clean distclean scrape data analysis figures site blog hf-bundle
+.PHONY: all scrape data analysis figures site blog hf-bundle test pdf clean distclean
 
 all: $(NOTEBOOK) $(NOTEBOOK_HTML) $(SITE_DATA) hf-bundle
 
@@ -49,7 +49,7 @@ $(FIGS_STAMP): src/06_causal_forest.py src/07_descriptive_figures.py $(ANALYSIS)
 	@touch $(FIGS_STAMP)
 
 analysis: $(TABLES) $(FIGS_STAMP)
-figures:  $(FIGS_STAMP)
+figures: $(FIGS_STAMP)
 
 # JSON for the static site
 $(SITE_DATA): src/09_export_json.py $(ANALYSIS) $(TABLES) $(FIGS_STAMP)
@@ -64,7 +64,7 @@ $(NOTEBOOK) $(NOTEBOOK_HTML): src/08_build_blog.py $(TABLES) $(FIGS_STAMP)
 
 blog: $(NOTEBOOK) $(NOTEBOOK_HTML)
 
-# Hugging Face bundle: mirror of docs/ + Space-specific README
+# Hugging Face bundle: copy of docs/ + Space-specific README
 hf-bundle: $(SITE_DATA) docs/index.html docs/style.css docs/site.js docs/plotly.min.js docs/favicon.svg
 	@mkdir -p huggingface_space
 	@cp docs/index.html docs/style.css docs/site.js docs/plotly.min.js \
@@ -72,6 +72,15 @@ hf-bundle: $(SITE_DATA) docs/index.html docs/style.css docs/site.js docs/plotly.
 	@rm -rf huggingface_space/data
 	@cp -r docs/data huggingface_space/data
 	@echo "huggingface_space/ synced"
+
+# Sanity tests on the analysis sample, regression results and figures.
+test: $(ANALYSIS) $(TABLES) $(FIGS_STAMP)
+	$(PY) -m pytest tests/ -q
+
+# Static PDF rendering of the executed notebook (needs pandoc + xelatex).
+pdf: $(NOTEBOOK)
+	$(PY) -m nbconvert --to pdf $(NOTEBOOK) \
+	    --output "Beyond GDP_ What Drives National Happiness_.pdf"
 
 clean:
 	rm -rf data/clean output/figures output/tables \

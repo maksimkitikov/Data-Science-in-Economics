@@ -1,36 +1,72 @@
 # References
 
-## Course materials (`course-materials/`)
+This page collects every reference used in the project, sorted by where it
+shows up.  All course materials live under `course-materials/` (the PDFs were
+uploaded with the project so the marker can open them in one click).
 
-| File | Use |
+## 1. Course materials (`course-materials/`)
+
+| File | Used in / Cited from |
 |---|---|
-| `empiricalProject_2026.pdf` | Project brief and rubric |
-| `Workflow, Modelling & Webscraping.pdf` | Project layout, Makefile, scraping recipe |
-| `Python for Data Management.pdf` | `pd.merge` with `validate` / `indicator`, reshape, groupby |
-| `Relational Database Management Systems.pdf` | SQLite schema and JOIN |
-| `SQL Teaching Exercises- Students, Modules & Lecturers.pdf` | JOIN syntax reference |
-| `git & GitHub.pdf` | Branch and commit conventions |
-| `The Linux Command Line.pdf` | `make` pipelines |
-| `Problem Set Solutions: Data Wrangling in Python.pdf` | `wbgapi` usage |
+| `empiricalProject_2026.pdf` | Project brief, rubric, length and output limits. |
+| `Workflow, Modelling & Webscraping.pdf` | Project layout, `make` pipeline, retry-with-back-off, ATE/CATE definitions, causal-forest motivation, web-scraping etiquette. |
+| `Python for Data Management.pdf` | `pd.read_excel`, `pd.merge` with `validate="1:1"` and `indicator=`, reshape and groupby idioms. |
+| `Relational Database Management Systems.pdf` | SQLite schema design, `PRIMARY KEY` / `FOREIGN KEY`, B-tree indexes, `INNER JOIN`. |
+| `SQL Teaching Exercises- Students, Modules & Lecturers.pdf` | Direct model for the "two tables, one INNER JOIN" pattern in `04_build_database.py`. |
+| `git & GitHub.pdf` | Branch naming, "small, descriptive commit messages" convention. |
+| `The Linux Command Line.pdf` | `make` pipelines, the Unix-philosophy guidelines that shape the project layout. |
+| `Problem Set Solutions: Data Wrangling in Python.pdf` | The `wbgapi.data.DataFrame` recipe (`03_download_worldbank.py` follows it almost line-for-line). |
 
-## External
+## 2. Damian Clarke's class GitHub
 
-* Aeturrell, *Coding for Economists*. <https://aeturrell.github.io/coding-for-economists/>
-* Gentzkow, M. & Shapiro, J. (2014). *Code and Data for the Social Sciences*. <https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf>
-* VanderPlas, J. *Python Data Science Handbook*. <https://jakevdp.github.io/PythonDataScienceHandbook/>
+* `BEE2041-2026/webscrape/scrape_xkcd_bs.py` is the structural model for
+  `01_scrape_whr_chapters.py`: a `requests` + `BeautifulSoup` loop over a
+  numeric range of pages, with each page parsed for a target field.
+  <https://github.com/damiancclarke/BEE2041-2026/tree/main/webscrape>
+
+## 3. External reading and tutorials
+
+* Aeturrell, *Coding for Economists* (2023), Section "Code Best Practice" and
+  Section "Plots". <https://aeturrell.github.io/coding-for-economists/>
+* Gentzkow, M. & Shapiro, J. (2014). *Code and Data for the Social Sciences:
+  A Practitioner's Guide*.
+  <https://web.stanford.edu/~gentzkow/research/CodeAndData.pdf>
+* VanderPlas, J. *Python Data Science Handbook*, Chapter 4 (matplotlib).
+  <https://jakevdp.github.io/PythonDataScienceHandbook/>
 * Shotts, W. *The Linux Command Line.* <http://linuxcommand.org/tlcl.php>
-* Real Python, *Practical Introduction to Webscraping with Python*. <https://realpython.com/python-web-scraping-practical-introduction/>
-* Davis, J. & Heller, S. (2017). *Using Causal Forests to Predict Treatment Heterogeneity*. AEA P&P.
+* Real Python, *A Practical Introduction to Webscraping with Python.*
+  <https://realpython.com/python-web-scraping-practical-introduction/>
+* BeautifulSoup documentation.
+  <https://www.crummy.com/software/BeautifulSoup/bs4/doc/>
+* Beginners Book, *E-R Model in DBMS.*
+  <https://beginnersbook.com/2015/04/e-r-model-in-dbms/>
+* Beginners Book, *Relational Algebra in DBMS.*
+  <https://beginnersbook.com/2019/02/dbms-relational-algebra/>
+* NTU, *A Quick-Start Tutorial on Relational Database Design.*
+  <https://www3.ntu.edu.sg/home/ehchua/programming/sql/Relational_Database_Design.html>
 
-## Causal machine learning
+## 4. Causal machine-learning references
 
-* Wager, S. & Athey, S. (2018). Estimation and Inference of Heterogeneous Treatment Effects using Random Forests. *JASA* 113(523): 1228-1242.
-* Athey, S., Tibshirani, J. & Wager, S. (2019). Generalized Random Forests. *Annals of Statistics* 47(2): 1148-1178.
-* Chernozhukov, V., et al. (2018). Double/Debiased Machine Learning. *Econometrics Journal* 21(1): C1-C68.
+* Wager, S. & Athey, S. (2018). Estimation and Inference of Heterogeneous
+  Treatment Effects using Random Forests. *JASA* 113(523): 1228-1242.
+* Athey, S., Tibshirani, J. & Wager, S. (2019). Generalized Random Forests.
+  *Annals of Statistics* 47(2): 1148-1178.
+* Chernozhukov, V., Chetverikov, D., Demirer, M., Duflo, E., Hansen, C.,
+  Newey, W., Robins, J. (2018). Double/Debiased Machine Learning.
+  *Econometrics Journal* 21(1): C1-C68.
+* Davis, J. & Heller, S. (2017). Using Causal Forests to Predict Treatment
+  Heterogeneity: An Application to Summer Jobs. *AEA Papers & Proceedings*.
+  <https://www.aeaweb.org/articles?id=10.1257/aer.p20171000>
 * EconML documentation. <https://econml.azurewebsites.net>
 
-## Data
+## 5. Data sources
 
-* World Happiness Report. <https://worldhappiness.report>
-* Helliwell, J. F., Layard, R., Sachs, J. D., De Neve, J.-E., Aknin, L., & Wang, S. (eds.) (2024). *World Happiness Report 2024*. University of Oxford Wellbeing Research Centre.
-* World Bank, *World Development Indicators*, queried via [`wbgapi`](https://pypi.org/project/wbgapi/).
+* Helliwell, J. F., Layard, R., Sachs, J. D., De Neve, J.-E., Aknin, L.,
+  & Wang, S. (eds.) (2020-2024). *World Happiness Report.* Sustainable
+  Development Solutions Network. <https://worldhappiness.report>
+* World Bank, *World Development Indicators*, queried via
+  [`wbgapi`](https://pypi.org/project/wbgapi/).
+* Cantril, H. (1965). *The Pattern of Human Concerns.* (Original source of
+  the Ladder question.)
+* Easterlin, R. A. (1974). Does Economic Growth Improve the Human Lot? Some
+  Empirical Evidence. *Nations and Households in Economic Growth*.

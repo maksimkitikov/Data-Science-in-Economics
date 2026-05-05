@@ -1,41 +1,49 @@
-"""Descriptive figures for the blog: rankings, GDP-vs-Ladder scatter,
-variance decomposition, scraped chapters trend and Ladder time series."""
+"""Descriptive figures for the blog.
+
+Produces five static PNG/PDF pairs in output/figures/:
+  - top_bottom_10:    horizontal bar chart of the highest and lowest 10
+  - gdp_vs_ladder:    log-axis scatter with a LOWESS smoother
+  - decomposition:    stacked bar of OLS contributions for the top-15
+  - chapters_trend:   chapters per WHR edition + reading time on twin axes
+  - ladder_timeseries:hand-picked countries' Ladder over 2020-2024
+"""
 import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from statsmodels.nonparametric.smoothers_lowess import lowess
 import statsmodels.api as sm_api
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-RAW  = ROOT + "data/raw/"
-CLN  = ROOT + "data/clean/"
-FIG  = ROOT + "output/figures/"
+RAW = ROOT + "data/raw/"
+CLN = ROOT + "data/clean/"
+FIG = ROOT + "output/figures/"
 os.makedirs(FIG, exist_ok=True)
 
 plt.rcParams.update({
-    "font.family":       "DejaVu Sans",
-    "axes.titlesize":    12,
-    "axes.titleweight":  "bold",
-    "axes.labelsize":    11,
-    "xtick.labelsize":   10,
-    "ytick.labelsize":   10,
-    "axes.spines.top":   False,
+    "font.family": "DejaVu Sans",
+    "axes.titlesize": 12,
+    "axes.titleweight": "bold",
+    "axes.labelsize": 11,
+    "xtick.labelsize": 10,
+    "ytick.labelsize": 10,
+    "axes.spines.top": False,
     "axes.spines.right": False,
 })
 
-NAVY  = "#1f3a5f"
-GOLD  = "#FFC300"
-TEAL  = "#3380FF"
+NAVY = "#1f3a5f"
+GOLD = "#FFC300"
+TEAL = "#3380FF"
 
-df       = pd.read_csv(CLN + "analysis.csv")
-panel    = pd.read_csv(RAW + "whr_panel.csv")
+df = pd.read_csv(CLN + "analysis.csv")
+panel = pd.read_csv(RAW + "whr_panel.csv")
 chapters = pd.read_csv(RAW + "whr_chapters.csv")
 
-# Top-10 vs bottom-10
+# ---- Top-10 vs bottom-10 -------------------------------------------------
 ranked = df.sort_values("ladder", ascending=False)
-top    = ranked.head(10).iloc[::-1]
-bot    = ranked.tail(10)
+top = ranked.head(10).iloc[::-1]
+bot = ranked.tail(10)
 
 fig, axes = plt.subplots(1, 2, figsize=(11, 5))
 
@@ -56,25 +64,26 @@ plt.savefig(FIG + "top_bottom_10.pdf")
 plt.savefig(FIG + "top_bottom_10.png", dpi=160)
 plt.clf()
 
-# GDP vs Ladder, log axis with LOWESS
+# ---- GDP vs Ladder, log axis with LOWESS ---------------------------------
 df_plot = df.dropna(subset=["gdp_pc_ppp", "ladder"]).copy()
 df_plot["log_gdp_wb"] = np.log(df_plot["gdp_pc_ppp"])
-sm_smooth = lowess(df_plot["ladder"], df_plot["log_gdp_wb"], frac=0.5, it=2,
-                   return_sorted=True)
+smooth = lowess(df_plot["ladder"], df_plot["log_gdp_wb"],
+                frac=0.5, it=2, return_sorted=True)
 
 plt.figure(figsize=(8.5, 5.5))
 plt.scatter(df_plot["gdp_pc_ppp"], df_plot["ladder"],
             color=TEAL, alpha=0.7, s=35, edgecolor="white",
             label="Country observation")
-plt.plot(np.exp(sm_smooth[:, 0]), sm_smooth[:, 1], color=NAVY, linewidth=2,
-         label="LOWESS smoother (frac=0.5)")
+plt.plot(np.exp(smooth[:, 0]), smooth[:, 1],
+         color=NAVY, linewidth=2, label="LOWESS smoother (frac=0.5)")
 plt.xscale("log")
-plt.xlabel("GDP per capita, PPP — log axis (US$, World Bank 2022)")
+plt.xlabel("GDP per capita, PPP - log axis (US$, World Bank 2022)")
 plt.ylabel("WHR Ladder score (2023)")
-plt.title("Money buys happiness — but at a sharply decreasing rate", loc="left")
+plt.title("Money buys happiness - but at a sharply decreasing rate", loc="left")
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
 plt.legend(loc="lower right", frameon=False)
 
+# A handful of labels: annotating every country would be unreadable.
 highlight = ["FIN", "USA", "DNK", "IND", "ZWE", "AFG", "CRI", "BRA", "QAT"]
 for _, row in df_plot.iterrows():
     if row["country_code"] in highlight:
@@ -88,34 +97,37 @@ plt.savefig(FIG + "gdp_vs_ladder.pdf")
 plt.savefig(FIG + "gdp_vs_ladder.png", dpi=160)
 plt.clf()
 
-# Variance decomposition for the top-15 happiest
+# ---- Variance decomposition for the top-15 happiest ----------------------
 decomp_vars = ["log_gdp", "social_support", "life_exp_healthy",
                "freedom", "corruption", "generosity"]
 decomp_lbls = ["Log GDP", "Social support", "Healthy life exp.",
                "Freedom", "Corruption", "Generosity"]
 
 dec_df = df.dropna(subset=decomp_vars + ["ladder"]).copy()
-X_dec  = sm_api.add_constant(dec_df[decomp_vars])
-m_dec  = sm_api.OLS(dec_df["ladder"], X_dec).fit()
+X_dec = sm_api.add_constant(dec_df[decomp_vars])
+m_dec = sm_api.OLS(dec_df["ladder"], X_dec).fit()
 print(f"decomp R^2: {m_dec.rsquared:.3f}")
 
+# Each country's contribution = (covariate value - sample mean) * coef.
 means = dec_df[decomp_vars].mean()
 contrib = (dec_df[decomp_vars] - means) * m_dec.params[decomp_vars]
 contrib["country_name"] = dec_df["country_name"]
 contrib["country_code"] = dec_df["country_code"]
-contrib["ladder"]       = dec_df["ladder"]
+contrib["ladder"] = dec_df["ladder"]
 
 top15 = contrib.sort_values("ladder", ascending=False).head(15).iloc[::-1]
 
 palette = ["#1f3a5f", "#3380FF", "#7faaff", "#FFC300", "#ff7f50", "#888888"]
 fig, ax = plt.subplots(figsize=(10.5, 6))
 
+# Stack positive and negative contributions separately so the chart still
+# makes sense if a covariate pulls a country down (corruption usually does).
 bottom_pos = np.zeros(len(top15))
 bottom_neg = np.zeros(len(top15))
 for v, lab, col in zip(decomp_vars, decomp_lbls, palette):
     vals = top15[v].values
-    pos  = np.where(vals > 0, vals, 0)
-    neg  = np.where(vals < 0, vals, 0)
+    pos = np.where(vals > 0, vals, 0)
+    neg = np.where(vals < 0, vals, 0)
     ax.barh(top15["country_name"], pos, left=bottom_pos, color=col, label=lab)
     ax.barh(top15["country_name"], neg, left=bottom_neg, color=col)
     bottom_pos += pos
@@ -133,7 +145,7 @@ plt.savefig(FIG + "decomposition.pdf", bbox_inches="tight")
 plt.savefig(FIG + "decomposition.png", dpi=160, bbox_inches="tight")
 plt.clf()
 
-# WHR research output over time
+# ---- Scraped chapters per edition + average reading time -----------------
 yearly = chapters.groupby("year").agg(
     n_chapters=("title", "size"),
     mean_read_min=("reading_time_min", "mean"),
@@ -163,14 +175,14 @@ plt.savefig(FIG + "chapters_trend.pdf")
 plt.savefig(FIG + "chapters_trend.png", dpi=160)
 plt.clf()
 
-# Ladder time series, 2020-2024
+# ---- Ladder time series, 2020-2024 ---------------------------------------
 panel_clean = panel.copy()
 panel_clean["Country name"] = panel_clean["Country name"].str.replace(
     "*", "", regex=False).str.strip()
 
 watch = ["Finland", "Denmark", "United States", "United Kingdom",
          "China", "India", "Brazil", "Costa Rica"]
-sub   = panel_clean[panel_clean["Country name"].isin(watch)]
+sub = panel_clean[panel_clean["Country name"].isin(watch)]
 
 plt.figure(figsize=(9, 5))
 for c in watch:

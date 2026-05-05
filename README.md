@@ -1,20 +1,20 @@
 # Beyond GDP: what really drives national happiness?
 
-BEE2041 Data Science in Economics, empirical project, April 2026.
+BEE2041 Data Science in Economics - Empirical Project, April 2026
 Author: Maksim Kitikov, University of Exeter.
 
 This repository contains the full pipeline behind the blog post
-[*Beyond GDP: what really drives national happiness?*](docs/index.html).
-The project scrapes the World Happiness Report website, downloads the
-WHR's published ranking spreadsheets, queries the World Bank API for some
-supplementary indicators, stitches the three sources together with a small
-SQLite database, and finally fits both OLS and a causal forest
-(`econml.dml.CausalForestDML`) to explore cross-country variation in life
-satisfaction.
+*Beyond GDP: what really drives national happiness?*. The project scrapes
+chapter metadata from the World Happiness Report website, downloads the
+WHR's published Figure 2.1 ranking spreadsheets, queries the World Bank
+API for supplementary indicators, integrates the three sources in a small
+SQLite database, and finally fits both OLS specifications and a causal
+forest (`econml.dml.CausalForestDML`) to study cross-country variation in
+life satisfaction.
 
-The blog is published as a fully-interactive static website served from
-`docs/`. The exact same bundle is mirrored under `huggingface_space/`,
-ready for one-click deployment to Hugging Face Spaces (see
+The blog itself is published as a fully-interactive static website served
+from `docs/`. The exact same bundle is mirrored under `huggingface_space/`
+for one-click deployment to Hugging Face Spaces (see
 [`huggingface_space/DEPLOY.md`](huggingface_space/DEPLOY.md)).
 
 * **Live website (Hugging Face):** <https://mk88889-beyond-gdp.static.hf.space>
@@ -27,6 +27,9 @@ ready for one-click deployment to Hugging Face Spaces (see
 
 ## 1. Replication in one command
 
+Tested with **Python 3.11** (pinned in `.python-version`). Earlier 3.10
+should also work; nothing in the codebase uses 3.12-only syntax.
+
 ```bash
 git clone https://github.com/maksimkitikov/Data-Science-in-Economics.git
 cd Data-Science-in-Economics
@@ -34,16 +37,19 @@ pip install -r requirements.txt
 make all
 ```
 
-`make all` runs the nine numbered scripts in `src/`, rebuilds the SQLite
-database, regenerates every figure and the regression table, exports the
-JSON the website consumes, and re-renders the notebook. Subsequent runs
-of `make` only redo the steps whose inputs have changed.
+`make all` runs the nine numbered scripts in `src/` in the right order,
+rebuilds the SQLite database, regenerates every figure and the regression
+table, exports the JSON the website consumes, and re-renders the notebook.
+Subsequent runs of `make` only redo the steps whose inputs have changed
+(this is the standard `make` semantics described in the
+*Workflow, Modelling & Webscraping* lecture).
 
 ```bash
 make scrape    # network steps only (web-scrape + downloads + WB API)
 make data      # build the SQLite database + analysis.csv
 make analysis  # regressions + causal forest, regenerate figures
 make blog      # render blog.ipynb and docs/index.html
+make test      # run the pytest sanity checks in tests/
 make clean     # wipe everything except raw inputs
 make distclean # also wipe the raw HTML cache
 ```
@@ -54,20 +60,21 @@ make distclean # also wipe the raw HTML cache
 
 ```
 .
-├── README.md
-├── Makefile                        ← reproducible build pipeline
-├── requirements.txt                ← pinned Python dependencies
-├── LICENSE                         ← MIT
-├── blog.ipynb                      ← the blog post, executed and committed
-├── docs/                           ← public website (served by GitHub Pages)
+├── README.md                       <- this file
+├── Makefile                        <- reproducible build pipeline
+├── requirements.txt                <- pinned Python dependencies
+├── LICENSE                         <- MIT
+├── blog.ipynb                      <- the blog post, executed and committed
+├── docs/                           <- public website (served by GitHub Pages)
 │   ├── index.html
 │   ├── style.css
 │   ├── site.js
 │   ├── plotly.min.js
-│   ├── data.js
-│   ├── data/
-│   └── notebook.html
-├── src/
+│   ├── data.js                     <- bundled JSON for offline use
+│   ├── data/                       <- per-chart JSON (one file per chart)
+│   └── notebook.html               <- executed notebook in HTML form
+├── huggingface_space/              <- Hugging Face Space mirror of docs/
+├── src/                            <- all source code, numbered in run order
 │   ├── 01_scrape_whr_chapters.py
 │   ├── 02_download_whr_rankings.py
 │   ├── 03_download_worldbank.py
@@ -78,24 +85,22 @@ make distclean # also wipe the raw HTML cache
 │   ├── 08_build_blog.py
 │   └── 09_export_json.py
 ├── data/
-│   ├── raw/
-│   │   ├── html_cache/
-│   │   ├── whr_chapters.csv
-│   │   ├── whr20..24_fig21.xls
-│   │   ├── whr_panel.csv
-│   │   └── wb_indicators.csv
-│   └── clean/
-│       ├── whr.db
-│       └── analysis.csv
+│   ├── raw/                        <- never modified after collection
+│   └── clean/                      <- derived; rebuildable from raw
 ├── output/
-│   ├── figures/
-│   └── tables/
+│   ├── figures/                    <- .pdf and .png twins of every chart
+│   └── tables/                     <- LaTeX + tidy CSV companions
 ├── references/
-└── course-materials/
+│   ├── sources.md                  <- every external reference
+│   └── codebook.md                 <- variable-by-variable codebook
+├── tests/                          <- pytest sanity checks (`make test`)
+└── course-materials/               <- the BEE2041 lecture PDFs (uploaded for graders)
 ```
 
-Raw data lives only in `data/raw/`; everything in `data/clean/` and
-`output/` can be regenerated.
+The directory layout follows the standard convention used in the course's
+project-management lecture: raw data is sacred and lives only in
+`data/raw/`, everything else under `data/clean/` and `output/` is derived
+and rebuildable.
 
 ---
 
@@ -112,28 +117,32 @@ Country names from the three sources are crosswalked to ISO-3 codes in
 console output of that script.
 
 After integration the analysis sample is **136 countries** with full
-covariates for the 2023 WHR edition.
+covariates for the 2023 WHR edition. Variable-level documentation is in
+[`references/codebook.md`](references/codebook.md).
 
 ---
 
 ## 4. Methods
 
-### Web-scraping
+### Web-scraping (`01_scrape_whr_chapters.py`)
 `requests` is used (rather than `urllib`) so we can supply a polite
 `User-Agent`. Every page is cached to `data/raw/html_cache/`, so the rest
-of the build is reproducible offline once the cache exists.
+of the build is reproducible offline once the cache exists. Each request
+is wrapped in a small retry loop with exponential back-off - the
+worldhappiness.report origin server returns occasional 5xx errors and the
+naive single-shot download dies on those.
 
-### SQL integration
+### SQL integration (`04_build_database.py`)
 Three SQLite tables are created (`country_year`, `country_meta`,
 `whr_chapters`) with B-tree indexes on the join keys. The analysis sample
 is produced by an `INNER JOIN` written in raw SQL.
 
-### Regression
+### Regression (`05_regressions.py`)
 Six progressively richer OLS specifications are estimated using
 `statsmodels.OLS` with HC3 robust standard errors, exported via `pystout`
 to a single LaTeX table.
 
-### Causal forest
+### Causal forest (`06_causal_forest.py`)
 `econml.dml.CausalForestDML` with `GradientBoostingRegressor` /
 `GradientBoostingClassifier` nuisance models, 1000 trees, leaf size 5, seed
 121316. The "treatment" is a binary indicator for being above the
@@ -158,10 +167,29 @@ the forest's split-importance metric.
 | `output/tables/regression_table.tex` | Six-spec OLS table (LaTeX, pystout) |
 | `output/tables/regression_summary.csv` | Same in tidy CSV |
 | `output/tables/cate_summary.csv` | Per-country CATEs with 95 % CIs |
+| `output/tables/cf_importance.csv` | Causal-forest split-importance |
 
 ---
 
-## 6. References
+## 6. Mapping the project to the BEE2041 syllabus
+
+Every script is annotated with the lecture/PDF it draws on; this section
+gives the same map at a glance.
+
+| Course unit / lecture | Where it shows up |
+|---|---|
+| Linux Command Line, Workflow & `make` | `Makefile`, project layout in 2 |
+| git & GitHub | repo history, `git/strict-code-review-uaccM` feature branch, atomic commits |
+| Python for Data Management | `pd.merge` with `validate="1:1"` in `03_download_worldbank.py`, reshape in `02_download_whr_rankings.py` |
+| Relational Database Management Systems | `04_build_database.py` - 3 tables, indexes on join keys, INNER JOIN |
+| Workflow, Modelling & Webscraping (causal ML) | `06_causal_forest.py` - `econml.dml.CausalForestDML` |
+| Workflow, Modelling & Webscraping (webscrape) | `01_scrape_whr_chapters.py` - requests + BeautifulSoup, cached pages, retry |
+
+A complete reference list is in [`references/sources.md`](references/sources.md).
+
+---
+
+## 7. References (short list)
 
 * World Happiness Report 2020-2026, Sustainable Development Solutions Network.
   <https://worldhappiness.report>
@@ -179,6 +207,6 @@ the forest's split-importance metric.
 
 ---
 
-## 7. License
+## 8. License
 
 Released under the MIT License (see `LICENSE`).

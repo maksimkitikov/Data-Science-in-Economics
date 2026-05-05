@@ -1,61 +1,73 @@
-"""Build the SQLite database and produce the analysis cross-section."""
+"""Stitch the three raw sources into a small SQLite database.
+
+Tables:
+    country_year  -- WHR Ladder + 6 components, panel 2020-2024
+    country_meta  -- World Bank covariates, 2022 cross-section
+    whr_chapters  -- scraped chapter metadata
+
+The cross-section we hand to the regressions and the causal forest is the
+INNER JOIN of country_year (year=2023) and country_meta on country_code.
+"""
 import os
 import sqlite3
+
 import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-RAW  = ROOT + "data/raw/"
-CLN  = ROOT + "data/clean/"
+RAW = ROOT + "data/raw/"
+CLN = ROOT + "data/clean/"
 os.makedirs(CLN, exist_ok=True)
 
 DB_PATH = CLN + "whr.db"
 
-whr_panel     = pd.read_csv(RAW + "whr_panel.csv")
+whr_panel = pd.read_csv(RAW + "whr_panel.csv")
 wb_indicators = pd.read_csv(RAW + "wb_indicators.csv")
-whr_chapters  = pd.read_csv(RAW + "whr_chapters.csv")
+whr_chapters = pd.read_csv(RAW + "whr_chapters.csv")
 
 print(f"whr_panel:     {whr_panel.shape}")
 print(f"wb_indicators: {wb_indicators.shape}")
 print(f"whr_chapters:  {whr_chapters.shape}")
 
-# Name -> ISO-3 crosswalk. Start from wbgapi's pairings, hand-fix the rest.
+# Country-name crosswalk to ISO-3 codes. Start from wbgapi's built-in
+# pairings, then patch the WHR-specific spellings (asterisks on conflict
+# zones, the Türkiye/Turkey split, "Hong Kong S.A.R. of China" etc.).
 crosswalk = wb_indicators[["country_code", "country_name"]].drop_duplicates()
 manual = {
-    "United States":               "USA",
-    "Russia":                      "RUS",
-    "Czech Republic":              "CZE",
-    "South Korea":                 "KOR",
-    "Hong Kong S.A.R. of China":   "HKG",
-    "Hong Kong S.A.R., China":     "HKG",
-    "Palestinian Territories":     "PSE",
-    "State of Palestine":          "PSE",
-    "Taiwan Province of China":    "TWN",
-    "Iran":                        "IRN",
-    "Vietnam":                     "VNM",
-    "Slovakia":                    "SVK",
-    "Egypt":                       "EGY",
-    "Yemen":                       "YEM",
-    "Venezuela":                   "VEN",
-    "Bolivia":                     "BOL",
-    "Tanzania":                    "TZA",
-    "Laos":                        "LAO",
-    "Moldova":                     "MDA",
-    "Syria":                       "SYR",
-    "Turkiye":                     "TUR",
-    "Türkiye":                     "TUR",
-    "Turkey":                      "TUR",
-    "Congo (Brazzaville)":         "COG",
-    "Congo (Kinshasa)":            "COD",
-    "Ivory Coast":                 "CIV",
-    "Gambia":                      "GMB",
-    "North Cyprus":                "CYP",
-    "Eswatini, Kingdom of":        "SWZ",
-    "Swaziland":                   "SWZ",
-    "Cape Verde":                  "CPV",
-    "Congo":                       "COG",
-    "Kyrgyzstan":                  "KGZ",
-    "Macedonia":                   "MKD",
-    "North Macedonia":             "MKD",
+    "United States": "USA",
+    "Russia": "RUS",
+    "Czech Republic": "CZE",
+    "South Korea": "KOR",
+    "Hong Kong S.A.R. of China": "HKG",
+    "Hong Kong S.A.R., China": "HKG",
+    "Palestinian Territories": "PSE",
+    "State of Palestine": "PSE",
+    "Taiwan Province of China": "TWN",
+    "Iran": "IRN",
+    "Vietnam": "VNM",
+    "Slovakia": "SVK",
+    "Egypt": "EGY",
+    "Yemen": "YEM",
+    "Venezuela": "VEN",
+    "Bolivia": "BOL",
+    "Tanzania": "TZA",
+    "Laos": "LAO",
+    "Moldova": "MDA",
+    "Syria": "SYR",
+    "Turkiye": "TUR",
+    "Türkiye": "TUR",
+    "Turkey": "TUR",
+    "Congo (Brazzaville)": "COG",
+    "Congo (Kinshasa)": "COD",
+    "Ivory Coast": "CIV",
+    "Gambia": "GMB",
+    "North Cyprus": "CYP",
+    "Eswatini, Kingdom of": "SWZ",
+    "Swaziland": "SWZ",
+    "Cape Verde": "CPV",
+    "Congo": "COG",
+    "Kyrgyzstan": "KGZ",
+    "Macedonia": "MKD",
+    "North Macedonia": "MKD",
 }
 
 name_to_iso = dict(zip(crosswalk["country_name"], crosswalk["country_code"]))
@@ -71,24 +83,27 @@ whr_panel["country_code"] = whr_panel["Country name"].map(to_iso)
 unmatched = whr_panel.loc[whr_panel["country_code"].isna(), "Country name"].unique()
 print(f"\nunmatched ({len(unmatched)}): {sorted(unmatched)[:10]}")
 
+# Rebuild the database from scratch on every run so the build is deterministic.
 if os.path.exists(DB_PATH):
     os.remove(DB_PATH)
 conn = sqlite3.connect(DB_PATH)
 
 country_year = whr_panel.dropna(subset=["country_code"]).rename(columns={
-    "Country name":                 "country_name",
-    "Ladder score":                 "ladder",
-    "Logged GDP per capita":        "log_gdp",
-    "Social support":               "social_support",
-    "Healthy life expectancy":      "life_exp_healthy",
+    "Country name": "country_name",
+    "Ladder score": "ladder",
+    "Logged GDP per capita": "log_gdp",
+    "Social support": "social_support",
+    "Healthy life expectancy": "life_exp_healthy",
     "Freedom to make life choices": "freedom",
-    "Generosity":                   "generosity",
-    "Perceptions of corruption":    "corruption",
+    "Generosity": "generosity",
+    "Perceptions of corruption": "corruption",
 })
 country_year.to_sql("country_year", conn, index=False, if_exists="replace")
 wb_indicators.to_sql("country_meta", conn, index=False, if_exists="replace")
 whr_chapters.to_sql("whr_chapters", conn, index=False, if_exists="replace")
 
+# Indexes on the join keys. Tiny in absolute terms here, but the query
+# planner now does an index scan instead of a full table scan.
 conn.execute("CREATE INDEX idx_cy_country ON country_year(country_code, year);")
 conn.execute("CREATE INDEX idx_cm_country ON country_meta(country_code);")
 
@@ -122,6 +137,8 @@ print(analysis.head(5))
 
 analysis.to_csv(CLN + "analysis.csv", index=False)
 
+# Sanity prints. The SQL summary should match what pandas would compute
+# on the same panel slice.
 print("\nyear=2023 summary:")
 print(pd.read_sql_query("""
 SELECT ROUND(AVG(ladder), 2) AS mean_ladder,

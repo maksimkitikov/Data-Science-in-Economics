@@ -1,27 +1,36 @@
-"""Assemble the blog notebook (blog.ipynb) and a rendered HTML companion."""
+"""Assemble blog.ipynb (the brief asks for a file with this exact name)
+and a rendered HTML companion served from docs/notebook.html.
+
+We build the cells programmatically rather than maintaining the .ipynb by
+hand: the static figures and CSV tables under output/ are the source of
+truth, the notebook just stitches the narrative around them.
+"""
 import os
+
 import nbformat as nbf
-from nbconvert.preprocessors import ExecutePreprocessor
 from nbconvert import HTMLExporter
+from nbconvert.preprocessors import ExecutePreprocessor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
 DOCS = ROOT + "docs/"
 os.makedirs(DOCS, exist_ok=True)
 
-NB_PATH   = ROOT + "blog.ipynb"
+NB_PATH = ROOT + "blog.ipynb"
 HTML_PATH = DOCS + "notebook.html"
 
 nb = nbf.v4.new_notebook()
 nb["metadata"] = {
-    "kernelspec":    {"display_name": "Python 3", "language": "python",
-                      "name": "python3"},
+    "kernelspec": {"display_name": "Python 3", "language": "python",
+                   "name": "python3"},
     "language_info": {"name": "python", "version": "3.11"},
-    "title":         "Beyond GDP: What Drives National Happiness?",
+    "title": "Beyond GDP: What Drives National Happiness?",
 }
 cells = []
 
+
 def md(text):
     cells.append(nbf.v4.new_markdown_cell(text))
+
 
 def code(src):
     cells.append(nbf.v4.new_code_cell(src))
@@ -156,11 +165,11 @@ code("""reg = pd.read_csv(TAB + "regression_summary.csv")
 piv = (reg[reg.term != "const"]
        .pivot(index="term", columns="model", values="coef")
        .round(3)
-       .fillna("—"))
+       .fillna("-"))
 fit = reg[["model", "r2", "n"]].drop_duplicates().set_index("model")
 fit_summary = pd.DataFrame({
-    "R²":  fit["r2"].round(3).astype(str),
-    "N":   fit["n"].astype(int).astype(str),
+    "R²": fit["r2"].round(3).astype(str),
+    "N": fit["n"].astype(int).astype(str),
 }).T
 display(piv)
 display(fit_summary)""")
@@ -213,7 +222,7 @@ monotone pattern. Some rich countries (Norway, Australia) come out
 modestly above the ATE line, others (the United States) sit close to or
 below zero. The poorest end is just as mixed: India is well *above* the
 average gradient while several sub-Saharan economies sit well below.
-Heterogeneity in the GDP–Happiness link is real, but it does not reduce
+Heterogeneity in the GDP-Happiness link is real, but it does not reduce
 to "richer countries gain more" or vice versa.
 
 So what does explain the heterogeneity? The forest's split-importance
@@ -226,6 +235,32 @@ social support, corruption and the others. That fits a small but growing
 literature on digital connectivity and well-being: once we know whether a
 country's residents are *online*, the leftover role of GDP per capita
 shrinks a lot.""")
+
+md("""### Robustness: where exactly is *rich*?
+
+The "above median" treatment was a convenient but arbitrary cut. The
+obvious alternative is the top quartile (around &#36;44k PPP). Re-fitting
+the forest with that threshold produces a real surprise:""")
+
+code("""import json
+with open(TAB + "ate_sensitivity.json") as f: sens = json.load(f)
+rows = []
+for k in ["headline", "robust"]:
+    r = sens[k]
+    rows.append({
+        "Treatment": r["label"],
+        "Cut-off (USD PPP)": f\"\"\"${r['cutoff_usd']:,.0f}\"\"\",
+        "ATE": f\"\"\"{r['ate']:+.3f}\"\"\",
+        "95% CI": f\"\"\"[{r['ci'][0]:+.3f}, {r['ci'][1]:+.3f}]\"\"\",
+    })
+display(pd.DataFrame(rows))""")
+
+md("""So the median split was masking a real, positive income effect at
+the very top of the income distribution: an extra 0.32 Ladder points
+with a 95% CI clear of zero. The conclusion is not that money does not
+matter; it is that the link is non-linear and concentrated at the
+rich-rich end. That is exactly the shape the LOWESS smoother had been
+hinting at all along.""")
 
 md("""## A bonus from the scrape: the Report itself
 
@@ -263,11 +298,12 @@ md("""## Take-aways
 
 1. Money matters, but mostly *indirectly*. Once you control for social
    support, freedom, life expectancy and trust in institutions, the
-   marginal contribution of income to subjective well-being is small.
-2. The income-happiness link is genuinely heterogeneous, but not
-   monotone. The causal forest produces CATEs roughly between -0.16 and
-   +0.15, yet they do not line up cleanly with how rich a country is.
-   Institutional quality and digital connectivity matter more than dollars.
+   marginal contribution of income at the median split is statistically
+   indistinguishable from zero.
+2. But the link is non-linear: at the top quartile of income (>~&#36;44k
+   PPP) the conditional effect rises to about +0.32 Ladder points with a
+   95% CI clear of zero. The Easterlin paradox bites in the middle of
+   the distribution; among the rich-rich it does not.
 3. Social capital is at least as potent as material wealth. In every
    Nordic country the biggest single contributor to the Ladder gap above
    the world mean is *social support*, not GDP.
@@ -310,6 +346,13 @@ exporter = HTMLExporter(template_name="lab")
 exporter.exclude_input_prompt  = False
 exporter.exclude_output_prompt = True
 body, _ = exporter.from_notebook_node(nb)
+
+# nbconvert's full HTML template embeds an internal DTD declaring named
+# character entities (mdash, ndash, hellip, ...). The body never uses
+# them, but they still leave numeric-entity strings in the output, which
+# we don't want. Drop the offending declarations.
+import re
+body = re.sub(r'<!ENTITY\s+(?:mdash|ndash|hellip)\s+"&#\d+;">\s*', '', body)
 
 with open(HTML_PATH, "w", encoding="utf-8") as f:
     f.write(body)

@@ -1,18 +1,29 @@
-"""Fit a causal forest on the WHR cross-section to look at heterogeneity in the
-GDP -> Ladder gradient. Treatment: above-median GDP per capita (PPP)."""
-import os
+"""Causal forest on the WHR cross-section.
+
+Treatment: 1{GDP per capita PPP > median}.
+Outcome:   WHR Ladder score (2023).
+X:         healthy life exp., social support, freedom, corruption,
+           internet %, urban %.
+
+We use econml's CausalForestDML with gradient-boosted nuisance models.
+The CATE we recover is descriptive: a cross-section is not a randomised
+trial, so the result tells us how much the conditional Ladder gap
+between above-median and below-median income countries varies with the
+moderators, not what would happen if a given country "got richer".
+"""
 import json
+import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-
-from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier
 from econml.dml import CausalForestDML
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-CLN  = ROOT + "data/clean/"
-FIG  = ROOT + "output/figures/"
-TAB  = ROOT + "output/tables/"
+CLN = ROOT + "data/clean/"
+FIG = ROOT + "output/figures/"
+TAB = ROOT + "output/tables/"
 os.makedirs(FIG, exist_ok=True)
 os.makedirs(TAB, exist_ok=True)
 
@@ -34,17 +45,17 @@ X_cols = ["Healthy life exp.", "Social support", "Freedom", "Corruption",
           "Internet (%)", "Urban (%)"]
 
 cf = CausalForestDML(
-    model_y            = GradientBoostingRegressor(random_state=SEED),
-    model_t            = GradientBoostingClassifier(random_state=SEED),
-    discrete_treatment = True,
-    n_estimators       = 1000,
-    min_samples_leaf   = 5,
-    random_state       = SEED,
+    model_y=GradientBoostingRegressor(random_state=SEED),
+    model_t=GradientBoostingClassifier(random_state=SEED),
+    discrete_treatment=True,
+    n_estimators=1000,
+    min_samples_leaf=5,
+    random_state=SEED,
 )
 cf.fit(Y, D, X=X)
 
-ate          = cf.ate(X)
-cate         = cf.effect(X)
+ate = cf.ate(X)
+cate = cf.effect(X)
 ci_lo, ci_hi = cf.effect_interval(X, alpha=0.05)
 ate_lo, ate_hi = cf.ate_interval(X)
 
@@ -52,23 +63,93 @@ print(f"\nATE = {ate:.3f}  (95% CI [{ate_lo:.3f}, {ate_hi:.3f}])")
 print(f"CATE: min={cate.min():.2f}  median={np.median(cate):.2f}  max={cate.max():.2f}")
 
 out = df[["country_code", "country_name", "ladder", "gdp_pc_ppp"]].copy()
-out["cate"]  = cate
+out["cate"] = cate
 out["ci_lo"] = ci_lo
 out["ci_hi"] = ci_hi
 out = out.sort_values("cate", ascending=False).reset_index(drop=True)
+# Round before writing so the CSV is byte-stable across rebuilds.
+# Python's float repr drifts by 1 ULP between runs without this.
+out["ladder"] = out["ladder"].round(4)
+out["gdp_pc_ppp"] = out["gdp_pc_ppp"].round(2)
+out["cate"] = out["cate"].round(6)
+out["ci_lo"] = out["ci_lo"].round(6)
+out["ci_hi"] = out["ci_hi"].round(6)
 out.to_csv(TAB + "cate_summary.csv", index=False)
 
+headline = {
+    "ate": round(float(ate), 3),
+    "ate_ci": [round(float(ate_lo), 3), round(float(ate_hi), 3)],
+    "cate_min": round(float(cate.min()), 3),
+    "cate_med": round(float(np.median(cate)), 3),
+    "cate_max": round(float(cate.max()), 3),
+    "n": int(len(cate)),
+}
 with open(TAB + "cate_headline.json", "w") as f:
-    json.dump({"ate":      round(float(ate), 3),
-               "ate_ci":   [round(float(ate_lo), 3), round(float(ate_hi), 3)],
-               "cate_min": round(float(cate.min()),    3),
-               "cate_med": round(float(np.median(cate)), 3),
-               "cate_max": round(float(cate.max()),    3),
-               "n":        int(len(cate))}, f, indent=2)
+    json.dump(headline, f, indent=2)
 print(f"wrote {TAB}cate_summary.csv")
 print(f"wrote {TAB}cate_headline.json")
 
-# Histogram of CATEs
+
+# ---- Robustness ----------------------------------------------------------
+# The "above median" treatment is convenient but arbitrary. Refit with the
+# cut at the 75th percentile and write both numbers out so the blog can
+# show a side-by-side comparison.
+def fit_with_threshold(q):
+    cutoff = float(np.quantile(df["gdp_pc_ppp"], q))
+    D_alt = (df["gdp_pc_ppp"] > cutoff).astype(int).values
+    cf_alt = CausalForestDML(
+        model_y=GradientBoostingRegressor(random_state=SEED),
+        model_t=GradientBoostingClassifier(random_state=SEED),
+        discrete_treatment=True,
+        n_estimators=1000,
+        min_samples_leaf=5,
+        random_state=SEED,
+    )
+    cf_alt.fit(Y, D_alt, X=X)
+    a = float(cf_alt.ate(X))
+    lo, hi = cf_alt.ate_interval(X)
+    return cutoff, a, float(lo), float(hi)
+
+
+cut50 = float(df["gdp_pc_ppp"].median())
+ate50, lo50, hi50 = float(ate), float(ate_lo), float(ate_hi)
+cut75, ate75, lo75, hi75 = fit_with_threshold(0.75)
+print("\nThreshold sensitivity:")
+print(f"  median  cutoff = ${cut50:>9,.0f}  ATE = {ate50:+.3f}  CI = [{lo50:+.3f}, {hi50:+.3f}]")
+print(f"  75-pct  cutoff = ${cut75:>9,.0f}  ATE = {ate75:+.3f}  CI = [{lo75:+.3f}, {hi75:+.3f}]")
+
+sensitivity = {
+    "headline": {
+        "label": "Above-median GDP",
+        "cutoff_usd": round(cut50, 0),
+        "ate": round(ate50, 3),
+        "ci": [round(lo50, 3), round(hi50, 3)],
+    },
+    "robust": {
+        "label": "Above 75th percentile",
+        "cutoff_usd": round(cut75, 0),
+        "ate": round(ate75, 3),
+        "ci": [round(lo75, 3), round(hi75, 3)],
+    },
+}
+with open(TAB + "ate_sensitivity.json", "w") as f:
+    json.dump(sensitivity, f, indent=2)
+print(f"wrote {TAB}ate_sensitivity.json")
+
+
+# Persist feature importance so the JSON exporter doesn't have to refit
+# the forest just to redraw the bar chart.
+imp_df = pd.DataFrame({
+    "feature": X_cols,
+    "importance": [round(float(x), 4) for x in cf.feature_importances_],
+}).sort_values("importance", ascending=False)
+imp_df.to_csv(TAB + "cf_importance.csv", index=False)
+print(f"wrote {TAB}cf_importance.csv")
+
+
+# ---- Figures -------------------------------------------------------------
+
+# (1) Histogram of CATEs
 plt.figure(figsize=(8, 5))
 plt.hist(cate, bins=25, color="#3380FF", alpha=0.85, edgecolor="white")
 plt.axvline(ate, color="#FFC300", linestyle="--", linewidth=2,
@@ -83,7 +164,7 @@ plt.savefig(FIG + "cate_hist.pdf")
 plt.savefig(FIG + "cate_hist.png", dpi=160)
 plt.clf()
 
-# Ranked CATEs with 95% CIs
+# (2) Ranked CATEs with 95% CIs
 ranked = out.copy()
 plt.figure(figsize=(8, 6))
 xs = np.arange(len(ranked))
@@ -105,7 +186,7 @@ plt.savefig(FIG + "cate_ranked.pdf")
 plt.savefig(FIG + "cate_ranked.png", dpi=160)
 plt.clf()
 
-# CATE vs GDP per capita
+# (3) CATE vs GDP per capita (log axis)
 plt.figure(figsize=(8, 5))
 plt.scatter(df["gdp_pc_ppp"], cate, color="#3380FF", alpha=0.7, s=30,
             edgecolor="white")
@@ -129,7 +210,7 @@ plt.savefig(FIG + "cate_by_gdp.pdf")
 plt.savefig(FIG + "cate_by_gdp.png", dpi=160)
 plt.clf()
 
-# Feature importance
+# (4) Forest split-importance
 imp = cf.feature_importances_
 order = np.argsort(imp)
 plt.figure(figsize=(7, 4))

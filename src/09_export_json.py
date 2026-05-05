@@ -1,4 +1,8 @@
-"""Export JSON data files used by the static website in docs/."""
+"""Export the JSON the static site reads, plus a docs/data.js bundle so
+the site works when opened straight from disk (no local server needed).
+
+One JSON per chart. Schema mirrors what 06 and 07 produce.
+"""
 import json
 import os
 
@@ -6,25 +10,26 @@ import pandas as pd
 import statsmodels.api as sm_api
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-CLN  = ROOT + "data/clean/"
-RAW  = ROOT + "data/raw/"
-TAB  = ROOT + "output/tables/"
+CLN = ROOT + "data/clean/"
+RAW = ROOT + "data/raw/"
+TAB = ROOT + "output/tables/"
 DOCS = ROOT + "docs/"
 DATA_DIR = DOCS + "data/"
 os.makedirs(DATA_DIR, exist_ok=True)
 
 
-_collected = {}
+collected = {}
 
 
 def write_json(name, obj):
     with open(DATA_DIR + name, "w", encoding="utf-8") as f:
         json.dump(obj, f, ensure_ascii=False, separators=(",", ":"))
     print(f"  wrote {name}")
-    _collected[name.replace(".json", "")] = obj
+    collected[name.replace(".json", "")] = obj
 
 
-def _round(v, n):
+def safe_round(v, n):
+    """round() that turns NaN into None so json.dump emits null."""
     return None if pd.isna(v) else round(float(v), n)
 
 
@@ -35,21 +40,23 @@ write_json("countries.json", [
     {"code": r.country_code,
      "name": r.country_name,
      "ladder": round(float(r.ladder), 3),
-     "log_gdp":          _round(r.log_gdp, 3),
-     "gdp_ppp":          _round(r.gdp_pc_ppp, 1),
-     "social_support":   _round(r.social_support, 3),
-     "life_exp_healthy": _round(r.life_exp_healthy, 3),
-     "freedom":          _round(r.freedom, 3),
-     "generosity":       _round(r.generosity, 3),
-     "corruption":       _round(r.corruption, 3),
-     "internet_pct":     _round(r.internet_pct, 2),
-     "urban_pct":        _round(r.urban_pct, 2),
-     "life_exp":         _round(r.life_exp, 2)}
+     "log_gdp": safe_round(r.log_gdp, 3),
+     "gdp_ppp": safe_round(r.gdp_pc_ppp, 1),
+     "social_support": safe_round(r.social_support, 3),
+     "life_exp_healthy": safe_round(r.life_exp_healthy, 3),
+     "freedom": safe_round(r.freedom, 3),
+     "generosity": safe_round(r.generosity, 3),
+     "corruption": safe_round(r.corruption, 3),
+     "internet_pct": safe_round(r.internet_pct, 2),
+     "urban_pct": safe_round(r.urban_pct, 2),
+     "life_exp": safe_round(r.life_exp, 2)}
     for r in df.itertuples()
 ])
 
 
-# Decomposition contributions for top-15
+# Decomposition contributions for top-15.  Same construction as the static
+# figure in 07_descriptive_figures.py - kept here so the website JSON is
+# fully self-contained.
 decomp_vars = ["log_gdp", "social_support", "life_exp_healthy",
                "freedom", "corruption", "generosity"]
 dec_df = df.dropna(subset=decomp_vars + ["ladder"]).copy()
@@ -61,7 +68,7 @@ contrib["ladder"] = dec_df["ladder"]
 top15 = contrib.sort_values("ladder", ascending=False).head(15)
 
 write_json("decomposition.json", {
-    "vars":   decomp_vars,
+    "vars": decomp_vars,
     "labels": ["Log GDP", "Social support", "Healthy life exp.",
                "Freedom", "Corruption", "Generosity"],
     "rows": [
@@ -72,16 +79,16 @@ write_json("decomposition.json", {
 })
 
 
-# Per-country CATEs
+# Per-country CATEs.
 cate = pd.read_csv(TAB + "cate_summary.csv")
 write_json("cate.json", [
     {"code": r.country_code,
      "name": r.country_name,
-     "ladder":  round(float(r.ladder), 3),
+     "ladder": round(float(r.ladder), 3),
      "gdp_ppp": round(float(r.gdp_pc_ppp), 1),
-     "cate":    round(float(r.cate),  3),
-     "ci_lo":   round(float(r.ci_lo), 3),
-     "ci_hi":   round(float(r.ci_hi), 3)}
+     "cate": round(float(r.cate), 3),
+     "ci_lo": round(float(r.ci_lo), 3),
+     "ci_hi": round(float(r.ci_hi), 3)}
     for r in cate.itertuples()
 ])
 
@@ -91,25 +98,24 @@ with open(TAB + "cate_headline.json") as f:
 write_json("cate_headline.json", headline)
 
 
-# Forest feature importance (cached or fall-back to last computed)
-imp_csv = TAB + "cf_importance.csv"
-if os.path.exists(imp_csv):
-    imp = pd.read_csv(imp_csv)
-else:
-    imp = pd.DataFrame({
-        "feature":    ["Internet (%)", "Social support", "Corruption",
-                       "Healthy life exp.", "Freedom", "Urban (%)"],
-        "importance": [0.249, 0.211, 0.143, 0.140, 0.132, 0.125],
-    })
+# Treatment-threshold sensitivity (median vs 75th percentile).
+sensitivity_path = TAB + "ate_sensitivity.json"
+if os.path.exists(sensitivity_path):
+    with open(sensitivity_path) as f:
+        write_json("ate_sensitivity.json", json.load(f))
+
+
+# Causal-forest split-importance (06_causal_forest.py writes the CSV).
+imp = pd.read_csv(TAB + "cf_importance.csv")
 write_json("cf_importance.json", imp.to_dict(orient="records"))
 
 
-# OLS coefficients
+# OLS coefficients.
 reg = pd.read_csv(TAB + "regression_summary.csv")
 write_json("regressions.json", reg.to_dict(orient="records"))
 
 
-# Time series for selected countries
+# Time series for the watch list.
 panel = pd.read_csv(RAW + "whr_panel.csv")
 panel["Country name"] = panel["Country name"].str.replace("*", "", regex=False).str.strip()
 watch = ["Finland", "Denmark", "United States", "United Kingdom",
@@ -123,7 +129,7 @@ sub = (panel[panel["Country name"].isin(watch)]
 write_json("timeseries.json", sub)
 
 
-# Scraped chapter trend
+# Scraped chapter trend.
 chap = pd.read_csv(RAW + "whr_chapters.csv")
 yearly = chap.groupby("year").agg(
     n_chapters=("title", "size"),
@@ -134,10 +140,12 @@ write_json("chapters.json", yearly)
 
 print("\nJSON -> ", DATA_DIR)
 
-# Bundle everything into a single data.js so the site works from disk
+# Bundle everything into a single data.js so the site works straight from
+# disk (no need for a local server) - this is what the Hugging Face Space
+# eventually serves as well.
 with open(DOCS + "data.js", "w", encoding="utf-8") as f:
     f.write("/* Generated by src/09_export_json.py */\n")
     f.write("window.SITE_DATA = ")
-    json.dump(_collected, f, ensure_ascii=False, separators=(",", ":"))
+    json.dump(collected, f, ensure_ascii=False, separators=(",", ":"))
     f.write(";\n")
 print("wrote", DOCS + "data.js")

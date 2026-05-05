@@ -1,4 +1,4 @@
-/* Beyond GDP — design tokens and styles. */
+/* Beyond GDP - design tokens and styles. */
 :root {
   --navy:        #1a2332;
   --navy-deep:   #0f1620;
@@ -363,7 +363,7 @@ section + section { border-top: 1px solid color-mix(in srgb, var(--slate-300) 40
 }
 .chart-grid .chart-card { margin: 0; }
 
-/* Plotly internal — keep enough room so axis titles never get clipped */
+/* Plotly internal - keep enough room so axis titles never get clipped */
 .chart-card .js-plotly-plot,
 .chart-card .plotly,
 .chart-card .plot-container { width: 100% !important; }
@@ -667,4 +667,250 @@ footer a:hover { color: var(--white); }
   }
   html { scroll-behavior: auto; }
   [data-reveal] { opacity: 1; transform: none; }
+}
+
+/* ========== Country explorer (section 1.5) ========== */
+.country-search {
+  display: flex;
+  gap: 0.6rem;
+  margin: 1.4rem 0 1.6rem;
+  max-width: 640px;
+  /* Lift the search bar above the profile card so the autocomplete
+     dropdown is not occluded by it. data-reveal adds a transform on
+     both elements, which creates stacking contexts and made the card
+     paint over the dropdown by default. */
+  position: relative;
+  z-index: 20;
+}
+.country-search input[type="text"] {
+  flex: 1;
+  padding: 0.85rem 1.1rem;
+  font: inherit;
+  font-size: 1.05rem;
+  color: var(--slate-900);
+  background: var(--white);
+  border: 1.5px solid #d8e0ec;
+  border-radius: 10px;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+.country-search input[type="text"]:focus {
+  outline: none;
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+.country-search button {
+  padding: 0.85rem 1.3rem;
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--navy);
+  background: var(--white);
+  border: 1.5px solid #d8e0ec;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+.country-search button:hover {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+.country-card {
+  position: relative;
+  z-index: 1;
+  background: var(--white);
+  border: 1px solid #e8edf4;
+  border-radius: 14px;
+  padding: 1.6rem 1.7rem;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04), 0 8px 24px rgba(15, 23, 42, 0.05);
+  min-height: 220px;
+}
+.country-card .cc-hint {
+  margin: 0;
+  color: var(--slate-500);
+  font-style: italic;
+}
+.country-card .cc-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.6rem 1rem;
+  margin-bottom: 1.3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eef2f7;
+}
+.country-card .cc-id {
+  display: flex;
+  align-items: baseline;
+  gap: 0.85rem;
+}
+.country-card .cc-flag {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--navy);
+  padding: 0.35rem 0.6rem;
+  border-radius: 6px;
+  letter-spacing: 0.04em;
+}
+.country-card h3 {
+  margin: 0;
+  font-family: 'Fraunces', serif;
+  font-size: 1.55rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.country-card .cc-rank {
+  font-size: 0.95rem;
+  color: var(--slate-500);
+}
+.country-card .cc-rank strong {
+  color: var(--navy);
+  font-size: 1.15rem;
+}
+.country-card .cc-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.95rem 1.4rem;
+}
+.country-card .cc-grid div {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+.country-card .cc-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--slate-500);
+}
+.country-card .cc-val {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.country-card .cc-ci {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--slate-500);
+}
+
+@media (max-width: 640px) {
+  .country-search { flex-direction: column; }
+  .country-card { padding: 1.3rem 1.2rem; }
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  border: 0;
+}
+
+/* ========== Sensitivity table (causal-forest robustness) ========== */
+.sensitivity {
+  margin-top: 2.4rem;
+  padding: 1.5rem 1.7rem;
+  background: var(--white);
+  border: 1px solid #e8edf4;
+  border-left: 4px solid var(--gold);
+  border-radius: 12px;
+  box-shadow: var(--shadow-sm);
+}
+.sensitivity h3 {
+  font-family: var(--serif);
+  font-size: 1.2rem;
+  margin: 0 0 0.6rem;
+  color: var(--navy);
+}
+.sensitivity p {
+  margin: 0 0 1rem;
+  color: var(--slate-700);
+}
+.mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 0.92rem;
+}
+.mini-table th, .mini-table td {
+  padding: 0.55rem 0.7rem;
+  text-align: left;
+  border-bottom: 1px solid #eef2f7;
+}
+.mini-table th {
+  font-family: var(--sans);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--slate-500);
+  background: #fafbfd;
+}
+.mini-table tbody tr:last-child td { border-bottom: none; }
+.mini-table strong { color: var(--navy); }
+
+/* ========== Custom autocomplete dropdown (replaces native datalist) ========== */
+.search-wrap {
+  position: relative;
+  flex: 1;
+}
+.search-wrap input {
+  width: 100%;
+}
+.suggestions {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  background: var(--white);
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px -10px rgba(15, 23, 42, 0.18);
+  max-height: 320px;
+  overflow-y: auto;
+}
+.suggestions[hidden] { display: none; }
+.suggestion {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 120ms ease;
+  font-size: 0.95rem;
+  color: var(--navy);
+}
+.suggestion:hover,
+.suggestion.active {
+  background: #f1f5f9;
+}
+.suggestion .s-flag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--white);
+  background: var(--navy);
+  padding: 0.18rem 0.45rem;
+  border-radius: 4px;
+  letter-spacing: 0.03em;
+  min-width: 38px;
+  text-align: center;
+}
+
+@media (max-width: 640px) {
+  .suggestions { max-height: 240px; }
 }

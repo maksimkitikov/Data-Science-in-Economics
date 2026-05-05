@@ -3,10 +3,10 @@
 The `huggingface_space/` folder is a self-contained Space-ready bundle:
 static site, all data baked in, Plotly vendored locally.
 
-## Option A — drag-and-drop in the browser
+## Option A - drag-and-drop in the browser
 
 1. Sign in at <https://huggingface.co>.
-2. Click your avatar (top right) → **New Space**.
+2. Click your avatar (top right) -> **New Space**.
 3. Settings:
    - **Owner:** your username
    - **Space name:** `beyond-gdp` (or anything you like)
@@ -14,19 +14,19 @@ static site, all data baked in, Plotly vendored locally.
    - **Space SDK:** **Static**
    - **Visibility:** Public
 4. Click **Create Space**.
-5. On the empty Space page, **Files** tab → **Add file** → **Upload files**.
+5. On the empty Space page, **Files** tab -> **Add file** -> **Upload files**.
 6. Drag every file inside `huggingface_space/` into the upload area:
    - `README.md` (provides the YAML metadata for the Space card)
    - `index.html`, `style.css`, `site.js`, `data.js`
    - `plotly.min.js`
    - `favicon.svg`
    - the entire `data/` folder
-7. Write a commit message → **Commit changes to main**.
+7. Write a commit message -> **Commit changes to main**.
 8. Switch to the **App** tab. The site builds in ~10 seconds.
 
-## Option B — push from the command line
+## Option B - push from the command line
 
-You will need a Hugging Face access token (Settings → Access Tokens → Read+Write).
+You will need a Hugging Face access token (Settings -> Access Tokens -> Read+Write).
 
 ```bash
 git clone https://huggingface.co/spaces/<username>/beyond-gdp hf-space

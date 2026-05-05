@@ -27,6 +27,7 @@
   <a class="brand" href="#top">Beyond&nbsp;GDP</a>
   <nav>
     <a href="#headlines">Rankings</a>
+    <a href="#explorer">Explore</a>
     <a href="#scatter">GDP &amp; Happiness</a>
     <a href="#decomposition">Decomposition</a>
     <a href="#regressions">Regressions</a>
@@ -63,7 +64,7 @@
       <div><span class="big" id="stat-top">7.8</span><span>Finland's Ladder score</span></div>
       <div><span class="big" id="stat-bot">1.9</span><span>Afghanistan's Ladder score</span></div>
       <div><span class="big" id="stat-n">136</span><span>countries in the analysis</span></div>
-      <div><span class="big" id="stat-words">1,800</span><span>words, code on GitHub</span></div>
+      <div><span class="big" id="stat-words">1,500</span><span>words, code on GitHub</span></div>
     </div>
 
     <div class="hero-cta">
@@ -80,7 +81,7 @@
     <h2 data-reveal data-reveal-delay="1">Finland's nearly six-point lead</h2>
     <p data-reveal data-reveal-delay="2">
       Finland's Ladder score sits four times above Afghanistan's. The
-      <em>Cantril Ladder</em> question (a 0–10 scale of life satisfaction)
+      <em>Cantril Ladder</em> question (a 0-10 scale of life satisfaction)
       is the same instrument worldwide, so the gap is comparable. A
       six-point gap on a ten-point scale is enormous; any explanation has
       to grapple with it.
@@ -94,9 +95,40 @@
 </section>
 
 
+<section id="explorer" class="alt">
+  <div class="container">
+    <p class="kicker" data-reveal>1.5 &middot; Find a country</p>
+    <h2 data-reveal data-reveal-delay="1">Anywhere in the sample, two clicks away</h2>
+    <p data-reveal data-reveal-delay="2">
+      The 136 countries in the analysis sample each carry the eight
+      indicators below. Type any country in the box and its profile appears
+      with its rank, Ladder score, GDP, the four core institutional
+      measures and the two digital-development covariates the causal
+      forest uses.
+    </p>
+
+    <div class="country-search" data-reveal data-reveal-delay="3">
+      <label for="country-input" class="visually-hidden">Country</label>
+      <div class="search-wrap">
+        <input type="text" id="country-input"
+               placeholder="Start typing: Finland, Costa Rica, Ghana, ..."
+               autocomplete="off" spellcheck="false"
+               aria-autocomplete="list" aria-controls="country-suggestions">
+        <ul id="country-suggestions" class="suggestions" role="listbox" hidden></ul>
+      </div>
+      <button type="button" id="country-random" aria-label="Pick a random country">Random</button>
+    </div>
+
+    <div id="country-card" class="country-card" data-reveal data-reveal-delay="4">
+      <p class="cc-hint">Pick a country above and its profile appears here.</p>
+    </div>
+  </div>
+</section>
+
+
 <section id="scatter" class="alt">
   <div class="container">
-    <p class="kicker" data-reveal>2 &middot; Money matters &mdash; with diminishing returns</p>
+    <p class="kicker" data-reveal>2 &middot; Money matters - with diminishing returns</p>
     <h2 data-reveal data-reveal-delay="1">Doubling income from $2k to $4k buys the same Ladder bump as doubling from $32k to $64k</h2>
     <p data-reveal data-reveal-delay="2">
       Plotting the Ladder score against GDP per capita on a log axis gives a
@@ -225,8 +257,8 @@
 
     <div class="callout-banner" id="ate-banner" data-reveal data-reveal-delay="3">
       <span class="label">ATE</span>
-      <strong id="ate-value">…</strong>
-      <span class="meta">Ladder points &middot; 95&nbsp;% CI: <code id="ate-ci">…</code></span>
+      <strong id="ate-value">...</strong>
+      <span class="meta">Ladder points &middot; 95&nbsp;% CI: <code id="ate-ci">...</code></span>
     </div>
 
     <p data-reveal>
@@ -258,6 +290,29 @@
       sharply, an echo of the digital-connectivity literature and
       the WHR 2026 edition's own pivot to social-media research.
     </p>
+
+    <div class="sensitivity" data-reveal>
+      <h3>Robustness: where exactly is "rich"?</h3>
+      <p>
+        The "above median" treatment is one defensible choice; the natural
+        alternative is the top quartile. Refitting with a 75th-percentile
+        cut-off (around $44k PPP) actually flips the headline:
+        the ATE rises to about <strong>+0.32 Ladder points</strong> with a
+        95&nbsp;% CI clear of zero. So the median split was hiding a
+        real income effect at the very top of the distribution - being
+        rich-rich does buy a small but measurable happiness premium even
+        once moderators are accounted for.
+      </p>
+      <table id="sensitivity-table" class="mini-table" aria-describedby="sens-cap">
+        <thead>
+          <tr><th scope="col">Treatment</th><th scope="col">Cut-off</th><th scope="col">ATE</th><th scope="col">95&nbsp;% CI</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+      <p id="sens-cap" class="caption">
+        Both fits use the same Y, X and seed; only the binarisation of GDP changes.
+      </p>
+    </div>
   </div>
 </section>
 
@@ -269,8 +324,8 @@
     <p data-reveal data-reveal-delay="2">
       The rankings spreadsheets are the core of the analysis, but the
       chapter metadata I scraped from the seven WHR editions has its own
-      story. Across 2020–2026 I collected 51 chapters with their author
-      lists, affiliations and reading times — a tidy table that does not
+      story. Across 2020-2026 I collected 51 chapters with their author
+      lists, affiliations and reading times - a tidy table that does not
       exist anywhere on the WHR website itself.
     </p>
 
@@ -310,9 +365,10 @@
         Once you control for social support, freedom, life expectancy and
         trust, the marginal contribution of income to subjective
         well-being is small.</li>
-      <li data-reveal data-reveal-delay="2"><strong>The income–happiness link is heterogeneous, not monotone.</strong>
-        The causal forest produces CATEs roughly between −0.16 and +0.15,
-        but they don't line up neatly with how rich a country is.</li>
+      <li data-reveal data-reveal-delay="2"><strong>The link is non-linear and concentrated at the top.</strong>
+        Splitting at the median gives an ATE indistinguishable from zero,
+        but moving the cut to the 75th percentile (~$44k PPP) lifts it to
+        about +0.32 Ladder points with a 95&nbsp;% CI clear of zero.</li>
       <li data-reveal data-reveal-delay="3"><strong>Social capital is at least as potent as material wealth.</strong>
         In every Nordic country the biggest single contributor to the
         Ladder gap above the world mean is <em>social support</em>, not
@@ -341,14 +397,14 @@ cd Data-Science-in-Economics
 pip install -r requirements.txt
 make all</code></pre>
     <p>
-      The Makefile walks the eight numbered scripts in <code>src/</code>,
+      The Makefile walks the nine numbered scripts in <code>src/</code>,
       regenerates the SQLite database, the OLS table and the figures,
       executes the Jupyter notebook and re-renders this page.
     </p>
 
     <h3>Sources &amp; further reading</h3>
     <ul class="refs">
-      <li>World Happiness Report 2020–2026, Sustainable Development Solutions Network: <a href="https://worldhappiness.report" target="_blank" rel="noopener">worldhappiness.report</a></li>
+      <li>World Happiness Report 2020-2026, Sustainable Development Solutions Network: <a href="https://worldhappiness.report" target="_blank" rel="noopener">worldhappiness.report</a></li>
       <li>World Bank, <em>World Development Indicators</em>, queried via <code>wbgapi</code></li>
       <li>Wager, S. &amp; Athey, S. (2018). Estimation and Inference of Heterogeneous Treatment Effects. <em>JASA</em> 113(523).</li>
       <li>Athey, S., Tibshirani, J. &amp; Wager, S. (2019). Generalized Random Forests. <em>Annals of Statistics</em> 47(2).</li>

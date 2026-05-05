@@ -1,24 +1,31 @@
-"""Scrape chapter metadata from each WHR edition (2020-2026)."""
+"""Scrape chapter metadata from worldhappiness.report for editions 2020-2026.
+
+For each edition we grab the chapter title, authors + their affiliations,
+the reading-time estimate the WHR puts in its sidebar, and a DOI if there
+is one. Output: data/raw/whr_chapters.csv (one row per chapter).
+"""
+import csv
 import os
 import re
 import time
-import csv
 
 import requests
 from bs4 import BeautifulSoup
 
-ROOT  = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-DAT   = ROOT + "data/raw/"
+ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
+DAT = ROOT + "data/raw/"
 CACHE = DAT + "html_cache/"
 os.makedirs(CACHE, exist_ok=True)
 
-YEARS    = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
+YEARS = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 BASE_URL = "https://www.worldhappiness.report"
-HEADERS  = {"User-Agent": "bee2041-project/1.0"}
-SLEEP    = 1.0
+HEADERS = {"User-Agent": "bee2041-empirical-project/1.0"}
+# one second between live requests so we are not rude to the WHR origin
+SLEEP = 1.0
 
 
 def fetch(url, cache_name, n_tries=4):
+    """Get a page once, then read the cached copy on every subsequent run."""
     cache_path = CACHE + cache_name
     if os.path.exists(cache_path):
         with open(cache_path, "r", encoding="utf-8") as f:
@@ -40,6 +47,7 @@ def fetch(url, cache_name, n_tries=4):
 
 
 def chapter_links_for_year(year):
+    """Find every chapter URL on a single edition's landing page."""
     soup = fetch(f"{BASE_URL}/ed/{year}/", f"ed_{year}.html")
     if soup is None:
         return []
@@ -52,6 +60,7 @@ def chapter_links_for_year(year):
 
 
 def parse_chapter(url, cache_name):
+    """Pull title, authors, affiliations, reading time and DOI from one page."""
     soup = fetch(url, cache_name)
     if soup is None:
         return None
@@ -61,6 +70,9 @@ def parse_chapter(url, cache_name):
     h1 = soup.find("h1")
     record["title"] = h1.get_text(strip=True) if h1 else ""
 
+    # Each author block is a <li class="author"> with a nested span that
+    # holds the affiliation. Pop the affiliation out before reading the
+    # name so we don't end up with "John F. Helliwell University of ...".
     authors, affs = [], []
     for li in soup.select("li.author"):
         span = li.find("span", class_="author-title")
@@ -71,10 +83,11 @@ def parse_chapter(url, cache_name):
         if name:
             authors.append(name)
             affs.append(affil)
-    record["authors"]      = "; ".join(authors)
-    record["n_authors"]    = len(authors)
+    record["authors"] = "; ".join(authors)
+    record["n_authors"] = len(authors)
     record["affiliations"] = " | ".join(affs)
 
+    # Reading time and DOI are buried in free text.
     text = soup.get_text(" ", strip=True)
     m = re.search(r"(\d+)\s*min\.\s*read", text)
     record["reading_time_min"] = int(m.group(1)) if m else None
@@ -92,7 +105,7 @@ for year in YEARS:
     print(f"[{year}] {len(paths)} chapters")
     for path in paths:
         slug = path.strip("/").replace("/", "_")
-        rec  = parse_chapter(BASE_URL + path, f"{slug}.html")
+        rec = parse_chapter(BASE_URL + path, f"{slug}.html")
         if rec is None:
             continue
         rec["year"] = year
@@ -101,8 +114,8 @@ for year in YEARS:
 print(f"\nTotal chapters: {len(all_records)}")
 
 out_path = DAT + "whr_chapters.csv"
-fields   = ["year", "title", "authors", "n_authors", "affiliations",
-            "reading_time_min", "doi", "url"]
+fields = ["year", "title", "authors", "n_authors", "affiliations",
+          "reading_time_min", "doi", "url"]
 
 with open(out_path, "w", newline="", encoding="utf-8") as f:
     writer = csv.DictWriter(f, fieldnames=fields)

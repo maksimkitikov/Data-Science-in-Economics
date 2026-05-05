@@ -1,19 +1,32 @@
-"""Download WHR Figure 2.1 spreadsheets (2020-2024) and stack into a tidy panel."""
+"""Download the WHR Figure 2.1 spreadsheets (2020-2024) and stack them.
+
+Output: data/raw/whr_panel.csv with one row per country-year, columns =
+Ladder + the six bundled covariates the WHR ships alongside it.
+"""
 import os
 import time
-import requests
+
 import pandas as pd
+import requests
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-DAT  = ROOT + "data/raw/"
+DAT = ROOT + "data/raw/"
 os.makedirs(DAT, exist_ok=True)
 
-YEARS    = [2020, 2021, 2022, 2023, 2024]
-HEADERS  = {"User-Agent": "bee2041-project/1.0"}
-URL_TPL  = "https://files.worldhappiness.report/WHR{yy}_Data_Figure_2.1.xls"
+YEARS = [2020, 2021, 2022, 2023, 2024]
+HEADERS = {"User-Agent": "bee2041-empirical-project/1.0"}
+URL_TPL = "https://files.worldhappiness.report/WHR{yy}_Data_Figure_2.1.xls"
+
+KEEP_COLS = [
+    "Country name", "Ladder score",
+    "Logged GDP per capita", "Social support",
+    "Healthy life expectancy", "Freedom to make life choices",
+    "Generosity", "Perceptions of corruption",
+]
 
 
 def get_with_retry(url, n_tries=4):
+    """Up to four attempts at a download with exponential back-off."""
     for attempt in range(n_tries):
         try:
             r = requests.get(url, headers=HEADERS, timeout=60)
@@ -27,7 +40,7 @@ def get_with_retry(url, n_tries=4):
 
 panel = []
 for year in YEARS:
-    url   = URL_TPL.format(yy=str(year)[2:])
+    url = URL_TPL.format(yy=str(year)[2:])
     fname = DAT + f"whr{year}_fig21.xls"
 
     if not os.path.exists(fname):
@@ -41,18 +54,16 @@ for year in YEARS:
 
     df = pd.read_excel(fname)
 
-    # 2022 file uses a slightly different header
+    # The 2022 file is the odd one out: it labels its columns "Country" and
+    # "Happiness score" instead of "Country name" / "Ladder score". Rename
+    # so concat below works on a single column schema.
     if year == 2022:
         df = df.rename(columns={
-            "Country":         "Country name",
+            "Country": "Country name",
             "Happiness score": "Ladder score",
         })
 
-    keep = ["Country name", "Ladder score",
-            "Logged GDP per capita", "Social support",
-            "Healthy life expectancy", "Freedom to make life choices",
-            "Generosity", "Perceptions of corruption"]
-    df   = df[[c for c in keep if c in df.columns]].copy()
+    df = df[[c for c in KEEP_COLS if c in df.columns]].copy()
     df["year"] = year
     panel.append(df)
 
