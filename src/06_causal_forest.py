@@ -1,13 +1,36 @@
-"""Fit a causal forest on the WHR cross-section to look at heterogeneity in the
-GDP -> Ladder gradient. Treatment: above-median GDP per capita (PPP)."""
-import os
+"""
+06_causal_forest.py
+-------------------
+Fit a causal forest on the WHR cross-section to look at heterogeneity in the
+GDP -> Ladder gradient.
+
+Treatment definition. The "treatment" is a binary indicator for being above
+the sample-median GDP per capita PPP. The conditioning set X covers six
+potential moderators (healthy life expectancy, social support, freedom,
+corruption, internet penetration, urban share). The CATE we recover should
+be read as *descriptive* heterogeneity, conditional on those moderators -
+not as a causal effect of "becoming richer" since we are working with a
+cross-section.
+
+Course references followed here
+    * Workflow, Modelling & Webscraping (Clarke, 2026), slides 41-46:
+      definition of ATE/CATE, motivation for the honest tree, key
+      references.
+    * Wager & Athey (2018), JASA 113(523): 1228-1242 - the inferential
+      backbone of `econml.dml.CausalForestDML`.
+    * Athey, Tibshirani & Wager (2019), Annals of Statistics 47(2):
+      1148-1178 - generalisation to non-binary treatments.
+    * Davis & Heller (2017), AEA P&P - applied template; their treatment is
+      also a discrete indicator.
+"""
 import json
+import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-
-from sklearn.ensemble import GradientBoostingRegressor, GradientBoostingClassifier
 from econml.dml import CausalForestDML
+from sklearn.ensemble import GradientBoostingClassifier, GradientBoostingRegressor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
 CLN  = ROOT + "data/clean/"
@@ -33,6 +56,8 @@ X = df[["life_exp_healthy", "social_support", "freedom", "corruption",
 X_cols = ["Healthy life exp.", "Social support", "Freedom", "Corruption",
           "Internet (%)", "Urban (%)"]
 
+# Gradient-boosted nuisance models (model_y for E[Y|X], model_t for the
+# propensity P(D=1|X)).  Discrete treatment because D is a 0/1 indicator.
 cf = CausalForestDML(
     model_y            = GradientBoostingRegressor(random_state=SEED),
     model_t            = GradientBoostingClassifier(random_state=SEED),
@@ -43,9 +68,9 @@ cf = CausalForestDML(
 )
 cf.fit(Y, D, X=X)
 
-ate          = cf.ate(X)
-cate         = cf.effect(X)
-ci_lo, ci_hi = cf.effect_interval(X, alpha=0.05)
+ate            = cf.ate(X)
+cate           = cf.effect(X)
+ci_lo, ci_hi   = cf.effect_interval(X, alpha=0.05)
 ate_lo, ate_hi = cf.ate_interval(X)
 
 print(f"\nATE = {ate:.3f}  (95% CI [{ate_lo:.3f}, {ate_hi:.3f}])")
@@ -68,7 +93,18 @@ with open(TAB + "cate_headline.json", "w") as f:
 print(f"wrote {TAB}cate_summary.csv")
 print(f"wrote {TAB}cate_headline.json")
 
-# Histogram of CATEs
+# Persist feature importance so the static-site exporter does not have to
+# refit the forest just to reproduce the bar chart.
+imp_df = pd.DataFrame({
+    "feature":    X_cols,
+    "importance": [round(float(x), 4) for x in cf.feature_importances_],
+}).sort_values("importance", ascending=False)
+imp_df.to_csv(TAB + "cf_importance.csv", index=False)
+print(f"wrote {TAB}cf_importance.csv")
+
+# ---- Figures ---------------------------------------------------------------
+
+# (1) Histogram of CATEs.
 plt.figure(figsize=(8, 5))
 plt.hist(cate, bins=25, color="#3380FF", alpha=0.85, edgecolor="white")
 plt.axvline(ate, color="#FFC300", linestyle="--", linewidth=2,
@@ -83,7 +119,7 @@ plt.savefig(FIG + "cate_hist.pdf")
 plt.savefig(FIG + "cate_hist.png", dpi=160)
 plt.clf()
 
-# Ranked CATEs with 95% CIs
+# (2) Ranked CATEs with 95% confidence intervals.
 ranked = out.copy()
 plt.figure(figsize=(8, 6))
 xs = np.arange(len(ranked))
@@ -105,7 +141,7 @@ plt.savefig(FIG + "cate_ranked.pdf")
 plt.savefig(FIG + "cate_ranked.png", dpi=160)
 plt.clf()
 
-# CATE vs GDP per capita
+# (3) CATE vs GDP per capita (log axis).
 plt.figure(figsize=(8, 5))
 plt.scatter(df["gdp_pc_ppp"], cate, color="#3380FF", alpha=0.7, s=30,
             edgecolor="white")
@@ -129,7 +165,7 @@ plt.savefig(FIG + "cate_by_gdp.pdf")
 plt.savefig(FIG + "cate_by_gdp.png", dpi=160)
 plt.clf()
 
-# Feature importance
+# (4) Forest split-importance.
 imp = cf.feature_importances_
 order = np.argsort(imp)
 plt.figure(figsize=(7, 4))

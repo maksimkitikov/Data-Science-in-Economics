@@ -1,8 +1,27 @@
-"""Assemble the blog notebook (blog.ipynb) and a rendered HTML companion."""
+"""
+08_build_blog.py
+----------------
+Assemble the executable Jupyter notebook (`blog.ipynb`) that the marker can
+open and run, plus a rendered HTML companion served from `docs/notebook.html`.
+
+The notebook is the textual blog post requested in the brief.  It is shorter
+than the static website because anything visual (interactive Plotly charts,
+collapsible callouts) lives on the website; the notebook focuses on the
+narrative + code that produced each figure.
+
+Course references followed here
+    * Empirical Project brief, page 3: "If you include your blog post simply
+      as a jupyter notebook, this can just be an .ipynb file. Please call
+      this blog.ipynb."
+    * Workflow, Modelling & Webscraping (Clarke, 2026), slide 16: "Document
+      research projects extensively - globally with a README, locally with
+      comments." The notebook is the global, narrative-level documentation.
+"""
 import os
+
 import nbformat as nbf
-from nbconvert.preprocessors import ExecutePreprocessor
 from nbconvert import HTMLExporter
+from nbconvert.preprocessors import ExecutePreprocessor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
 DOCS = ROOT + "docs/"
@@ -20,8 +39,10 @@ nb["metadata"] = {
 }
 cells = []
 
+
 def md(text):
     cells.append(nbf.v4.new_markdown_cell(text))
+
 
 def code(src):
     cells.append(nbf.v4.new_code_cell(src))

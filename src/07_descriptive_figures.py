@@ -1,11 +1,26 @@
-"""Descriptive figures for the blog: rankings, GDP-vs-Ladder scatter,
-variance decomposition, scraped chapters trend and Ladder time series."""
+"""
+07_descriptive_figures.py
+-------------------------
+Descriptive figures that anchor the blog post: rankings, the GDP-vs-Ladder
+scatter with a LOWESS smoother, a covariate-by-covariate decomposition for
+the world's 15 happiest countries, the scraped chapter-counts trend, and a
+2020-2024 Ladder time series for a hand-picked set of countries.
+
+Each figure is saved twice (PDF for prints, PNG for the website).
+
+Course references followed here
+    * Coding for Economists (Turrell, 2023), §"Plots": small set of palette
+      colours, never hide axes labels, prefer left-aligned titles.
+    * Python Data Science Handbook (VanderPlas), Chapter 4 - matplotlib
+      object-oriented interface, twin axes for chapters/reading-time chart.
+"""
 import os
+
+import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-from statsmodels.nonparametric.smoothers_lowess import lowess
 import statsmodels.api as sm_api
+from statsmodels.nonparametric.smoothers_lowess import lowess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
 RAW  = ROOT + "data/raw/"
@@ -24,15 +39,17 @@ plt.rcParams.update({
     "axes.spines.right": False,
 })
 
-NAVY  = "#1f3a5f"
-GOLD  = "#FFC300"
-TEAL  = "#3380FF"
+# Three-colour palette - navy/gold/teal.  Re-used everywhere so charts read
+# as one piece (Coding for Economists, "consistent visual identity").
+NAVY = "#1f3a5f"
+GOLD = "#FFC300"
+TEAL = "#3380FF"
 
 df       = pd.read_csv(CLN + "analysis.csv")
 panel    = pd.read_csv(RAW + "whr_panel.csv")
 chapters = pd.read_csv(RAW + "whr_chapters.csv")
 
-# Top-10 vs bottom-10
+# ---- (1) Top-10 vs bottom-10 ranking. ------------------------------------
 ranked = df.sort_values("ladder", ascending=False)
 top    = ranked.head(10).iloc[::-1]
 bot    = ranked.tail(10)
@@ -56,25 +73,26 @@ plt.savefig(FIG + "top_bottom_10.pdf")
 plt.savefig(FIG + "top_bottom_10.png", dpi=160)
 plt.clf()
 
-# GDP vs Ladder, log axis with LOWESS
+# ---- (2) GDP vs Ladder (log axis) with a LOWESS smoother. ----------------
 df_plot = df.dropna(subset=["gdp_pc_ppp", "ladder"]).copy()
 df_plot["log_gdp_wb"] = np.log(df_plot["gdp_pc_ppp"])
-sm_smooth = lowess(df_plot["ladder"], df_plot["log_gdp_wb"], frac=0.5, it=2,
-                   return_sorted=True)
+sm_smooth = lowess(df_plot["ladder"], df_plot["log_gdp_wb"],
+                   frac=0.5, it=2, return_sorted=True)
 
 plt.figure(figsize=(8.5, 5.5))
 plt.scatter(df_plot["gdp_pc_ppp"], df_plot["ladder"],
             color=TEAL, alpha=0.7, s=35, edgecolor="white",
             label="Country observation")
-plt.plot(np.exp(sm_smooth[:, 0]), sm_smooth[:, 1], color=NAVY, linewidth=2,
-         label="LOWESS smoother (frac=0.5)")
+plt.plot(np.exp(sm_smooth[:, 0]), sm_smooth[:, 1],
+         color=NAVY, linewidth=2, label="LOWESS smoother (frac=0.5)")
 plt.xscale("log")
-plt.xlabel("GDP per capita, PPP — log axis (US$, World Bank 2022)")
+plt.xlabel("GDP per capita, PPP - log axis (US$, World Bank 2022)")
 plt.ylabel("WHR Ladder score (2023)")
-plt.title("Money buys happiness — but at a sharply decreasing rate", loc="left")
+plt.title("Money buys happiness - but at a sharply decreasing rate", loc="left")
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
 plt.legend(loc="lower right", frameon=False)
 
+# Hand-pick a handful of labels.  Marking every country would be unreadable.
 highlight = ["FIN", "USA", "DNK", "IND", "ZWE", "AFG", "CRI", "BRA", "QAT"]
 for _, row in df_plot.iterrows():
     if row["country_code"] in highlight:
@@ -88,7 +106,7 @@ plt.savefig(FIG + "gdp_vs_ladder.pdf")
 plt.savefig(FIG + "gdp_vs_ladder.png", dpi=160)
 plt.clf()
 
-# Variance decomposition for the top-15 happiest
+# ---- (3) Variance decomposition for the top-15 happiest. -----------------
 decomp_vars = ["log_gdp", "social_support", "life_exp_healthy",
                "freedom", "corruption", "generosity"]
 decomp_lbls = ["Log GDP", "Social support", "Healthy life exp.",
@@ -99,7 +117,8 @@ X_dec  = sm_api.add_constant(dec_df[decomp_vars])
 m_dec  = sm_api.OLS(dec_df["ladder"], X_dec).fit()
 print(f"decomp R^2: {m_dec.rsquared:.3f}")
 
-means = dec_df[decomp_vars].mean()
+# Each country's contribution = (covariate - sample mean) * fitted coef.
+means   = dec_df[decomp_vars].mean()
 contrib = (dec_df[decomp_vars] - means) * m_dec.params[decomp_vars]
 contrib["country_name"] = dec_df["country_name"]
 contrib["country_code"] = dec_df["country_code"]
@@ -110,6 +129,8 @@ top15 = contrib.sort_values("ladder", ascending=False).head(15).iloc[::-1]
 palette = ["#1f3a5f", "#3380FF", "#7faaff", "#FFC300", "#ff7f50", "#888888"]
 fig, ax = plt.subplots(figsize=(10.5, 6))
 
+# Stack positive and negative contributions separately so the chart still
+# makes sense if a covariate pulls a country down (corruption usually does).
 bottom_pos = np.zeros(len(top15))
 bottom_neg = np.zeros(len(top15))
 for v, lab, col in zip(decomp_vars, decomp_lbls, palette):
@@ -133,11 +154,11 @@ plt.savefig(FIG + "decomposition.pdf", bbox_inches="tight")
 plt.savefig(FIG + "decomposition.png", dpi=160, bbox_inches="tight")
 plt.clf()
 
-# WHR research output over time
+# ---- (4) Scraped chapters per edition + average reading time. ------------
 yearly = chapters.groupby("year").agg(
-    n_chapters=("title", "size"),
-    mean_read_min=("reading_time_min", "mean"),
-    mean_authors=("n_authors", "mean"),
+    n_chapters    = ("title", "size"),
+    mean_read_min = ("reading_time_min", "mean"),
+    mean_authors  = ("n_authors", "mean"),
 ).reset_index()
 
 fig, ax1 = plt.subplots(figsize=(8, 4.5))
@@ -163,7 +184,7 @@ plt.savefig(FIG + "chapters_trend.pdf")
 plt.savefig(FIG + "chapters_trend.png", dpi=160)
 plt.clf()
 
-# Ladder time series, 2020-2024
+# ---- (5) Ladder time series, 2020-2024. ----------------------------------
 panel_clean = panel.copy()
 panel_clean["Country name"] = panel_clean["Country name"].str.replace(
     "*", "", regex=False).str.strip()

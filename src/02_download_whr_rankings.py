@@ -1,19 +1,47 @@
-"""Download WHR Figure 2.1 spreadsheets (2020-2024) and stack into a tidy panel."""
+"""
+02_download_whr_rankings.py
+---------------------------
+Download the official "Figure 2.1" spreadsheets the WHR publishes alongside
+each annual edition (2020-2024) and stack them into a tidy long panel.
+
+These are the country-level Ladder scores plus the six explanatory components
+(log GDP, social support, healthy life expectancy, freedom, generosity,
+perceptions of corruption).
+
+Course references followed here
+    * Python for Data Management (Clarke, 2026):
+        - pd.read_excel for spreadsheet input (slide 19)
+        - pd.concat for stacking comparable frames (slide 41)
+    * Workflow, Modelling & Webscraping (Clarke, 2026), slide 55: build in
+      retry logic with exponential back-off, never assume a request will
+      succeed.
+"""
 import os
 import time
-import requests
+
 import pandas as pd
+import requests
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
 DAT  = ROOT + "data/raw/"
 os.makedirs(DAT, exist_ok=True)
 
 YEARS    = [2020, 2021, 2022, 2023, 2024]
-HEADERS  = {"User-Agent": "bee2041-project/1.0"}
+HEADERS  = {"User-Agent": "bee2041-empirical-project/1.0"}
 URL_TPL  = "https://files.worldhappiness.report/WHR{yy}_Data_Figure_2.1.xls"
+
+# Columns we keep in the final panel.  The 2022 edition uses different headers,
+# so we rename them to match the rest of the panel before stacking.
+KEEP_COLS = [
+    "Country name", "Ladder score",
+    "Logged GDP per capita", "Social support",
+    "Healthy life expectancy", "Freedom to make life choices",
+    "Generosity", "Perceptions of corruption",
+]
 
 
 def get_with_retry(url, n_tries=4):
+    """GET with up to four tries and exponential back-off (Workflow, sl. 55)."""
     for attempt in range(n_tries):
         try:
             r = requests.get(url, headers=HEADERS, timeout=60)
@@ -41,18 +69,15 @@ for year in YEARS:
 
     df = pd.read_excel(fname)
 
-    # 2022 file uses a slightly different header
+    # 2022 file uses "Country" / "Happiness score" instead of the conventional
+    # WHR labels.  Rename so the stack below works on a single column schema.
     if year == 2022:
         df = df.rename(columns={
             "Country":         "Country name",
             "Happiness score": "Ladder score",
         })
 
-    keep = ["Country name", "Ladder score",
-            "Logged GDP per capita", "Social support",
-            "Healthy life expectancy", "Freedom to make life choices",
-            "Generosity", "Perceptions of corruption"]
-    df   = df[[c for c in keep if c in df.columns]].copy()
+    df = df[[c for c in KEEP_COLS if c in df.columns]].copy()
     df["year"] = year
     panel.append(df)
 

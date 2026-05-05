@@ -1,6 +1,26 @@
-"""Build the SQLite database and produce the analysis cross-section."""
+"""
+04_build_database.py
+--------------------
+Stitch the three raw sources together inside a small SQLite database, then
+extract the cross-section we hand to the regressions and the causal forest.
+
+The schema is deliberately simple - three tables, one INNER JOIN:
+
+    country_year   (panel)        -- WHR Ladder score + 6 components, 2020-2024
+    country_meta   (cross-section)-- World Bank covariates, 2022 vintage
+    whr_chapters   (metadata)     -- scraped chapter-level information
+
+Course references followed here
+    * Relational Database Management Systems (Clarke, 2026):
+        - PRIMARY KEY / FOREIGN KEY introduction (slide 13)
+        - INDEX on join keys (slide 36)
+        - INNER JOIN semantics (slide 42)
+    * SQL Teaching Exercises - Students, Modules & Lecturers (Clarke, 2026):
+      direct model for the "two tables, one INNER JOIN" pattern.
+"""
 import os
 import sqlite3
+
 import pandas as pd
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
@@ -18,44 +38,46 @@ print(f"whr_panel:     {whr_panel.shape}")
 print(f"wb_indicators: {wb_indicators.shape}")
 print(f"whr_chapters:  {whr_chapters.shape}")
 
-# Name -> ISO-3 crosswalk. Start from wbgapi's pairings, hand-fix the rest.
+# Country names need to be crosswalked to ISO-3 codes. wbgapi already pairs
+# them with the canonical World Bank names; the dictionary below patches the
+# WHR-specific spellings (the asterisks, the "Türkiye"/"Turkey" split, etc.).
 crosswalk = wb_indicators[["country_code", "country_name"]].drop_duplicates()
 manual = {
-    "United States":               "USA",
-    "Russia":                      "RUS",
-    "Czech Republic":              "CZE",
-    "South Korea":                 "KOR",
-    "Hong Kong S.A.R. of China":   "HKG",
-    "Hong Kong S.A.R., China":     "HKG",
-    "Palestinian Territories":     "PSE",
-    "State of Palestine":          "PSE",
-    "Taiwan Province of China":    "TWN",
-    "Iran":                        "IRN",
-    "Vietnam":                     "VNM",
-    "Slovakia":                    "SVK",
-    "Egypt":                       "EGY",
-    "Yemen":                       "YEM",
-    "Venezuela":                   "VEN",
-    "Bolivia":                     "BOL",
-    "Tanzania":                    "TZA",
-    "Laos":                        "LAO",
-    "Moldova":                     "MDA",
-    "Syria":                       "SYR",
-    "Turkiye":                     "TUR",
-    "Türkiye":                     "TUR",
-    "Turkey":                      "TUR",
-    "Congo (Brazzaville)":         "COG",
-    "Congo (Kinshasa)":            "COD",
-    "Ivory Coast":                 "CIV",
-    "Gambia":                      "GMB",
-    "North Cyprus":                "CYP",
-    "Eswatini, Kingdom of":        "SWZ",
-    "Swaziland":                   "SWZ",
-    "Cape Verde":                  "CPV",
-    "Congo":                       "COG",
-    "Kyrgyzstan":                  "KGZ",
-    "Macedonia":                   "MKD",
-    "North Macedonia":             "MKD",
+    "United States":             "USA",
+    "Russia":                    "RUS",
+    "Czech Republic":            "CZE",
+    "South Korea":               "KOR",
+    "Hong Kong S.A.R. of China": "HKG",
+    "Hong Kong S.A.R., China":   "HKG",
+    "Palestinian Territories":   "PSE",
+    "State of Palestine":        "PSE",
+    "Taiwan Province of China":  "TWN",
+    "Iran":                      "IRN",
+    "Vietnam":                   "VNM",
+    "Slovakia":                  "SVK",
+    "Egypt":                     "EGY",
+    "Yemen":                     "YEM",
+    "Venezuela":                 "VEN",
+    "Bolivia":                   "BOL",
+    "Tanzania":                  "TZA",
+    "Laos":                      "LAO",
+    "Moldova":                   "MDA",
+    "Syria":                     "SYR",
+    "Turkiye":                   "TUR",
+    "Türkiye":                   "TUR",
+    "Turkey":                    "TUR",
+    "Congo (Brazzaville)":       "COG",
+    "Congo (Kinshasa)":          "COD",
+    "Ivory Coast":               "CIV",
+    "Gambia":                    "GMB",
+    "North Cyprus":              "CYP",
+    "Eswatini, Kingdom of":      "SWZ",
+    "Swaziland":                 "SWZ",
+    "Cape Verde":                "CPV",
+    "Congo":                     "COG",
+    "Kyrgyzstan":                "KGZ",
+    "Macedonia":                 "MKD",
+    "North Macedonia":           "MKD",
 }
 
 name_to_iso = dict(zip(crosswalk["country_name"], crosswalk["country_code"]))
@@ -71,6 +93,7 @@ whr_panel["country_code"] = whr_panel["Country name"].map(to_iso)
 unmatched = whr_panel.loc[whr_panel["country_code"].isna(), "Country name"].unique()
 print(f"\nunmatched ({len(unmatched)}): {sorted(unmatched)[:10]}")
 
+# Recreate the database from scratch on every run so the build is deterministic.
 if os.path.exists(DB_PATH):
     os.remove(DB_PATH)
 conn = sqlite3.connect(DB_PATH)
@@ -89,6 +112,8 @@ country_year.to_sql("country_year", conn, index=False, if_exists="replace")
 wb_indicators.to_sql("country_meta", conn, index=False, if_exists="replace")
 whr_chapters.to_sql("whr_chapters", conn, index=False, if_exists="replace")
 
+# B-tree indexes on the join keys.  Tiny here, but RDBMS slide 36 recommends
+# this whenever a column will be used in WHERE/JOIN.
 conn.execute("CREATE INDEX idx_cy_country ON country_year(country_code, year);")
 conn.execute("CREATE INDEX idx_cm_country ON country_meta(country_code);")
 
@@ -122,6 +147,7 @@ print(analysis.head(5))
 
 analysis.to_csv(CLN + "analysis.csv", index=False)
 
+# Quick sanity check: the SQL summary should match what pandas would compute.
 print("\nyear=2023 summary:")
 print(pd.read_sql_query("""
 SELECT ROUND(AVG(ladder), 2) AS mean_ladder,

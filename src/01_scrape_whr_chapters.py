@@ -1,8 +1,30 @@
-"""Scrape chapter metadata from each WHR edition (2020-2026)."""
+"""
+01_scrape_whr_chapters.py
+-------------------------
+Scrape chapter metadata from every World Happiness Report edition (2020-2026).
+For each edition we collect: chapter title, authors, affiliations, an estimated
+reading time and (where it exists) a DOI.
+
+Why this script exists
+    The WHR website lists chapters individually but does not publish a single
+    table that crosswalks year, chapter, author and reading time. The scrape
+    fills that gap.
+
+Course references followed here
+    * Workflow, Modelling & Webscraping (Clarke, 2026), slides 50-66:
+      - "Two general steps: loop through nested URLs, then parse HTML."
+      - "Be a polite scraper: User-Agent, time.sleep, retry on failure."
+    * scrape_xkcd_bs.py from BEE2041-2026/webscrape/ is the structural model:
+      requests + BeautifulSoup, looping over a numeric range of pages.
+      https://github.com/damiancclarke/BEE2041-2026/tree/main/webscrape
+    * Real Python, "A Practical Introduction to Webscraping with Python"
+      (https://realpython.com/python-web-scraping-practical-introduction/)
+      for the requests / BeautifulSoup idiom.
+"""
+import csv
 import os
 import re
 import time
-import csv
 
 import requests
 from bs4 import BeautifulSoup
@@ -14,11 +36,16 @@ os.makedirs(CACHE, exist_ok=True)
 
 YEARS    = [2020, 2021, 2022, 2023, 2024, 2025, 2026]
 BASE_URL = "https://www.worldhappiness.report"
-HEADERS  = {"User-Agent": "bee2041-project/1.0"}
-SLEEP    = 1.0
+# Identify the bot in headers: lecture slide 56, "Be a polite scraper".
+HEADERS  = {"User-Agent": "bee2041-empirical-project/1.0"}
+SLEEP    = 1.0  # seconds between live requests
 
 
 def fetch(url, cache_name, n_tries=4):
+    """Fetch a URL once, then cache to disk so re-runs work offline.
+
+    Retry with exponential back-off on failure (Workflow PDF, slide 55).
+    """
     cache_path = CACHE + cache_name
     if os.path.exists(cache_path):
         with open(cache_path, "r", encoding="utf-8") as f:
@@ -40,6 +67,7 @@ def fetch(url, cache_name, n_tries=4):
 
 
 def chapter_links_for_year(year):
+    """Return relative paths to every chapter in WHR edition `year`."""
     soup = fetch(f"{BASE_URL}/ed/{year}/", f"ed_{year}.html")
     if soup is None:
         return []
@@ -52,15 +80,22 @@ def chapter_links_for_year(year):
 
 
 def parse_chapter(url, cache_name):
+    """Pull title, authors, affiliations, reading time and DOI from one page.
+
+    Regex patterns follow the Workflow PDF, slide 61 (Python `re` module).
+    """
     soup = fetch(url, cache_name)
     if soup is None:
         return None
 
     record = {"url": url}
 
+    # Title is the first <h1> on the page.
     h1 = soup.find("h1")
     record["title"] = h1.get_text(strip=True) if h1 else ""
 
+    # Author list lives in <li class="author"> blocks.  Each <li> has a nested
+    # <span class="author-title"> with the affiliation; pull it out separately.
     authors, affs = [], []
     for li in soup.select("li.author"):
         span = li.find("span", class_="author-title")
@@ -75,6 +110,7 @@ def parse_chapter(url, cache_name):
     record["n_authors"]    = len(authors)
     record["affiliations"] = " | ".join(affs)
 
+    # Reading time and DOI are buried in free text - regex is the easiest tool.
     text = soup.get_text(" ", strip=True)
     m = re.search(r"(\d+)\s*min\.\s*read", text)
     record["reading_time_min"] = int(m.group(1)) if m else None
