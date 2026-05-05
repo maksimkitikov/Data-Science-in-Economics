@@ -1,4 +1,4 @@
-"""Causal forest of Ladder on a 1{GDP > median} treatment, plus a 75th percentile robustness refit."""
+"""causal forest: Ladder ~ 1{GDP > median} | X. also a 75-pct refit."""
 import json
 import os
 
@@ -14,7 +14,7 @@ TAB = "output/tables/"
 os.makedirs(FIG, exist_ok=True)
 os.makedirs(TAB, exist_ok=True)
 
-SEED = 121316
+SEED = 42
 np.random.seed(SEED)
 
 df = pd.read_csv(CLN + "analysis.csv")
@@ -24,15 +24,14 @@ needed = ["ladder", "gdp_pc_ppp", "life_exp_healthy", "social_support",
 df = df.dropna(subset=needed).reset_index(drop=True)
 print(f"n = {len(df)}")
 
-Y = df["ladder"].values * 1.0
+Y = df["ladder"].astype(float).values
 X = df[["life_exp_healthy", "social_support", "freedom",
         "corruption", "internet_pct", "urban_pct"]].values
-X_pretty = ["Healthy life exp.", "Social support", "Freedom",
-            "Corruption", "Internet (%)", "Urban (%)"]
+feature_labels = ["Healthy life exp.", "Social support", "Freedom",
+                  "Corruption", "Internet (%)", "Urban (%)"]
 
 
 def make_forest():
-    """One place to keep the hyperparameters so the headline and robustness fits are guaranteed identical."""
     return CausalForestDML(
         model_y=GradientBoostingRegressor(random_state=SEED),
         model_t=GradientBoostingClassifier(random_state=SEED),
@@ -44,7 +43,6 @@ def make_forest():
 
 
 def fit_at(quantile):
-    """Refit the forest with a different binarisation of GDP per capita."""
     cutoff = float(np.quantile(df["gdp_pc_ppp"], quantile))
     D = (df["gdp_pc_ppp"] > cutoff).astype(int).values
     cf = make_forest()
@@ -54,7 +52,7 @@ def fit_at(quantile):
     return cf, cutoff, a, float(lo), float(hi)
 
 
-# headline fit: above-median income as the treatment
+# headline fit
 cf, cut50, ate, lo50, hi50 = fit_at(0.50)
 cate = cf.effect(X)
 ci_lo, ci_hi = cf.effect_interval(X, alpha=0.05)
@@ -77,7 +75,7 @@ with open(TAB + "cate_headline.json", "w") as f:
                "cate_max": round(float(cate.max()), 3),
                "n": int(len(cate))}, f, indent=2)
 
-# robustness check: same forest with a 75th percentile cutoff instead of the median
+# robustness: top quartile instead of median
 _, cut75, ate75, lo75, hi75 = fit_at(0.75)
 print(f"\nthreshold sensitivity:")
 print(f"  median = ${cut50:.0f}, ATE = {ate:.3f}, CI [{lo50:.3f}, {hi50:.3f}]")
@@ -91,20 +89,13 @@ with open(TAB + "ate_sensitivity.json", "w") as f:
                      "ate": round(ate75, 3), "ci": [round(lo75, 3), round(hi75, 3)]},
     }, f, indent=2)
 
-# split-importance tells us which moderators the forest actually uses, this is the diagnostic suggested in the modelling lecture
-imp = pd.DataFrame({"feature": X_pretty,
+# split-importance
+imp = pd.DataFrame({"feature": feature_labels,
                     "importance": [round(float(x), 4) for x in cf.feature_importances_]})
 imp.sort_values("importance", ascending=False).to_csv(TAB + "cf_importance.csv", index=False)
 
 
-def save(name):
-    plt.tight_layout()
-    plt.savefig(FIG + name + ".pdf")
-    plt.savefig(FIG + name + ".png", dpi=160)
-    plt.clf()
-
-
-# distribution of CATEs across countries
+# cate histogram
 plt.figure(figsize=(8, 5))
 plt.hist(cate, bins=25, color="#3380FF", alpha=0.85, edgecolor="white")
 plt.axvline(ate, color="#FFC300", linestyle="--", linewidth=2, label=f"ATE = {ate:.2f}")
@@ -113,49 +104,9 @@ plt.ylabel("Number of countries")
 plt.title("Heterogeneity in the GDP -> Happiness gradient", loc="left")
 plt.legend(loc="upper right")
 plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
-save("cate_hist")
-
-# every country's CATE with its 95 percent confidence interval
-ranked = out.sort_values("cate", ascending=False).reset_index(drop=True)
-plt.figure(figsize=(8, 6))
-plt.errorbar(np.arange(len(ranked)), ranked["cate"],
-             yerr=[ranked["cate"] - ranked["ci_lo"], ranked["ci_hi"] - ranked["cate"]],
-             fmt="o", color="#3380FF", ecolor="#999999",
-             markersize=3, elinewidth=0.6, capsize=0)
-plt.axhline(0, color="black", linewidth=0.6)
-plt.axhline(ate, color="#FFC300", linestyle="--", linewidth=1.5, label=f"ATE = {ate:.2f}")
-plt.xlabel("Country rank (sorted by CATE)")
-plt.ylabel("CATE (Ladder points)")
-plt.title("Ranked country-level CATEs with 95% CIs", loc="left")
-plt.legend(loc="upper right")
-plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
-save("cate_ranked")
-
-# CATE plotted against GDP on a log axis
-plt.figure(figsize=(8, 5))
-plt.scatter(df["gdp_pc_ppp"], cate, color="#3380FF", alpha=0.7, s=30, edgecolor="white")
-plt.axhline(ate, color="#FFC300", linestyle="--", linewidth=1.5, label=f"ATE = {ate:.2f}")
-plt.xscale("log")
-plt.xlabel("GDP per capita, PPP (log axis, US$)")
-plt.ylabel("Estimated CATE")
-plt.title("Where is the GDP -> Happiness gradient steepest?", loc="left")
-plt.legend(loc="upper right")
-plt.grid(True, linestyle="--", linewidth=0.5, alpha=0.5)
-for _, row in df.assign(cate=cate).iterrows():
-    if row["country_name"] in ["Finland", "United States", "India",
-                               "Costa Rica", "Brazil", "Norway"]:
-        plt.annotate(row["country_code"], xy=(row["gdp_pc_ppp"], row["cate"]),
-                     xytext=(5, 3), textcoords="offset points",
-                     fontsize=9, color="#222222")
-save("cate_by_gdp")
-
-# feature importance bar chart
-order = np.argsort(cf.feature_importances_)
-plt.figure(figsize=(7, 4))
-plt.barh(np.array(X_pretty)[order], cf.feature_importances_[order], color="#3380FF")
-plt.xlabel("Feature importance")
-plt.title("Causal forest: which moderators drive heterogeneity?", loc="left")
-plt.grid(True, axis="x", linestyle="--", linewidth=0.5, alpha=0.5)
-save("cf_importance")
+plt.tight_layout()
+plt.savefig(FIG + "cate_hist.pdf")
+plt.savefig(FIG + "cate_hist.png", dpi=160)
+plt.clf()
 
 print(f"\nfigures -> {FIG}")

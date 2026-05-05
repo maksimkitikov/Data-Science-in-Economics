@@ -1,0 +1,3 @@
+data/raw/html_cache/** linguist-vendored
+docs/data.js linguist-generated
+*.ipynb linguist-vendored
