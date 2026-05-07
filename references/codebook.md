@@ -2,14 +2,14 @@
 
 The analysis cross-section contains 136 countries x 16 columns. Below is what
 each column means and where it comes from. The integration query that produces
-this table lives in `src/04_build_database.py`.
+this table lives in `scripts/04_build_database.py`.
 
 ## Identifiers
 
 | Column | Type | Source | Notes |
 |---|---|---|---|
 | `country_code` | text | World Bank `economy` field | ISO-3 country code, primary key |
-| `country_name` | text | WHR Figure 2.1 | spelling matches the WHR convention; mapped to ISO-3 in `src/04_build_database.py` |
+| `country_name` | text | WHR Figure 2.1 | spelling matches the WHR convention; mapped to ISO-3 in `scripts/04_build_database.py` |
 | `year` | int | WHR edition year | 2023 throughout in this cross-section |
 
 ## WHR Ladder + components (six explanatory variables shipped with the WHR ranking)
@@ -45,7 +45,7 @@ already in the WHR file (internet, urban share, FDI, education).
 
 ## Treatment definition (causal forest)
 
-`src/06_causal_forest.py` constructs:
+`scripts/06_causal_forest.py` constructs:
 
 * **Treatment `D`** - `1` if `gdp_pc_ppp` is above the sample median, `0` otherwise.
 * **Outcome `Y`** - the WHR `ladder` score.

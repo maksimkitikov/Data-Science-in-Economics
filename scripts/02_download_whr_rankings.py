@@ -22,16 +22,16 @@ KEEP_COLS = [
 
 
 def get_with_retry(url, n_tries=4):
-    """Up to four attempts at a download with exponential back-off."""
+    """Try the download a few times before giving up."""
     for attempt in range(n_tries):
         try:
             r = requests.get(url, headers=HEADERS, timeout=60)
             r.raise_for_status()
             return r
-        except requests.RequestException as e:
+        except requests.RequestException:
             if attempt == n_tries - 1:
                 raise
-            time.sleep(2 ** (attempt + 1))
+            time.sleep(3)
 
 
 panel = []

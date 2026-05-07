@@ -53,28 +53,7 @@ body {
   overflow-x: hidden;
 }
 
-/* ========== Scroll-progress bar ========== */
-.scroll-progress {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 3px;
-  width: 100%;
-  background: transparent;
-  z-index: 60;
-  pointer-events: none;
-}
-.scroll-progress > span {
-  display: block;
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, var(--gold), var(--teal));
-  transform-origin: left center;
-  transition: width 80ms linear;
-  box-shadow: 0 0 10px rgba(37, 99, 235, .35);
-}
-
-/* ========== Typography ========== */
+/* Typography */
 h1, h2, h3, h4 {
   font-family: var(--serif);
   font-weight: 700;
@@ -122,7 +101,7 @@ pre {
 }
 pre code { background: transparent; padding: 0; color: inherit; }
 
-/* ========== Top bar ========== */
+/* Top bar */
 .topbar {
   position: sticky;
   top: 0;
@@ -135,11 +114,6 @@ pre code { background: transparent; padding: 0; color: inherit; }
   align-items: center;
   justify-content: space-between;
   padding: 0.85rem clamp(1rem, 4vw, 2.5rem);
-  transition: box-shadow .25s var(--ease-out), background .25s var(--ease-out);
-}
-.topbar.scrolled {
-  background: rgba(251, 249, 244, .95);
-  box-shadow: var(--shadow-sm);
 }
 .brand {
   font-family: var(--serif);
@@ -167,10 +141,6 @@ pre code { background: transparent; padding: 0; color: inherit; }
   color: var(--navy-deep);
   border-bottom-color: var(--gold);
 }
-.topbar nav a.active {
-  color: var(--navy-deep);
-  border-bottom-color: var(--gold);
-}
 .topbar nav a.github {
   color: var(--white);
   background: var(--navy-deep);
@@ -180,45 +150,11 @@ pre code { background: transparent; padding: 0; color: inherit; }
 }
 .topbar nav a.github:hover { background: var(--navy); border-bottom-color: transparent; }
 
-.nav-toggle {
-  display: none;
-  background: none;
-  border: 0;
-  padding: 0.4rem;
-  cursor: pointer;
-}
-.nav-toggle span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: var(--navy);
-  margin: 4px 0;
-  transition: transform .2s, opacity .2s;
-}
-
 @media (max-width: 920px) {
-  .topbar nav {
-    position: absolute;
-    top: 100%;
-    right: 0;
-    flex-direction: column;
-    align-items: flex-start;
-    background: var(--white);
-    box-shadow: var(--shadow-lg);
-    border-radius: 0 0 var(--radius) var(--radius);
-    padding: 1rem 1.4rem;
-    gap: 0.9rem;
-    width: min(280px, 80vw);
-    transform: translateY(-8px);
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity .18s, transform .18s;
-  }
-  .topbar.open nav { opacity: 1; transform: translateY(0); pointer-events: auto; }
-  .nav-toggle { display: block; }
+  .topbar nav { display: none; }
 }
 
-/* ========== Layout ========== */
+/* Layout */
 .container {
   width: 100%;
   max-width: var(--maxw);
@@ -233,7 +169,7 @@ section {
 section.alt { background: var(--paper-warm); }
 section + section { border-top: 1px solid color-mix(in srgb, var(--slate-300) 40%, transparent); }
 
-/* ========== Hero ========== */
+/* Hero */
 .hero {
   background:
     radial-gradient(ellipse 70% 60% at 80% 0%, color-mix(in srgb, var(--gold-soft) 50%, transparent), transparent 60%),
@@ -313,7 +249,7 @@ section + section { border-top: 1px solid color-mix(in srgb, var(--slate-300) 40
 }
 .btn.ghost:hover { background: var(--navy-deep); color: var(--white); }
 
-/* ========== Section meta ========== */
+/* Section meta */
 .kicker {
   font-size: 0.78rem;
   letter-spacing: 0.18em;
@@ -323,7 +259,7 @@ section + section { border-top: 1px solid color-mix(in srgb, var(--slate-300) 40
   margin-bottom: 0.8rem;
 }
 
-/* ========== Charts ========== */
+/* Charts */
 .chart-card {
   background: var(--white);
   border-radius: var(--radius);
@@ -363,12 +299,35 @@ section + section { border-top: 1px solid color-mix(in srgb, var(--slate-300) 40
 }
 .chart-grid .chart-card { margin: 0; }
 
+/* Supplementary diagnostics: smaller heading + slightly muted card. */
+.aside-heading {
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--slate-500);
+  margin: 2.4rem 0 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--slate-200);
+}
+.aside-lead {
+  color: var(--slate-700);
+  font-size: 0.97rem;
+  margin-bottom: 1.2rem;
+}
+.chart-card.aside {
+  background: var(--paper-warm);
+  box-shadow: var(--shadow-sm);
+}
+.chart-card.aside .chart { min-height: 320px; }
+
 /* Plotly internal - keep enough room so axis titles never get clipped */
 .chart-card .js-plotly-plot,
 .chart-card .plotly,
 .chart-card .plot-container { width: 100% !important; }
 
-/* ========== Callouts (decomposition) ========== */
+/* Callouts (decomposition) */
 .callouts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -391,7 +350,7 @@ section + section { border-top: 1px solid color-mix(in srgb, var(--slate-300) 40
 .callouts article h3 { color: var(--navy-deep); }
 .callouts article p { font-size: 0.94rem; margin: 0.3rem 0 0; color: var(--slate-700); }
 
-/* ========== Banner ========== */
+/* Banner */
 .callout-banner {
   display: flex;
   align-items: center;
@@ -444,7 +403,7 @@ section + section { border-top: 1px solid color-mix(in srgb, var(--slate-300) 40
   padding: 0.1em 0.4em;
 }
 
-/* ========== Tables ========== */
+/* Tables */
 .table-wrap {
   background: var(--white);
   border-radius: var(--radius);
@@ -518,7 +477,7 @@ table td.muted { color: var(--slate-300); }
 }
 .sig-legend .stars { color: var(--gold); margin-right: 0.25em; font-weight: 700; }
 
-/* ========== Take-aways ========== */
+/* Take-aways */
 .takeaways {
   list-style: none;
   display: grid;
@@ -559,7 +518,7 @@ table td.muted { color: var(--slate-300); }
   font-size: 1rem;
 }
 
-/* ========== Refs ========== */
+/* Refs */
 .refs {
   list-style: none;
   margin: 0.5rem 0 1rem;
@@ -573,7 +532,7 @@ table td.muted { color: var(--slate-300); }
 }
 .refs li:last-child { border-bottom: 0; }
 
-/* ========== Footer ========== */
+/* Footer */
 footer {
   background: var(--navy-deep);
   color: var(--slate-300);
@@ -585,7 +544,7 @@ footer .muted { color: var(--slate-500); font-size: 0.84rem; }
 footer a { color: var(--gold-soft); border-bottom-color: var(--gold); }
 footer a:hover { color: var(--white); }
 
-/* ========== Plotly tweaks ========== */
+/* Plotly tweaks */
 .js-plotly-plot .modebar {
   opacity: 0;
   transition: opacity .25s var(--ease-out);
@@ -598,51 +557,7 @@ footer a:hover { color: var(--white); }
 /* Prevent Plotly from injecting a width that overflows on resize */
 .js-plotly-plot, .plot-container, .svg-container { max-width: 100% !important; }
 
-/* ========== Back-to-top ========== */
-.to-top {
-  position: fixed;
-  right: clamp(1rem, 3vw, 2rem);
-  bottom: clamp(1rem, 3vw, 2rem);
-  width: 44px;
-  height: 44px;
-  border: 0;
-  border-radius: 50%;
-  background: var(--navy-deep);
-  color: var(--gold);
-  font-size: 1.2rem;
-  cursor: pointer;
-  box-shadow: var(--shadow-md);
-  opacity: 0;
-  transform: translateY(8px);
-  pointer-events: none;
-  transition: opacity .25s var(--ease-out), transform .25s var(--ease-out), background .15s;
-  z-index: 40;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.to-top.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
-.to-top:hover { background: var(--navy); }
-
-/* ========== Scroll reveal ========== */
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition:
-    opacity .9s var(--ease-out),
-    transform .9s var(--ease-out);
-  will-change: opacity, transform;
-}
-[data-reveal].in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-[data-reveal-delay="1"].in-view { transition-delay: 80ms; }
-[data-reveal-delay="2"].in-view { transition-delay: 160ms; }
-[data-reveal-delay="3"].in-view { transition-delay: 240ms; }
-[data-reveal-delay="4"].in-view { transition-delay: 320ms; }
-
-/* ========== Responsive tightenings ========== */
+/* Responsive tightenings */
 @media (max-width: 760px) {
   .chart, .chart-tall { min-height: 320px; }
   .chart-tall { min-height: 500px; }
@@ -669,16 +584,12 @@ footer a:hover { color: var(--white); }
   [data-reveal] { opacity: 1; transform: none; }
 }
 
-/* ========== Country explorer (section 1.5) ========== */
+/* Country explorer (section 1.5) */
 .country-search {
   display: flex;
   gap: 0.6rem;
   margin: 1.4rem 0 1.6rem;
   max-width: 640px;
-  /* Lift the search bar above the profile card so the autocomplete
-     dropdown is not occluded by it. data-reveal adds a transform on
-     both elements, which creates stacking contexts and made the card
-     paint over the dropdown by default. */
   position: relative;
   z-index: 20;
 }
@@ -814,7 +725,7 @@ footer a:hover { color: var(--white); }
   border: 0;
 }
 
-/* ========== Sensitivity table (causal-forest robustness) ========== */
+/* Sensitivity table (causal-forest robustness) */
 .sensitivity {
   margin-top: 2.4rem;
   padding: 1.5rem 1.7rem;
@@ -857,7 +768,7 @@ footer a:hover { color: var(--white); }
 .mini-table tbody tr:last-child td { border-bottom: none; }
 .mini-table strong { color: var(--navy); }
 
-/* ========== Custom autocomplete dropdown (replaces native datalist) ========== */
+/* Custom autocomplete dropdown (replaces native datalist) */
 .search-wrap {
   position: relative;
   flex: 1;
@@ -915,7 +826,7 @@ footer a:hover { color: var(--white); }
   .suggestions { max-height: 240px; }
 }
 
-/* ========== Chapters card (click-through from bar chart) ========== */
+/* Chapters card (click-through from bar chart) */
 .chapters-card {
   position: relative;
   z-index: 1;

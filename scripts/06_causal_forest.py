@@ -56,7 +56,6 @@ out["cate"] = cate
 out["ci_lo"] = ci_lo
 out["ci_hi"] = ci_hi
 out = out.sort_values("cate", ascending=False).reset_index(drop=True)
-# Round so the CSV is byte-stable across rebuilds.
 out["ladder"] = out["ladder"].round(4)
 out["gdp_pc_ppp"] = out["gdp_pc_ppp"].round(2)
 out["cate"] = out["cate"].round(6)
@@ -100,8 +99,8 @@ cut50 = float(df["gdp_pc_ppp"].median())
 ate50, lo50, hi50 = float(ate), float(ate_lo), float(ate_hi)
 cut75, ate75, lo75, hi75 = fit_with_threshold(0.75)
 print("\nThreshold sensitivity:")
-print(f"  median  cutoff = ${cut50:>9,.0f}  ATE = {ate50:+.3f}  CI = [{lo50:+.3f}, {hi50:+.3f}]")
-print(f"  75-pct  cutoff = ${cut75:>9,.0f}  ATE = {ate75:+.3f}  CI = [{lo75:+.3f}, {hi75:+.3f}]")
+print(f"  median cutoff = ${cut50:.0f}, ATE = {ate50:.3f}, CI [{lo50:.3f}, {hi50:.3f}]")
+print(f"  75-pct cutoff = ${cut75:.0f}, ATE = {ate75:.3f}, CI [{lo75:.3f}, {hi75:.3f}]")
 
 sensitivity = {
     "headline": {

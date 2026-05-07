@@ -1,17 +1,11 @@
-"""Build blog.ipynb programmatically from the figures and tables under output/,
-then render docs/notebook.html alongside."""
+"""Build blog.ipynb programmatically from the figures and tables under output/."""
 import os
 
 import nbformat as nbf
-from nbconvert import HTMLExporter
 from nbconvert.preprocessors import ExecutePreprocessor
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-DOCS = ROOT + "docs/"
-os.makedirs(DOCS, exist_ok=True)
-
 NB_PATH = ROOT + "blog.ipynb"
-HTML_PATH = DOCS + "notebook.html"
 
 nb = nbf.v4.new_notebook()
 nb["metadata"] = {
@@ -177,7 +171,17 @@ significant in every column where they appear, and in the standardised
 specification (m6) social support has the largest absolute coefficient
 (0.42). It is reassuring that the two independent log-GDP measures (the
 WHR's bundled value and the World Bank's PPP series) give nearly identical
-estimates.""")
+estimates.
+
+The pattern is consistent with a long line of work in the economics of
+well-being. Easterlin (1974) first noted that within rich countries the
+income–happiness relationship flattens after basic needs are met; later
+work (Stevenson & Wolfers, 2008; Layard, Mayraz & Nickell, 2009) finds
+the gradient survives in *cross*-country data but is much smaller once
+mediating institutions are accounted for. Specification (6) makes the
+effect sizes comparable: a one-standard-deviation rise in social support
+is worth roughly the same as a one-standard-deviation rise in log GDP,
+and freedom is not far behind.""")
 
 md("""## A causal forest: when does income still buy happiness?
 
@@ -204,7 +208,11 @@ print(f"CATEs: min = {hdl['cate_min']:+.2f}, median = {hdl['cate_med']:+.2f}, ma
 md("""The forest's average treatment effect lands very close to zero
 once we condition on the six moderators, far below the raw 0.80 OLS
 coefficient on log GDP. Almost all of the apparent income premium runs
-through those other covariates.
+through those other covariates. The histogram above is the **main result**
+of this section; the next two figures and the robustness table are
+diagnostics that probe the same number from different angles.
+
+### Diagnostics
 
 There *is* still genuine heterogeneity across countries. Which countries
 get the biggest happiness boost from being above the income median, and
@@ -336,16 +344,3 @@ ep.preprocess(nb, {"metadata": {"path": ROOT}})
 with open(NB_PATH, "w", encoding="utf-8") as f:
     nbf.write(nb, f)
 print(f"wrote {NB_PATH}")
-
-exporter = HTMLExporter(template_name="lab")
-exporter.exclude_input_prompt  = False
-exporter.exclude_output_prompt = True
-body, _ = exporter.from_notebook_node(nb)
-
-# Drop nbconvert's unused entity declarations (mdash, ndash, hellip).
-import re
-body = re.sub(r'<!ENTITY\s+(?:mdash|ndash|hellip)\s+"&#\d+;">\s*', '', body)
-
-with open(HTML_PATH, "w", encoding="utf-8") as f:
-    f.write(body)
-print(f"wrote {HTML_PATH}")

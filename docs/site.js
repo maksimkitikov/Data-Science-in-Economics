@@ -43,15 +43,9 @@ const CHART_REGISTRY = [];
 function register(id) { CHART_REGISTRY.push(id); }
 
 
-// Prefer the inline bundle so the site works from disk; fall back to fetch().
-async function loadJSON(path) {
+function loadJSON(path) {
   const key = path.replace(/^.*data\//, "").replace(/\.json$/, "");
-  if (window.SITE_DATA && window.SITE_DATA[key] !== undefined) {
-    return window.SITE_DATA[key];
-  }
-  const r = await fetch(path);
-  if (!r.ok) throw new Error(`Failed to load ${path}`);
-  return r.json();
+  return window.SITE_DATA[key];
 }
 
 
@@ -111,35 +105,14 @@ async function drawRankings() {
 
   await Plotly.newPlot('rank-chart', traces, buildLayout(), BASE_CONFIG);
   register('rank-chart');
-
-  // Re-build (not just resize) when crossing the breakpoint
-  let wasStacked = window.innerWidth < 700;
-  window.addEventListener('resize', () => {
-    const isStacked = window.innerWidth < 700;
-    if (isStacked !== wasStacked) {
-      wasStacked = isStacked;
-      Plotly.relayout('rank-chart', buildLayout());
-    }
-  }, { passive: true });
 }
 
 
 // Section 2: GDP vs Ladder scatter
 async function drawGdpScatter() {
   const countries = await loadJSON('data/countries.json');
+  const smooth = loadJSON('data/gdp_smoother.json');
   const pts = countries.filter(c => c.gdp_ppp && c.ladder);
-
-  const sorted = [...pts].sort((a, b) => a.gdp_ppp - b.gdp_ppp);
-  const win = Math.max(15, Math.round(sorted.length * 0.35));
-  const smooth = sorted.map((_, i) => {
-    const lo = Math.max(0, i - Math.floor(win / 2));
-    const hi = Math.min(sorted.length, lo + win);
-    const slice = sorted.slice(lo, hi);
-    const meanX = slice.reduce((s, p) => s + p.gdp_ppp, 0) / slice.length;
-    const meanY = slice.reduce((s, p) => s + p.ladder,  0) / slice.length;
-    return { x: meanX, y: meanY };
-  });
-
   const highlight = ['FIN', 'DNK', 'USA', 'CRI', 'BRA', 'IND', 'ZWE', 'AFG', 'NOR'];
 
   const layout = {
@@ -174,8 +147,8 @@ async function drawGdpScatter() {
     },
     {
       type: 'scatter', mode: 'lines',
-      x: smooth.map(p => p.x),
-      y: smooth.map(p => p.y),
+      x: smooth.map(p => p.gdp_ppp),
+      y: smooth.map(p => p.ladder),
       line: { color: PALETTE.navy, width: 3, shape: 'spline' },
       hoverinfo: 'skip',
       name: 'LOWESS smoother',
@@ -319,8 +292,6 @@ async function drawCausalForest() {
       `[${headline.ate_ci[0].toFixed(3)}, ${headline.ate_ci[1].toFixed(3)}]`;
   }
 
-  // CATE histogram: keep ATE annotation OUTSIDE the plot area (above)
-  // so it never overlaps the bars themselves.
   const cateValues = cate.map(d => d.cate);
   await Plotly.newPlot('cate-hist',
     [{
@@ -350,7 +321,6 @@ async function drawCausalForest() {
     }, BASE_CONFIG);
   register('cate-hist');
 
-  // CATE vs GDP: keep the ATE reference dashed line, label it once at the right edge
   const labels = ['IND', 'CRI', 'BRA', 'FIN', 'NOR', 'USA'];
   await Plotly.newPlot('cate-vs-gdp',
     [{ type: 'scatter', mode: 'markers',
@@ -381,8 +351,6 @@ async function drawCausalForest() {
     }, BASE_CONFIG);
   register('cate-vs-gdp');
 
-  // Feature importance: keep value labels INSIDE the bar so they never run
-  // off the plot area on narrow screens. Pad x-axis right side a hair.
   const sorted = [...imp].sort((a, b) => a.importance - b.importance);
   const xMax = Math.max(...sorted.map(d => d.importance)) * 1.18;
   await Plotly.newPlot('cf-importance',
@@ -413,13 +381,7 @@ async function drawCausalForest() {
 // Section 6: Chapters + time series
 async function drawChaptersAndTs() {
   const ch = await loadJSON('data/chapters.json');
-
-  // Build a hover preview per year: the first three chapter titles from
-  // that edition, truncated. This is the click-through-without-clicking
-  // version of the scraped chapter list.
-  let chaptersByYear = {};
-  try { chaptersByYear = await loadJSON('data/chapters_by_year.json'); }
-  catch (_) {}
+  const chaptersByYear = loadJSON('data/chapters_by_year.json') || {};
 
   function trunc(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
   function previewFor(year) {
@@ -482,14 +444,10 @@ async function drawChaptersAndTs() {
                      '#9333ea', '#ec4899', PALETTE.navy, PALETTE.slate];
   const countries = Object.keys(ts);
 
-  // Years that exist in any country's series, sorted ascending. Animation
-  // frames are keyed off these.
   const allYears = [...new Set(
     Object.values(ts).flatMap(rows => rows.map(r => r.year))
   )].sort((a, b) => a - b);
-
-  // Pin the y-axis range up-front so the axis does not bounce as the
-  // animation grows the lines frame-by-frame.
+  // Pin the y-range so the axis doesn't bounce as the animation builds.
   const allLadders = Object.values(ts).flatMap(rows => rows.map(r => r.ladder));
   const yLo = Math.floor(Math.min(...allLadders) * 10) / 10 - 0.2;
   const yHi = Math.ceil(Math.max(...allLadders) * 10) / 10 + 0.2;
@@ -509,9 +467,7 @@ async function drawChaptersAndTs() {
     });
   }
 
-  // Initial state is the full picture (latest year) so the section is not
-  // empty before the user clicks anything. Frames build the same picture
-  // year-by-year.
+  // Show full picture by default; frames build it year-by-year on Play.
   const initial = tracesUpTo(allYears[allYears.length - 1]);
   const frames = allYears.map(y => ({ name: String(y), data: tracesUpTo(y) }));
 
@@ -607,46 +563,21 @@ async function drawChaptersAndTs() {
 }
 
 
-// Hero animated counters
-function animateNumber(el, end, decimals = 0, suffix = '') {
-  if (!el) return;
-  const start = 0;
-  const dur = 1100;
-  const t0 = performance.now();
-  function tick(now) {
-    const t = Math.min(1, (now - t0) / dur);
-    const eased = 1 - Math.pow(1 - t, 3);
-    const v = start + (end - start) * eased;
-    el.textContent = (decimals > 0 ? v.toFixed(decimals) : Math.round(v).toLocaleString()) + suffix;
-    if (t < 1) requestAnimationFrame(tick);
-  }
-  requestAnimationFrame(tick);
-}
-
-// Causal-forest sensitivity table
 async function fillSensitivityTable() {
   const tbody = document.querySelector('#sensitivity-table tbody');
-  if (!tbody) return;
-  let s;
-  try { s = await loadJSON('data/ate_sensitivity.json'); }
-  catch (_) { return; }   // file not built yet - just skip silently
-
+  const s = loadJSON('data/ate_sensitivity.json');
+  if (!tbody || !s) return;
   const fmtUSD = v => '$' + Math.round(v).toLocaleString('en-US');
   const sign = v => (v >= 0 ? '+' : '') + Number(v).toFixed(3);
   const row = (k) => {
     const r = s[k];
-    return `<tr>
-      <td>${r.label}</td>
-      <td>${fmtUSD(r.cutoff_usd)}</td>
-      <td><strong>${sign(r.ate)}</strong></td>
-      <td>[${sign(r.ci[0])}, ${sign(r.ci[1])}]</td>
-    </tr>`;
+    return `<tr><td>${r.label}</td><td>${fmtUSD(r.cutoff_usd)}</td><td><strong>${sign(r.ate)}</strong></td><td>[${sign(r.ci[0])}, ${sign(r.ci[1])}]</td></tr>`;
   };
   tbody.innerHTML = row('headline') + row('robust');
 }
 
 
-// Section 1.5: Interactive country explorer
+// Country explorer: type a name, see all indicators for that country.
 async function wireCountryExplorer() {
   const input = document.getElementById('country-input');
   const card = document.getElementById('country-card');
@@ -654,126 +585,39 @@ async function wireCountryExplorer() {
   const suggestions = document.getElementById('country-suggestions');
   if (!input || !card || !suggestions) return;
 
-  const countries = await loadJSON('data/countries.json');
-
-  // CATEs are in a separate JSON; if the file is missing we just hide the
-  // row, the rest of the card still works.
-  let cateMap = {};
-  try {
-    const cate = await loadJSON('data/cate.json');
-    cate.forEach(r => { cateMap[r.code] = r; });
-  } catch (_) { /* noop */ }
-
-  // Pre-compute the rank-by-Ladder map so we don't re-sort on every render.
+  const countries = loadJSON('data/countries.json');
+  const cateMap = {};
+  (loadJSON('data/cate.json') || []).forEach(r => { cateMap[r.code] = r; });
   const ranking = [...countries].sort((a, b) => b.ladder - a.ladder);
   const rankByCode = new Map(ranking.map((c, i) => [c.code, i + 1]));
 
-  // Animate one numeric cell from its previous value to a new target.
-  // Picks one of three formatters based on opts and tweens over 700 ms
-  // with cubic ease-out. Falls back to a plain assignment if the user
-  // has prefers-reduced-motion.
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  function animateValue(el, target, decimals, opts = {}) {
-    if (target == null || Number.isNaN(target)) {
-      el.textContent = '-';
-      return;
-    }
-    function fmt(v) {
-      if (opts.usd) return '$' + Math.round(v).toLocaleString('en-US');
-      if (opts.signed) return (v >= 0 ? '+' : '') + v.toFixed(decimals);
-      if (decimals > 0) return v.toFixed(decimals);
-      return Math.round(v).toLocaleString('en-US');
-    }
-    if (reduceMotion) {
-      el.textContent = fmt(target) + (opts.suffix || '');
-      return;
-    }
-
-    const from = parseFloat(el.dataset.value != null ? el.dataset.value : '0') || 0;
-    const dur = 700;
-    const t0 = performance.now();
-    function tick(now) {
-      const t = Math.min(1, (now - t0) / dur);
-      const eased = 1 - Math.pow(1 - t, 3);
-      const v = from + (target - from) * eased;
-      el.textContent = fmt(v) + (opts.suffix || '');
-      if (t < 1) {
-        requestAnimationFrame(tick);
-      } else {
-        el.dataset.value = String(target);
-      }
-    }
-    requestAnimationFrame(tick);
-  }
+  const fmtNum = (v, d = 2) => v == null || Number.isNaN(v) ? '-' : v.toFixed(d);
+  const fmtUsd = v => v == null ? '-' : '$' + Math.round(v).toLocaleString('en-US');
+  const fmtSign = (v, d = 3) => v == null ? '-' : (v >= 0 ? '+' : '') + v.toFixed(d);
 
   function renderCard(c) {
     const rank = rankByCode.get(c.code) || '-';
     const ct = cateMap[c.code];
-
-    // Build the static skeleton once per render. The numeric cells get
-    // updated by animateValue() right after.
     const cateBlock = ct
-      ? `<div><span class="cc-label">CATE (causal forest)</span>
-           <span class="cc-val">
-             <span data-stat="cate"></span>
-             <span class="cc-ci">[<span data-stat="cate_lo"></span>, <span data-stat="cate_hi"></span>]</span>
-           </span></div>`
+      ? `<div><span class="cc-label">CATE (causal forest)</span><span class="cc-val">${fmtSign(ct.cate)} <span class="cc-ci">[${fmtSign(ct.ci_lo)}, ${fmtSign(ct.ci_hi)}]</span></span></div>`
       : '';
-
     card.innerHTML = `
       <div class="cc-head">
-        <div class="cc-id">
-          <span class="cc-flag">${c.code}</span>
-          <h3>${c.name}</h3>
-        </div>
-        <span class="cc-rank">Rank <strong data-stat="rank"></strong> / ${countries.length}</span>
+        <div class="cc-id"><span class="cc-flag">${c.code}</span><h3>${c.name}</h3></div>
+        <span class="cc-rank">Rank <strong>${rank}</strong> / ${countries.length}</span>
       </div>
       <div class="cc-grid">
-        <div><span class="cc-label">Ladder score</span><span class="cc-val" data-stat="ladder"></span></div>
-        <div><span class="cc-label">GDP per capita PPP</span><span class="cc-val" data-stat="gdp"></span></div>
-        <div><span class="cc-label">Healthy life exp.</span><span class="cc-val" data-stat="life_exp"></span></div>
-        <div><span class="cc-label">Social support</span><span class="cc-val" data-stat="social"></span></div>
-        <div><span class="cc-label">Freedom</span><span class="cc-val" data-stat="freedom"></span></div>
-        <div><span class="cc-label">Corruption (perceptions)</span><span class="cc-val" data-stat="corruption"></span></div>
-        <div><span class="cc-label">Internet (%)</span><span class="cc-val" data-stat="internet"></span></div>
-        <div><span class="cc-label">Urban (%)</span><span class="cc-val" data-stat="urban"></span></div>
+        <div><span class="cc-label">Ladder score</span><span class="cc-val">${fmtNum(c.ladder)}</span></div>
+        <div><span class="cc-label">GDP per capita PPP</span><span class="cc-val">${fmtUsd(c.gdp_ppp)}</span></div>
+        <div><span class="cc-label">Healthy life exp.</span><span class="cc-val">${fmtNum(c.life_exp_healthy, 1)} yrs</span></div>
+        <div><span class="cc-label">Social support</span><span class="cc-val">${fmtNum(c.social_support)}</span></div>
+        <div><span class="cc-label">Freedom</span><span class="cc-val">${fmtNum(c.freedom)}</span></div>
+        <div><span class="cc-label">Corruption (perceptions)</span><span class="cc-val">${fmtNum(c.corruption)}</span></div>
+        <div><span class="cc-label">Internet (%)</span><span class="cc-val">${fmtNum(c.internet_pct, 1)}</span></div>
+        <div><span class="cc-label">Urban (%)</span><span class="cc-val">${fmtNum(c.urban_pct, 1)}</span></div>
         ${cateBlock}
       </div>`;
-
-    // Carry over previous numeric values so the new render animates from
-    // them rather than from zero.
-    Object.entries(prev).forEach(([k, v]) => {
-      const el = card.querySelector(`[data-stat="${k}"]`);
-      if (el) el.dataset.value = String(v);
-    });
-
-    const set = (key, target, decimals, opts) => {
-      const el = card.querySelector(`[data-stat="${key}"]`);
-      if (!el) return;
-      animateValue(el, target, decimals, opts);
-      if (target != null && !Number.isNaN(target)) prev[key] = target;
-    };
-
-    set('rank', rank, 0);
-    set('ladder', c.ladder, 2);
-    set('gdp', c.gdp_ppp, 0, { usd: true });
-    set('life_exp', c.life_exp_healthy, 1, { suffix: ' yrs' });
-    set('social', c.social_support, 2);
-    set('freedom', c.freedom, 2);
-    set('corruption', c.corruption, 2);
-    set('internet', c.internet_pct, 1);
-    set('urban', c.urban_pct, 1);
-    if (ct) {
-      set('cate', ct.cate, 3, { signed: true });
-      set('cate_lo', ct.ci_lo, 3, { signed: true });
-      set('cate_hi', ct.ci_hi, 3, { signed: true });
-    }
   }
-
-  // Tracks last-rendered numeric values so animations are smooth when the
-  // user hops from country to country.
-  const prev = {};
 
   function pickByName(query) {
     const q = query.toLowerCase().trim();
@@ -861,7 +705,6 @@ async function wireCountryExplorer() {
   });
 
   suggestions.addEventListener('mousedown', (e) => {
-    // Use mousedown so we beat the input's blur event.
     const li = e.target.closest('.suggestion');
     if (li) {
       e.preventDefault();
@@ -882,163 +725,28 @@ async function wireCountryExplorer() {
     });
   }
 
-  // Pre-populate with Finland on first load so the card is never empty.
   input.value = 'Finland';
   show('Finland');
 }
 
 
-async function fillStats() {
-  try {
-    const countries = await loadJSON('data/countries.json');
-    const sorted = [...countries].sort((a, b) => b.ladder - a.ladder);
-    const top = sorted[0];
-    const bot = sorted[sorted.length - 1];
-
-    const trigger = () => {
-      animateNumber(document.getElementById('stat-top'), top.ladder, 1);
-      animateNumber(document.getElementById('stat-bot'), bot.ladder, 1);
-      animateNumber(document.getElementById('stat-n'),   sorted.length, 0);
-    };
-
-    const heroStats = document.querySelector('.hero-stats');
-    if (!heroStats || !('IntersectionObserver' in window)) {
-      trigger();
-      return;
-    }
-    const obs = new IntersectionObserver((entries, o) => {
-      entries.forEach(e => {
-        if (e.isIntersecting) {
-          trigger();
-          o.disconnect();
-        }
-      });
-    }, { threshold: 0.4 });
-    obs.observe(heroStats);
-  } catch (e) { /* leave the static fallbacks */ }
-}
-
-
-// Mobile nav toggle
-function wireNav() {
-  const bar = document.querySelector('.topbar');
-  const btn = document.querySelector('.nav-toggle');
-  if (!btn || !bar) return;
-  btn.addEventListener('click', () => {
-    const open = bar.classList.toggle('open');
-    btn.setAttribute('aria-expanded', open ? 'true' : 'false');
-  });
-  bar.querySelectorAll('nav a').forEach(a => a.addEventListener('click', () => {
-    bar.classList.remove('open');
-    btn.setAttribute('aria-expanded', 'false');
-  }));
-}
-
-
-// Scroll progress + topbar shadow + back-to-top
-function wireScrollUI() {
-  const bar = document.querySelector('.scroll-progress > span');
-  const topbar = document.querySelector('.topbar');
-  const toTop = document.querySelector('.to-top');
-  const navLinks = Array.from(document.querySelectorAll('.topbar nav a[href^="#"]'));
-  const sections = navLinks
-    .map(a => document.querySelector(a.getAttribute('href')))
-    .filter(Boolean);
-
-  let ticking = false;
-
-  const update = () => {
-    const doc = document.documentElement;
-    const scroll = window.scrollY || doc.scrollTop;
-    const max = (doc.scrollHeight - doc.clientHeight) || 1;
-    const pct = Math.max(0, Math.min(1, scroll / max));
-
-    if (bar) bar.style.width = (pct * 100) + '%';
-    if (topbar) topbar.classList.toggle('scrolled', scroll > 4);
-    if (toTop) toTop.classList.toggle('show', scroll > 480);
-
-    // Active-section highlight
-    if (sections.length) {
-      const probe = scroll + 96;
-      let activeIdx = -1;
-      for (let i = 0; i < sections.length; i++) {
-        if (sections[i].offsetTop <= probe) activeIdx = i;
-      }
-      navLinks.forEach((a, i) => a.classList.toggle('active', i === activeIdx));
-    }
-    ticking = false;
-  };
-
-  const onScroll = () => {
-    if (!ticking) {
-      window.requestAnimationFrame(update);
-      ticking = true;
-    }
-  };
-
-  window.addEventListener('scroll', onScroll, { passive: true });
-  window.addEventListener('resize', onScroll, { passive: true });
-  update();
-
-  if (toTop) {
-    toTop.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  }
-}
-
-
-// Scroll reveal
-function wireReveal() {
-  const els = document.querySelectorAll('[data-reveal]');
-  if (!els.length) return;
-
-  if (!('IntersectionObserver' in window)) {
-    els.forEach(el => el.classList.add('in-view'));
-    return;
-  }
-
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('in-view');
-        obs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-  els.forEach(el => obs.observe(el));
-}
-
-
-// Resize handler for Plotly
+// Resize charts when the window changes width.
 function wireResize() {
-  let resizeTimer = null;
-  const resize = () => {
-    CHART_REGISTRY.forEach(id => {
-      const el = document.getElementById(id);
-      if (el && window.Plotly) {
-        try { Plotly.Plots.resize(el); } catch (_) { /* noop */ }
-      }
-    });
-  };
+  let t = null;
   window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(resize, 120);
+    clearTimeout(t);
+    t = setTimeout(() => {
+      CHART_REGISTRY.forEach(id => {
+        const el = document.getElementById(id);
+        if (el && window.Plotly) Plotly.Plots.resize(el);
+      });
+    }, 120);
   }, { passive: true });
 }
 
 
-// Boot
 window.addEventListener('DOMContentLoaded', async () => {
-  wireNav();
-  wireScrollUI();
-  wireReveal();
   wireResize();
-  fillStats();
-
-  // Render charts. We don't await each one in series elsewhere; just collect
-  // errors so a single failure cannot block the rest.
   const tasks = [
     ['rank',         drawRankings],
     ['explorer',     wireCountryExplorer],

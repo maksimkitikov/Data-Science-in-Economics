@@ -39,7 +39,7 @@ def fetch(url, cache_name, n_tries=4):
             if attempt == n_tries - 1:
                 print(f"  failed {url}: {e}")
                 return None
-            time.sleep(2 ** (attempt + 1))
+            time.sleep(3)
 
 
 def chapter_links_for_year(year):

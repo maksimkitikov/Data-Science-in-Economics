@@ -24,14 +24,14 @@ INDICATORS = {
 
 
 def fetch_with_retry(code, n_tries=5):
-    """Up to five attempts at the wb endpoint, doubling the wait each time."""
+    """Hit the WB endpoint a few times in case of a flaky network."""
     last_err = None
     for attempt in range(n_tries):
         try:
             return wb.data.DataFrame(code, time=YEAR, labels=True).reset_index()
         except Exception as e:
             last_err = e
-            time.sleep(2 ** (attempt + 1))
+            time.sleep(3)
     raise last_err
 
 
