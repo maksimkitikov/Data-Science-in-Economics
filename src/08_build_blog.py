@@ -1,10 +1,5 @@
-"""Assemble blog.ipynb (the brief asks for a file with this exact name)
-and a rendered HTML companion served from docs/notebook.html.
-
-We build the cells programmatically rather than maintaining the .ipynb by
-hand: the static figures and CSV tables under output/ are the source of
-truth, the notebook just stitches the narrative around them.
-"""
+"""Build blog.ipynb programmatically from the figures and tables under output/,
+then render docs/notebook.html alongside."""
 import os
 
 import nbformat as nbf
@@ -115,9 +110,9 @@ md("""### Money matters, but with diminishing returns
 Plotting the Ladder against GDP per capita on a log axis (the usual
 choice, since income enters utility logarithmically) gives a clear
 upward relationship, but the LOWESS smoother flattens noticeably above
-roughly US&#36;30,000 PPP. Costa Rica out-ranks the United States despite
-earning less than half of US income, a small-scale version of the
-Easterlin paradox.""")
+roughly US&#36;30,000 PPP. Costa Rica nearly matches the United States on
+the Ladder (6.6 versus 6.9) on roughly a third of US income, a
+small-scale version of the Easterlin paradox.""")
 
 code("""display(Image(filename=FIG + "gdp_vs_ladder.png"))""")
 
@@ -347,10 +342,7 @@ exporter.exclude_input_prompt  = False
 exporter.exclude_output_prompt = True
 body, _ = exporter.from_notebook_node(nb)
 
-# nbconvert's full HTML template embeds an internal DTD declaring named
-# character entities (mdash, ndash, hellip, ...). The body never uses
-# them, but they still leave numeric-entity strings in the output, which
-# we don't want. Drop the offending declarations.
+# Drop nbconvert's unused entity declarations (mdash, ndash, hellip).
 import re
 body = re.sub(r'<!ENTITY\s+(?:mdash|ndash|hellip)\s+"&#\d+;">\s*', '', body)
 

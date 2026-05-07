@@ -1,1 +1,44 @@
-[{"year":2020,"n_chapters":8,"mean_read_min":26.75,"mean_authors":3.0},{"year":2021,"n_chapters":8,"mean_read_min":31.38,"mean_authors":3.25},{"year":2022,"n_chapters":7,"mean_read_min":31.0,"mean_authors":4.71},{"year":2023,"n_chapters":6,"mean_read_min":33.0,"mean_authors":4.0},{"year":2024,"n_chapters":5,"mean_read_min":40.2,"mean_authors":4.4},{"year":2025,"n_chapters":8,"mean_read_min":37.12,"mean_authors":4.75},{"year":2026,"n_chapters":9,"mean_read_min":35.44,"mean_authors":3.78}]
+[
+  {
+    "year": 2020,
+    "n_chapters": 8,
+    "mean_read_min": 26.75,
+    "mean_authors": 3.0
+  },
+  {
+    "year": 2021,
+    "n_chapters": 8,
+    "mean_read_min": 31.38,
+    "mean_authors": 3.25
+  },
+  {
+    "year": 2022,
+    "n_chapters": 7,
+    "mean_read_min": 31.0,
+    "mean_authors": 4.71
+  },
+  {
+    "year": 2023,
+    "n_chapters": 6,
+    "mean_read_min": 33.0,
+    "mean_authors": 4.0
+  },
+  {
+    "year": 2024,
+    "n_chapters": 5,
+    "mean_read_min": 40.2,
+    "mean_authors": 4.4
+  },
+  {
+    "year": 2025,
+    "n_chapters": 8,
+    "mean_read_min": 37.12,
+    "mean_authors": 4.75
+  },
+  {
+    "year": 2026,
+    "n_chapters": 9,
+    "mean_read_min": 35.44,
+    "mean_authors": 3.78
+  }
+]

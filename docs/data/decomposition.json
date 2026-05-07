@@ -1,1 +1,155 @@
-{"vars":["log_gdp","social_support","life_exp_healthy","freedom","corruption","generosity"],"labels":["Log GDP","Social support","Healthy life exp.","Freedom","Corruption","Generosity"],"rows":[{"country":"Finland","log_gdp":0.27,"social_support":0.67,"life_exp_healthy":0.126,"freedom":0.406,"corruption":0.434,"generosity":-0.007},{"country":"Denmark","log_gdp":0.304,"social_support":0.613,"life_exp_healthy":0.128,"freedom":0.341,"corruption":0.422,"generosity":0.017},{"country":"Iceland","log_gdp":0.291,"social_support":0.724,"life_exp_healthy":0.144,"freedom":0.347,"corruption":0.046,"generosity":0.029},{"country":"Israel","log_gdp":0.239,"social_support":0.57,"life_exp_healthy":0.157,"freedom":0.049,"corruption":0.013,"generosity":-0.007},{"country":"Netherlands","log_gdp":0.3,"social_support":0.52,"life_exp_healthy":0.134,"freedom":0.232,"corruption":0.276,"generosity":0.029},{"country":"Sweden","log_gdp":0.288,"social_support":0.554,"life_exp_healthy":0.146,"freedom":0.375,"corruption":0.417,"generosity":0.022},{"country":"Norway","log_gdp":0.329,"social_support":0.571,"life_exp_healthy":0.133,"freedom":0.372,"corruption":0.353,"generosity":0.018},{"country":"Switzerland","log_gdp":0.345,"social_support":0.481,"life_exp_healthy":0.161,"freedom":0.241,"corruption":0.366,"generosity":0.0},{"country":"Luxembourg","log_gdp":0.444,"social_support":0.316,"life_exp_healthy":0.136,"freedom":0.297,"corruption":0.303,"generosity":-0.0},{"country":"New Zealand","log_gdp":0.244,"social_support":0.606,"life_exp_healthy":0.11,"freedom":0.231,"corruption":0.362,"generosity":0.023},{"country":"Austria","log_gdp":0.292,"social_support":0.355,"life_exp_healthy":0.126,"freedom":0.156,"corruption":0.182,"generosity":0.012},{"country":"Australia","log_gdp":0.276,"social_support":0.533,"life_exp_healthy":0.124,"freedom":0.239,"corruption":0.183,"generosity":0.027},{"country":"Canada","log_gdp":0.266,"social_support":0.513,"life_exp_healthy":0.131,"freedom":0.203,"corruption":0.243,"generosity":0.02},{"country":"Ireland","log_gdp":0.418,"social_support":0.421,"life_exp_healthy":0.129,"freedom":0.202,"corruption":0.293,"generosity":0.01},{"country":"United States","log_gdp":0.322,"social_support":0.476,"life_exp_healthy":0.019,"freedom":0.029,"corruption":0.029,"generosity":0.017}]}
+{
+  "vars": [
+    "log_gdp",
+    "social_support",
+    "life_exp_healthy",
+    "freedom",
+    "corruption",
+    "generosity"
+  ],
+  "labels": [
+    "Log GDP",
+    "Social support",
+    "Healthy life exp.",
+    "Freedom",
+    "Corruption",
+    "Generosity"
+  ],
+  "rows": [
+    {
+      "country": "Finland",
+      "log_gdp": 0.27,
+      "social_support": 0.67,
+      "life_exp_healthy": 0.126,
+      "freedom": 0.406,
+      "corruption": 0.434,
+      "generosity": -0.007
+    },
+    {
+      "country": "Denmark",
+      "log_gdp": 0.304,
+      "social_support": 0.613,
+      "life_exp_healthy": 0.128,
+      "freedom": 0.341,
+      "corruption": 0.422,
+      "generosity": 0.017
+    },
+    {
+      "country": "Iceland",
+      "log_gdp": 0.291,
+      "social_support": 0.724,
+      "life_exp_healthy": 0.144,
+      "freedom": 0.347,
+      "corruption": 0.046,
+      "generosity": 0.029
+    },
+    {
+      "country": "Israel",
+      "log_gdp": 0.239,
+      "social_support": 0.57,
+      "life_exp_healthy": 0.157,
+      "freedom": 0.049,
+      "corruption": 0.013,
+      "generosity": -0.007
+    },
+    {
+      "country": "Netherlands",
+      "log_gdp": 0.3,
+      "social_support": 0.52,
+      "life_exp_healthy": 0.134,
+      "freedom": 0.232,
+      "corruption": 0.276,
+      "generosity": 0.029
+    },
+    {
+      "country": "Sweden",
+      "log_gdp": 0.288,
+      "social_support": 0.554,
+      "life_exp_healthy": 0.146,
+      "freedom": 0.375,
+      "corruption": 0.417,
+      "generosity": 0.022
+    },
+    {
+      "country": "Norway",
+      "log_gdp": 0.329,
+      "social_support": 0.571,
+      "life_exp_healthy": 0.133,
+      "freedom": 0.372,
+      "corruption": 0.353,
+      "generosity": 0.018
+    },
+    {
+      "country": "Switzerland",
+      "log_gdp": 0.345,
+      "social_support": 0.481,
+      "life_exp_healthy": 0.161,
+      "freedom": 0.241,
+      "corruption": 0.366,
+      "generosity": 0.0
+    },
+    {
+      "country": "Luxembourg",
+      "log_gdp": 0.444,
+      "social_support": 0.316,
+      "life_exp_healthy": 0.136,
+      "freedom": 0.297,
+      "corruption": 0.303,
+      "generosity": -0.0
+    },
+    {
+      "country": "New Zealand",
+      "log_gdp": 0.244,
+      "social_support": 0.606,
+      "life_exp_healthy": 0.11,
+      "freedom": 0.231,
+      "corruption": 0.362,
+      "generosity": 0.023
+    },
+    {
+      "country": "Austria",
+      "log_gdp": 0.292,
+      "social_support": 0.355,
+      "life_exp_healthy": 0.126,
+      "freedom": 0.156,
+      "corruption": 0.182,
+      "generosity": 0.012
+    },
+    {
+      "country": "Australia",
+      "log_gdp": 0.276,
+      "social_support": 0.533,
+      "life_exp_healthy": 0.124,
+      "freedom": 0.239,
+      "corruption": 0.183,
+      "generosity": 0.027
+    },
+    {
+      "country": "Canada",
+      "log_gdp": 0.266,
+      "social_support": 0.513,
+      "life_exp_healthy": 0.131,
+      "freedom": 0.203,
+      "corruption": 0.243,
+      "generosity": 0.02
+    },
+    {
+      "country": "Ireland",
+      "log_gdp": 0.418,
+      "social_support": 0.421,
+      "life_exp_healthy": 0.129,
+      "freedom": 0.202,
+      "corruption": 0.293,
+      "generosity": 0.01
+    },
+    {
+      "country": "United States",
+      "log_gdp": 0.322,
+      "social_support": 0.476,
+      "life_exp_healthy": 0.019,
+      "freedom": 0.029,
+      "corruption": 0.029,
+      "generosity": 0.017
+    }
+  ]
+}

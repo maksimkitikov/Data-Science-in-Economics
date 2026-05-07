@@ -1,13 +1,5 @@
-"""Stitch the three raw sources into a small SQLite database.
-
-Tables:
-    country_year  -- WHR Ladder + 6 components, panel 2020-2024
-    country_meta  -- World Bank covariates, 2022 cross-section
-    whr_chapters  -- scraped chapter metadata
-
-The cross-section we hand to the regressions and the causal forest is the
-INNER JOIN of country_year (year=2023) and country_meta on country_code.
-"""
+"""Build whr.db (country_year + country_meta + whr_chapters) and write the
+2023 cross-section (WHR INNER JOIN World Bank) to data/clean/analysis.csv."""
 import os
 import sqlite3
 
@@ -28,9 +20,7 @@ print(f"whr_panel:     {whr_panel.shape}")
 print(f"wb_indicators: {wb_indicators.shape}")
 print(f"whr_chapters:  {whr_chapters.shape}")
 
-# Country-name crosswalk to ISO-3 codes. Start from wbgapi's built-in
-# pairings, then patch the WHR-specific spellings (asterisks on conflict
-# zones, the Türkiye/Turkey split, "Hong Kong S.A.R. of China" etc.).
+# wbgapi gives most of the country-name -> ISO mapping; the rest are WHR oddities.
 crosswalk = wb_indicators[["country_code", "country_name"]].drop_duplicates()
 manual = {
     "United States": "USA",
@@ -83,7 +73,7 @@ whr_panel["country_code"] = whr_panel["Country name"].map(to_iso)
 unmatched = whr_panel.loc[whr_panel["country_code"].isna(), "Country name"].unique()
 print(f"\nunmatched ({len(unmatched)}): {sorted(unmatched)[:10]}")
 
-# Rebuild the database from scratch on every run so the build is deterministic.
+# Always rebuild so the result is deterministic.
 if os.path.exists(DB_PATH):
     os.remove(DB_PATH)
 conn = sqlite3.connect(DB_PATH)
@@ -102,8 +92,7 @@ country_year.to_sql("country_year", conn, index=False, if_exists="replace")
 wb_indicators.to_sql("country_meta", conn, index=False, if_exists="replace")
 whr_chapters.to_sql("whr_chapters", conn, index=False, if_exists="replace")
 
-# Indexes on the join keys. Tiny in absolute terms here, but the query
-# planner now does an index scan instead of a full table scan.
+# Indexes on the join keys.
 conn.execute("CREATE INDEX idx_cy_country ON country_year(country_code, year);")
 conn.execute("CREATE INDEX idx_cm_country ON country_meta(country_code);")
 
@@ -137,8 +126,6 @@ print(analysis.head(5))
 
 analysis.to_csv(CLN + "analysis.csv", index=False)
 
-# Sanity prints. The SQL summary should match what pandas would compute
-# on the same panel slice.
 print("\nyear=2023 summary:")
 print(pd.read_sql_query("""
 SELECT ROUND(AVG(ladder), 2) AS mean_ladder,

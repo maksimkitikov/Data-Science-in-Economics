@@ -51,7 +51,7 @@
       The World Happiness Report has crowned Finland the happiest country on
       earth for seven years running. But why? National wealth is the obvious
       suspect, yet Afghanistan sits at the bottom of the ranking
-      with a twentieth of US income. Money cannot be the whole story.
+      with under 3% of US income per head. Money cannot be the whole story.
     </p>
     <p class="lede">
       This piece pulls together three live data sources, integrates them in
@@ -129,12 +129,13 @@
 <section id="scatter" class="alt">
   <div class="container">
     <p class="kicker" data-reveal>2 &middot; Money matters - with diminishing returns</p>
-    <h2 data-reveal data-reveal-delay="1">Doubling income from $2k to $4k buys the same Ladder bump as doubling from $32k to $64k</h2>
+    <h2 data-reveal data-reveal-delay="1">Below $30k PPP each doubling of income buys roughly the same Ladder bump; above it, the curve flattens</h2>
     <p data-reveal data-reveal-delay="2">
       Plotting the Ladder score against GDP per capita on a log axis gives a
       clear upward relationship. The smoother bends noticeably above
-      around $30,000 PPP. Costa Rica out-ranks the United States despite
-      earning less than half of US income, a small-scale version of the
+      around $30,000 PPP. Costa Rica nearly matches the United States on
+      the Ladder (6.6 versus 6.9) on roughly a third of US income, a
+      small-scale version of the
       <em>Easterlin paradox</em>.
     </p>
 
@@ -144,12 +145,9 @@
     </figure>
 
     <p data-reveal>
-      Two things complicate the simple "money buys happiness" reading.
-      <strong>The curve clearly bends</strong>, exactly what we would
-      expect from logarithmic utility. And the <strong>vertical scatter
-      is wide</strong>: countries with similar income levels routinely
-      differ by close to two Ladder points. That residual variation is
-      where this post lives.
+      The vertical scatter is also wide: countries with similar income
+      levels routinely differ by close to two Ladder points. That residual
+      variation is where this post lives.
     </p>
   </div>
 </section>
@@ -174,7 +172,7 @@
 
     <div class="callouts">
       <article data-reveal data-reveal-delay="1">
-        <h3>Social support is the third-richest contributor</h3>
+        <h3>Social support, not income, leads</h3>
         <p>
           The blue bar (the share of respondents saying they have someone
           to count on in tough times) is the single largest contributor in
@@ -207,7 +205,7 @@
 <section id="regressions" class="alt">
   <div class="container">
     <p class="kicker" data-reveal>4 &middot; OLS, six ways</p>
-    <h2 data-reveal data-reveal-delay="1">The log-GDP coefficient halves and halves again</h2>
+    <h2 data-reveal data-reveal-delay="1">Adding social support roughly halves the log-GDP coefficient</h2>
     <p data-reveal data-reveal-delay="2">
       I fit six progressively richer specifications. Robust HC3 standard
       errors throughout. The coefficients on log GDP and the social-capital
@@ -230,11 +228,11 @@
         <span><span class="stars">**</span>p &lt; 0.05</span>
         <span><span class="stars">*</span>p &lt; 0.10</span>
       </p>
-      <p id="ols-caption" class="caption">All specifications use Robust (HC3) standard errors. (m6) is fitted on z-scored variables. (m5) swaps WHR's bundled log-GDP for the World Bank's PPP series as a cross-source sanity check.</p>
+      <p id="ols-caption" class="caption">All specifications use Robust (HC3) standard errors. (m6) is fitted on z-scored variables. (m5) swaps WHR's bundled log-GDP for the World Bank's PPP series as a cross-source sanity check. N is 134 because two countries are missing the corruption variable.</p>
     </div>
 
     <p data-reveal>
-      <strong>Headline:</strong> the log-GDP coefficient drops from 0.80
+      The log-GDP coefficient drops from 0.80
       on its own to 0.27 once social support, freedom and corruption are
       controlled for. Most of the apparent income premium runs through
       those other channels.
@@ -252,7 +250,9 @@
       countries differ on dozens of margins at once. To probe heterogeneity
       flexibly I fit a <em>causal forest</em> (Wager &amp; Athey, 2018) with
       <code>econml.dml.CausalForestDML</code>. The "treatment" is being above
-      the median income; X covers six potential moderators.
+      the median income; X covers six potential moderators. The forest is
+      fitted on n = 130: six of the 136 countries fall out because their
+      internet- or urban-share data is missing.
     </p>
 
     <div class="callout-banner" id="ate-banner" data-reveal data-reveal-delay="3">
@@ -331,7 +331,7 @@
 
     <figure class="chart-card" data-reveal data-reveal-delay="3">
       <div id="chapters-chart" class="chart"></div>
-      <figcaption>Chapters per edition (bars) and average reading time (line). Source: scraped from worldhappiness.report/ed/{year}.</figcaption>
+      <figcaption>Chapters per edition (bars) and average reading time (line). Hover any bar to peek at that year's chapter titles. Source: scraped from each annual edition page on worldhappiness.report.</figcaption>
     </figure>
 
     <p data-reveal>
@@ -343,7 +343,7 @@
 
     <figure class="chart-card" data-reveal>
       <div id="ts-chart" class="chart"></div>
-      <figcaption>Ladder score over time for a handful of selected countries, scraped from each annual <code>Figure_2.1.xls</code> file.</figcaption>
+      <figcaption>Ladder score over time for a handful of selected countries, scraped from each annual <code>Figure_2.1.xls</code> file. Hit <strong>Play</strong> or drag the slider to step through 2020-2024 year by year.</figcaption>
     </figure>
 
     <p data-reveal>

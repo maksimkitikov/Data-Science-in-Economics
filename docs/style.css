@@ -914,3 +914,84 @@ footer a:hover { color: var(--white); }
 @media (max-width: 640px) {
   .suggestions { max-height: 240px; }
 }
+
+/* ========== Chapters card (click-through from bar chart) ========== */
+.chapters-card {
+  position: relative;
+  z-index: 1;
+  margin-top: 1.4rem;
+  background: var(--white);
+  border: 1px solid #e8edf4;
+  border-radius: 14px;
+  padding: 1.5rem 1.7rem;
+  box-shadow: var(--shadow-sm);
+}
+.chapters-card .ch-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.1rem;
+  padding-bottom: 0.85rem;
+  border-bottom: 1px solid #eef2f7;
+}
+.chapters-card .ch-head h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+.chapters-card .ch-head a {
+  font-size: 0.85rem;
+  color: var(--teal);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+}
+.chapters-card .ch-head a:hover { text-decoration: underline; }
+
+.chapters-card .ch-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+.chapters-card .ch-item {
+  padding: 0.75rem 0.95rem;
+  background: #fafbfd;
+  border-left: 3px solid var(--teal);
+  border-radius: 6px;
+}
+.chapters-card .ch-item h4 {
+  margin: 0 0 0.25rem;
+  font-family: var(--sans);
+  font-size: 0.98rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+}
+.chapters-card .ch-authors {
+  margin: 0.15rem 0 0.3rem;
+  font-size: 0.85rem;
+  color: var(--slate-700);
+  line-height: 1.35;
+}
+.chapters-card .ch-meta {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--slate-500);
+  background: var(--white);
+  padding: 0.18rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #e2e8f0;
+}
+.chapters-card .cc-hint {
+  margin: 0;
+  color: var(--slate-500);
+  font-style: italic;
+}
+.chapters-chart-cursor { cursor: pointer; }

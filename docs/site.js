@@ -43,10 +43,7 @@ const CHART_REGISTRY = [];
 function register(id) { CHART_REGISTRY.push(id); }
 
 
-/* ---------- Data loaders --------------------------------------------
-   We prefer the in-memory bundle (window.SITE_DATA) so the site works
-   even when opened from the file system. We fall back to fetch() so the
-   data files in docs/data/ remain useful as a separate API.            */
+// Prefer the inline bundle so the site works from disk; fall back to fetch().
 async function loadJSON(path) {
   const key = path.replace(/^.*data\//, "").replace(/\.json$/, "");
   if (window.SITE_DATA && window.SITE_DATA[key] !== undefined) {
@@ -58,7 +55,7 @@ async function loadJSON(path) {
 }
 
 
-/* ---------- Section 1: Top/Bottom ranking --------------------------- */
+// Section 1: Top/Bottom ranking
 async function drawRankings() {
   const countries = await loadJSON('data/countries.json');
   const sorted = [...countries].sort((a, b) => b.ladder - a.ladder);
@@ -127,7 +124,7 @@ async function drawRankings() {
 }
 
 
-/* ---------- Section 2: GDP vs Ladder scatter ------------------------ */
+// Section 2: GDP vs Ladder scatter
 async function drawGdpScatter() {
   const countries = await loadJSON('data/countries.json');
   const pts = countries.filter(c => c.gdp_ppp && c.ladder);
@@ -200,7 +197,7 @@ async function drawGdpScatter() {
 }
 
 
-/* ---------- Section 3: Decomposition --------------------------------- */
+// Section 3: Decomposition
 async function drawDecomposition() {
   const data = await loadJSON('data/decomposition.json');
   const colors = [PALETTE.navy, PALETTE.teal, '#7faaff', PALETTE.gold, PALETTE.coral, PALETTE.slate];
@@ -239,7 +236,7 @@ async function drawDecomposition() {
 }
 
 
-/* ---------- Section 4: OLS table ------------------------------------ */
+// Section 4: OLS table
 async function drawOlsTable() {
   const reg = await loadJSON('data/regressions.json');
   const orderedTerms = ['log_gdp', 'log_gdp_wb', 'social_support', 'life_exp_healthy', 'freedom', 'corruption'];
@@ -307,7 +304,7 @@ async function drawOlsTable() {
 }
 
 
-/* ---------- Section 5: Causal forest -------------------------------- */
+// Section 5: Causal forest
 async function drawCausalForest() {
   const cate = await loadJSON('data/cate.json');
   const headline = await loadJSON('data/cate_headline.json');
@@ -413,18 +410,39 @@ async function drawCausalForest() {
 }
 
 
-/* ---------- Section 6: Chapters + time series ----------------------- */
+// Section 6: Chapters + time series
 async function drawChaptersAndTs() {
   const ch = await loadJSON('data/chapters.json');
 
-  // Chapters chart: secondary axis on the right needs extra right margin
-  // so its title "Mean reading time (min)" never gets clipped.
+  // Build a hover preview per year: the first three chapter titles from
+  // that edition, truncated. This is the click-through-without-clicking
+  // version of the scraped chapter list.
+  let chaptersByYear = {};
+  try { chaptersByYear = await loadJSON('data/chapters_by_year.json'); }
+  catch (_) {}
+
+  function trunc(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+  function previewFor(year) {
+    const list = chaptersByYear[year] || [];
+    if (!list.length) return '';
+    const lines = list.slice(0, 3).map(c => '• ' + trunc(c.title, 60));
+    if (list.length > 3) lines.push(`<i>+ ${list.length - 3} more</i>`);
+    return lines.join('<br>');
+  }
+
+  const barX = ch.map(d => d.year);
+  const barY = ch.map(d => d.n_chapters);
+  const barCustom = barX.map(previewFor);
+
   await Plotly.newPlot('chapters-chart',
     [
-      { type: 'bar', x: ch.map(d => d.year), y: ch.map(d => d.n_chapters),
+      { type: 'bar', x: barX, y: barY,
         name: 'Chapters per edition',
         marker: { color: PALETTE.teal, opacity: 0.85 },
-        hovertemplate: '%{x}<br>Chapters: %{y}<extra></extra>' },
+        customdata: barCustom,
+        hovertemplate:
+          '<b>WHR %{x}</b> &nbsp;|&nbsp; %{y} chapters<br>' +
+          '<span style="font-size:11px">%{customdata}</span><extra></extra>' },
       { type: 'scatter', mode: 'lines+markers',
         x: ch.map(d => d.year), y: ch.map(d => d.mean_read_min),
         name: 'Mean reading time (min)',
@@ -455,39 +473,141 @@ async function drawChaptersAndTs() {
         gridcolor: 'transparent',
         automargin: true,
       },
+      hoverlabel: { ...BASE_LAYOUT.hoverlabel, align: 'left' },
     }, BASE_CONFIG);
   register('chapters-chart');
 
   const ts = await loadJSON('data/timeseries.json');
   const palette10 = [PALETTE.teal, PALETTE.gold, PALETTE.coral, PALETTE.green,
                      '#9333ea', '#ec4899', PALETTE.navy, PALETTE.slate];
-  const traces = Object.entries(ts).map(([country, rows], i) => ({
-    type: 'scatter', mode: 'lines+markers',
-    name: country,
-    x: rows.map(r => r.year),
-    y: rows.map(r => r.ladder),
-    line: { color: palette10[i % palette10.length], width: 2, shape: 'spline' },
-    marker: { size: 7, color: palette10[i % palette10.length], line: { color: PALETTE.white, width: 1 } },
-    hovertemplate: `<b>${country}</b><br>%{x}: %{y:.2f}<extra></extra>`,
+  const countries = Object.keys(ts);
+
+  // Years that exist in any country's series, sorted ascending. Animation
+  // frames are keyed off these.
+  const allYears = [...new Set(
+    Object.values(ts).flatMap(rows => rows.map(r => r.year))
+  )].sort((a, b) => a - b);
+
+  // Pin the y-axis range up-front so the axis does not bounce as the
+  // animation grows the lines frame-by-frame.
+  const allLadders = Object.values(ts).flatMap(rows => rows.map(r => r.ladder));
+  const yLo = Math.floor(Math.min(...allLadders) * 10) / 10 - 0.2;
+  const yHi = Math.ceil(Math.max(...allLadders) * 10) / 10 + 0.2;
+
+  function tracesUpTo(year) {
+    return countries.map((country, i) => {
+      const rows = ts[country].filter(r => r.year <= year);
+      return {
+        type: 'scatter', mode: 'lines+markers',
+        name: country,
+        x: rows.map(r => r.year),
+        y: rows.map(r => r.ladder),
+        line: { color: palette10[i % palette10.length], width: 2, shape: 'spline' },
+        marker: { size: 7, color: palette10[i % palette10.length], line: { color: PALETTE.white, width: 1 } },
+        hovertemplate: `<b>${country}</b><br>%{x}: %{y:.2f}<extra></extra>`,
+      };
+    });
+  }
+
+  // Initial state is the full picture (latest year) so the section is not
+  // empty before the user clicks anything. Frames build the same picture
+  // year-by-year.
+  const initial = tracesUpTo(allYears[allYears.length - 1]);
+  const frames = allYears.map(y => ({ name: String(y), data: tracesUpTo(y) }));
+
+  const animOpts = {
+    mode: 'immediate',
+    transition: { duration: 450, easing: 'cubic-in-out' },
+    frame: { duration: 850, redraw: false },
+  };
+
+  const sliderSteps = allYears.map(y => ({
+    label: String(y),
+    method: 'animate',
+    args: [[String(y)], { ...animOpts, frame: { duration: 350, redraw: false } }],
   }));
 
-  await Plotly.newPlot('ts-chart', traces,
-    { ...BASE_LAYOUT, height: 460,
-      margin: { l: 60, r: 32, t: 30, b: 100 },
-      legend: {
-        orientation: 'h',
-        x: 0.5, xanchor: 'center',
-        y: -0.22, yanchor: 'top',
-        font: { size: 11 },
+  const tsLayout = {
+    ...BASE_LAYOUT, height: 500,
+    margin: { l: 60, r: 32, t: 90, b: 130 },
+    legend: {
+      orientation: 'h',
+      x: 0.5, xanchor: 'center',
+      y: -0.28, yanchor: 'top',
+      font: { size: 11 },
+    },
+    xaxis: {
+      ...BASE_LAYOUT.xaxis,
+      dtick: 1,
+      range: [allYears[0] - 0.25, allYears[allYears.length - 1] + 0.25],
+      title: { text: 'WHR edition year', font: { size: 12, color: PALETTE.slate }, standoff: 12 },
+    },
+    yaxis: {
+      ...BASE_LAYOUT.yaxis,
+      range: [yLo, yHi],
+      title: { text: 'Ladder score', font: { size: 12, color: PALETTE.slate }, standoff: 8 },
+    },
+    updatemenus: [{
+      type: 'buttons',
+      direction: 'left',
+      x: 0,
+      xanchor: 'left',
+      y: 1.16,
+      yanchor: 'top',
+      pad: { r: 8, t: 4, b: 4, l: 4 },
+      showactive: false,
+      bgcolor: PALETTE.white,
+      bordercolor: '#cbd5e1',
+      borderwidth: 1,
+      font: { size: 12, color: PALETTE.navy },
+      buttons: [
+        {
+          label: '▶  Play',
+          method: 'animate',
+          args: [allYears.map(String), { ...animOpts, fromcurrent: false }],
+        },
+        {
+          label: '❚❚  Pause',
+          method: 'animate',
+          args: [[null], {
+            mode: 'immediate',
+            transition: { duration: 0 },
+            frame: { duration: 0, redraw: false },
+          }],
+        },
+      ],
+    }],
+    sliders: [{
+      active: allYears.length - 1,
+      x: 0.16,
+      xanchor: 'left',
+      y: 1.18,
+      yanchor: 'top',
+      len: 0.82,
+      pad: { t: 0, b: 0 },
+      currentvalue: {
+        prefix: 'Year: ',
+        font: { size: 12, color: PALETTE.navy },
+        xanchor: 'right',
+        offset: 8,
       },
-      xaxis: { ...BASE_LAYOUT.xaxis, dtick: 1, title: { text: 'WHR edition year', font: { size: 12, color: PALETTE.slate }, standoff: 12 } },
-      yaxis: { ...BASE_LAYOUT.yaxis, title: { text: 'Ladder score', font: { size: 12, color: PALETTE.slate }, standoff: 8 } },
-    }, BASE_CONFIG);
+      ticklen: 4,
+      tickcolor: '#cbd5e1',
+      bgcolor: '#eef2f7',
+      activebgcolor: PALETTE.gold,
+      bordercolor: 'transparent',
+      font: { size: 11 },
+      steps: sliderSteps,
+    }],
+  };
+
+  await Plotly.newPlot('ts-chart', initial, tsLayout, BASE_CONFIG);
+  await Plotly.addFrames('ts-chart', frames);
   register('ts-chart');
 }
 
 
-/* ---------- Hero animated counters ----------------------------------- */
+// Hero animated counters
 function animateNumber(el, end, decimals = 0, suffix = '') {
   if (!el) return;
   const start = 0;
@@ -503,7 +623,7 @@ function animateNumber(el, end, decimals = 0, suffix = '') {
   requestAnimationFrame(tick);
 }
 
-/* ---------- Causal-forest sensitivity table ------------------------- */
+// Causal-forest sensitivity table
 async function fillSensitivityTable() {
   const tbody = document.querySelector('#sensitivity-table tbody');
   if (!tbody) return;
@@ -526,7 +646,7 @@ async function fillSensitivityTable() {
 }
 
 
-/* ---------- Section 1.5: Interactive country explorer --------------- */
+// Section 1.5: Interactive country explorer
 async function wireCountryExplorer() {
   const input = document.getElementById('country-input');
   const card = document.getElementById('country-card');
@@ -799,7 +919,7 @@ async function fillStats() {
 }
 
 
-/* ---------- Mobile nav toggle --------------------------------------- */
+// Mobile nav toggle
 function wireNav() {
   const bar = document.querySelector('.topbar');
   const btn = document.querySelector('.nav-toggle');
@@ -815,7 +935,7 @@ function wireNav() {
 }
 
 
-/* ---------- Scroll progress + topbar shadow + back-to-top ------------ */
+// Scroll progress + topbar shadow + back-to-top
 function wireScrollUI() {
   const bar = document.querySelector('.scroll-progress > span');
   const topbar = document.querySelector('.topbar');
@@ -868,7 +988,7 @@ function wireScrollUI() {
 }
 
 
-/* ---------- Scroll reveal ------------------------------------------- */
+// Scroll reveal
 function wireReveal() {
   const els = document.querySelectorAll('[data-reveal]');
   if (!els.length) return;
@@ -891,7 +1011,7 @@ function wireReveal() {
 }
 
 
-/* ---------- Resize handler for Plotly ------------------------------- */
+// Resize handler for Plotly
 function wireResize() {
   let resizeTimer = null;
   const resize = () => {
@@ -909,7 +1029,7 @@ function wireResize() {
 }
 
 
-/* ---------- Boot ---------------------------------------------------- */
+// Boot
 window.addEventListener('DOMContentLoaded', async () => {
   wireNav();
   wireScrollUI();

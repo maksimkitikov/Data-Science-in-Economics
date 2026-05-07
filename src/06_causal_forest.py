@@ -1,16 +1,5 @@
-"""Causal forest on the WHR cross-section.
-
-Treatment: 1{GDP per capita PPP > median}.
-Outcome:   WHR Ladder score (2023).
-X:         healthy life exp., social support, freedom, corruption,
-           internet %, urban %.
-
-We use econml's CausalForestDML with gradient-boosted nuisance models.
-The CATE we recover is descriptive: a cross-section is not a randomised
-trial, so the result tells us how much the conditional Ladder gap
-between above-median and below-median income countries varies with the
-moderators, not what would happen if a given country "got richer".
-"""
+"""Causal forest of Ladder on a 1{GDP > median} treatment via econml's CausalForestDML.
+The CATE is descriptive (cross-section, not RCT)."""
 import json
 import os
 
@@ -67,8 +56,7 @@ out["cate"] = cate
 out["ci_lo"] = ci_lo
 out["ci_hi"] = ci_hi
 out = out.sort_values("cate", ascending=False).reset_index(drop=True)
-# Round before writing so the CSV is byte-stable across rebuilds.
-# Python's float repr drifts by 1 ULP between runs without this.
+# Round so the CSV is byte-stable across rebuilds.
 out["ladder"] = out["ladder"].round(4)
 out["gdp_pc_ppp"] = out["gdp_pc_ppp"].round(2)
 out["cate"] = out["cate"].round(6)
@@ -90,10 +78,7 @@ print(f"wrote {TAB}cate_summary.csv")
 print(f"wrote {TAB}cate_headline.json")
 
 
-# ---- Robustness ----------------------------------------------------------
-# The "above median" treatment is convenient but arbitrary. Refit with the
-# cut at the 75th percentile and write both numbers out so the blog can
-# show a side-by-side comparison.
+# Robustness: refit with a 75th-percentile cutoff so the blog can compare both.
 def fit_with_threshold(q):
     cutoff = float(np.quantile(df["gdp_pc_ppp"], q))
     D_alt = (df["gdp_pc_ppp"] > cutoff).astype(int).values
@@ -137,8 +122,7 @@ with open(TAB + "ate_sensitivity.json", "w") as f:
 print(f"wrote {TAB}ate_sensitivity.json")
 
 
-# Persist feature importance so the JSON exporter doesn't have to refit
-# the forest just to redraw the bar chart.
+# Persist feature importance so the JSON exporter doesn't refit the forest.
 imp_df = pd.DataFrame({
     "feature": X_cols,
     "importance": [round(float(x), 4) for x in cf.feature_importances_],
@@ -147,9 +131,7 @@ imp_df.to_csv(TAB + "cf_importance.csv", index=False)
 print(f"wrote {TAB}cf_importance.csv")
 
 
-# ---- Figures -------------------------------------------------------------
-
-# (1) Histogram of CATEs
+# Histogram of CATEs.
 plt.figure(figsize=(8, 5))
 plt.hist(cate, bins=25, color="#3380FF", alpha=0.85, edgecolor="white")
 plt.axvline(ate, color="#FFC300", linestyle="--", linewidth=2,
@@ -164,7 +146,7 @@ plt.savefig(FIG + "cate_hist.pdf")
 plt.savefig(FIG + "cate_hist.png", dpi=160)
 plt.clf()
 
-# (2) Ranked CATEs with 95% CIs
+# Ranked CATEs with 95% CIs.
 ranked = out.copy()
 plt.figure(figsize=(8, 6))
 xs = np.arange(len(ranked))
@@ -186,7 +168,7 @@ plt.savefig(FIG + "cate_ranked.pdf")
 plt.savefig(FIG + "cate_ranked.png", dpi=160)
 plt.clf()
 
-# (3) CATE vs GDP per capita (log axis)
+# CATE vs GDP per capita (log axis).
 plt.figure(figsize=(8, 5))
 plt.scatter(df["gdp_pc_ppp"], cate, color="#3380FF", alpha=0.7, s=30,
             edgecolor="white")
@@ -210,7 +192,7 @@ plt.savefig(FIG + "cate_by_gdp.pdf")
 plt.savefig(FIG + "cate_by_gdp.png", dpi=160)
 plt.clf()
 
-# (4) Forest split-importance
+# Forest split-importance.
 imp = cf.feature_importances_
 order = np.argsort(imp)
 plt.figure(figsize=(7, 4))

@@ -1,1 +1,26 @@
-[{"feature":"Internet (%)","importance":0.2491},{"feature":"Social support","importance":0.2121},{"feature":"Corruption","importance":0.1422},{"feature":"Healthy life exp.","importance":0.1397},{"feature":"Freedom","importance":0.1307},{"feature":"Urban (%)","importance":0.1261}]
+[
+  {
+    "feature": "Internet (%)",
+    "importance": 0.2491
+  },
+  {
+    "feature": "Social support",
+    "importance": 0.2121
+  },
+  {
+    "feature": "Corruption",
+    "importance": 0.1422
+  },
+  {
+    "feature": "Healthy life exp.",
+    "importance": 0.1397
+  },
+  {
+    "feature": "Freedom",
+    "importance": 0.1307
+  },
+  {
+    "feature": "Urban (%)",
+    "importance": 0.1261
+  }
+]

@@ -1,12 +1,5 @@
-"""Descriptive figures for the blog.
-
-Produces five static PNG/PDF pairs in output/figures/:
-  - top_bottom_10:    horizontal bar chart of the highest and lowest 10
-  - gdp_vs_ladder:    log-axis scatter with a LOWESS smoother
-  - decomposition:    stacked bar of OLS contributions for the top-15
-  - chapters_trend:   chapters per WHR edition + reading time on twin axes
-  - ladder_timeseries:hand-picked countries' Ladder over 2020-2024
-"""
+"""Five descriptive figures for the blog: top/bottom-10 bars, GDP-Ladder scatter,
+OLS decomposition, chapters-per-edition trend, watch-list time series."""
 import os
 
 import matplotlib.pyplot as plt
@@ -40,7 +33,7 @@ df = pd.read_csv(CLN + "analysis.csv")
 panel = pd.read_csv(RAW + "whr_panel.csv")
 chapters = pd.read_csv(RAW + "whr_chapters.csv")
 
-# ---- Top-10 vs bottom-10 -------------------------------------------------
+# Top-10 vs bottom-10
 ranked = df.sort_values("ladder", ascending=False)
 top = ranked.head(10).iloc[::-1]
 bot = ranked.tail(10)
@@ -64,7 +57,7 @@ plt.savefig(FIG + "top_bottom_10.pdf")
 plt.savefig(FIG + "top_bottom_10.png", dpi=160)
 plt.clf()
 
-# ---- GDP vs Ladder, log axis with LOWESS ---------------------------------
+# GDP vs Ladder, log axis with LOWESS
 df_plot = df.dropna(subset=["gdp_pc_ppp", "ladder"]).copy()
 df_plot["log_gdp_wb"] = np.log(df_plot["gdp_pc_ppp"])
 smooth = lowess(df_plot["ladder"], df_plot["log_gdp_wb"],
@@ -97,7 +90,7 @@ plt.savefig(FIG + "gdp_vs_ladder.pdf")
 plt.savefig(FIG + "gdp_vs_ladder.png", dpi=160)
 plt.clf()
 
-# ---- Variance decomposition for the top-15 happiest ----------------------
+# Variance decomposition for the top-15 happiest
 decomp_vars = ["log_gdp", "social_support", "life_exp_healthy",
                "freedom", "corruption", "generosity"]
 decomp_lbls = ["Log GDP", "Social support", "Healthy life exp.",
@@ -120,8 +113,7 @@ top15 = contrib.sort_values("ladder", ascending=False).head(15).iloc[::-1]
 palette = ["#1f3a5f", "#3380FF", "#7faaff", "#FFC300", "#ff7f50", "#888888"]
 fig, ax = plt.subplots(figsize=(10.5, 6))
 
-# Stack positive and negative contributions separately so the chart still
-# makes sense if a covariate pulls a country down (corruption usually does).
+# Stack positive and negative contributions separately so negatives still read.
 bottom_pos = np.zeros(len(top15))
 bottom_neg = np.zeros(len(top15))
 for v, lab, col in zip(decomp_vars, decomp_lbls, palette):
@@ -145,7 +137,7 @@ plt.savefig(FIG + "decomposition.pdf", bbox_inches="tight")
 plt.savefig(FIG + "decomposition.png", dpi=160, bbox_inches="tight")
 plt.clf()
 
-# ---- Scraped chapters per edition + average reading time -----------------
+# Scraped chapters per edition + average reading time
 yearly = chapters.groupby("year").agg(
     n_chapters=("title", "size"),
     mean_read_min=("reading_time_min", "mean"),
@@ -175,7 +167,7 @@ plt.savefig(FIG + "chapters_trend.pdf")
 plt.savefig(FIG + "chapters_trend.png", dpi=160)
 plt.clf()
 
-# ---- Ladder time series, 2020-2024 ---------------------------------------
+# Ladder time series, 2020-2024
 panel_clean = panel.copy()
 panel_clean["Country name"] = panel_clean["Country name"].str.replace(
     "*", "", regex=False).str.strip()

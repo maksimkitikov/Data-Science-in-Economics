@@ -1,9 +1,5 @@
-"""Six progressively richer OLS specs of the Ladder on its candidate covariates.
-
-Standard errors are HC3 throughout. m6 is on z-scored variables so the
-coefficients can be compared in standard-deviation units. Output:
-output/tables/regression_table.tex (via pystout) plus a tidy CSV companion.
-"""
+"""Six OLS specs of Ladder on its covariates with HC3 standard errors. m6 uses
+z-scored variables so coefficients are in SD units. Writes regression_table.tex + CSV."""
 import os
 
 import numpy as np
@@ -23,9 +19,7 @@ required = ["ladder", "log_gdp", "life_exp_healthy", "social_support",
 for col in required:
     assert col in df.columns, f"missing column: {col}"
 
-# Cross-source sanity on log-GDP: WHR ships a bundled value but the World
-# Bank PPP series is the cleaner benchmark. Use it in m5 to check the
-# coefficient does not move much.
+# Cross-source check on log-GDP: WB PPP series is cleaner than WHR's bundled value.
 df["log_gdp_wb"] = np.log(df["gdp_pc_ppp"])
 
 needed = ["ladder", "log_gdp", "life_exp_healthy", "social_support",
@@ -49,8 +43,7 @@ m4 = fit(["log_gdp", "life_exp_healthy", "social_support", "freedom",
 m5 = fit(["log_gdp_wb", "life_exp_healthy", "social_support", "freedom",
           "corruption"])
 
-# m6: same right-hand side as m4 but with z-scored variables, so each
-# coefficient reads as "Ladder SDs per 1 SD of X".
+# m6: same RHS as m4, z-scored. Coefficients read as "Ladder SDs per 1 SD of X".
 z = (df[needed] - df[needed].mean()) / df[needed].std()
 m6 = sm.OLS(z["ladder"],
             sm.add_constant(z[["log_gdp", "life_exp_healthy",
@@ -94,8 +87,7 @@ pystout(
     stars={.1: "*", .05: "**", .01: "***"},
 )
 
-# Tidy CSV companion. The website JSON pipeline reads this rather than
-# the .tex file.
+# Tidy CSV companion (read by the website JSON pipeline).
 rows = []
 for name, m in [("m1", m1), ("m2", m2), ("m3", m3), ("m4", m4),
                 ("m5", m5), ("m6", m6)]:

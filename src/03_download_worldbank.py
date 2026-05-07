@@ -1,10 +1,5 @@
-"""Pull a 2022 cross-section of World Bank indicators via wbgapi.
-
-These are the supplementary covariates we want on top of what the WHR
-Figure 2.1 file already gives us: an independent GDP per capita PPP
-benchmark, life expectancy, internet penetration, urban share, education
-spending and FDI.
-"""
+"""Pull a 2022 cross-section of World Bank indicators (GDP PPP, life expectancy,
+internet, urban share, education spend, FDI) via wbgapi."""
 import os
 import time
 
@@ -17,7 +12,7 @@ os.makedirs(DAT, exist_ok=True)
 
 YEAR = 2022
 
-# WB indicator code -> short name we use downstream
+# WB indicator code -> short name
 INDICATORS = {
     "NY.GDP.PCAP.PP.KD": "gdp_pc_ppp",
     "SP.DYN.LE00.IN": "life_exp",
@@ -52,9 +47,7 @@ for code, short in INDICATORS.items():
     frames.append(df[["country_code", "country_name", short]])
     time.sleep(0.5)
 
-# One-to-one merge on country_code: every WB indicator returns exactly one
-# row per economy in a given year. validate="1:1" makes the merge fail
-# loudly the moment that assumption breaks.
+# One row per country per indicator; validate=1:1 fails loudly if that breaks.
 wb_df = frames[0]
 for f in frames[1:]:
     wb_df = pd.merge(

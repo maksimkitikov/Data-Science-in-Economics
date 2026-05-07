@@ -1,8 +1,4 @@
-"""Download the WHR Figure 2.1 spreadsheets (2020-2024) and stack them.
-
-Output: data/raw/whr_panel.csv with one row per country-year, columns =
-Ladder + the six bundled covariates the WHR ships alongside it.
-"""
+"""Download WHR Figure 2.1 spreadsheets (2020-2024) and stack them into data/raw/whr_panel.csv."""
 import os
 import time
 
@@ -54,9 +50,7 @@ for year in YEARS:
 
     df = pd.read_excel(fname)
 
-    # The 2022 file is the odd one out: it labels its columns "Country" and
-    # "Happiness score" instead of "Country name" / "Ladder score". Rename
-    # so concat below works on a single column schema.
+    # 2022 ships different column names; rename so the concat schema is uniform.
     if year == 2022:
         df = df.rename(columns={
             "Country": "Country name",

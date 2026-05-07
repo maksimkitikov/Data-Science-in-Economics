@@ -1,9 +1,5 @@
-"""Scrape chapter metadata from worldhappiness.report for editions 2020-2026.
-
-For each edition we grab the chapter title, authors + their affiliations,
-the reading-time estimate the WHR puts in its sidebar, and a DOI if there
-is one. Output: data/raw/whr_chapters.csv (one row per chapter).
-"""
+"""Scrape WHR chapter metadata (title, authors, reading time, DOI) for 2020-2026.
+Output: data/raw/whr_chapters.csv."""
 import csv
 import os
 import re
@@ -70,9 +66,7 @@ def parse_chapter(url, cache_name):
     h1 = soup.find("h1")
     record["title"] = h1.get_text(strip=True) if h1 else ""
 
-    # Each author block is a <li class="author"> with a nested span that
-    # holds the affiliation. Pop the affiliation out before reading the
-    # name so we don't end up with "John F. Helliwell University of ...".
+    # Pop the affiliation span out before reading the name so they don't merge.
     authors, affs = [], []
     for li in soup.select("li.author"):
         span = li.find("span", class_="author-title")
@@ -87,7 +81,6 @@ def parse_chapter(url, cache_name):
     record["n_authors"] = len(authors)
     record["affiliations"] = " | ".join(affs)
 
-    # Reading time and DOI are buried in free text.
     text = soup.get_text(" ", strip=True)
     m = re.search(r"(\d+)\s*min\.\s*read", text)
     record["reading_time_min"] = int(m.group(1)) if m else None
