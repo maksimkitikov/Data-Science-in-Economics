@@ -1,6 +1,6 @@
 # Beyond GDP
 
-BEE2041 empirical project, April 2026. Maksim Kitikov, University of Exeter.
+BEE2041 empirical project.
 
 A short data-driven essay asking *what really drives national happiness* once
 we look past GDP. The pipeline scrapes chapter metadata from the World
@@ -56,9 +56,9 @@ references/     # codebook + bibliography
 
 ## Declaration of AI Use
 
-I used Claude and ChatGPT for drafts of the blog text and to debug error
-messages from `pystout` and `econml`. The analytical decisions and the
-final code are mine.
+I declare that I have used generative AI tools in accordance with the University of Exeter's *AI-Assisted* 
+classification of this assessment and the guidance set out in the BEE2041 
+lectures (Workflow lecture, slides 30, 34, 66; Python lecture, slide 78).
 
 ## License
 
