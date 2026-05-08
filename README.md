@@ -59,10 +59,16 @@ references/     # codebook + bibliography
 
 ## Declaration of AI Use
 
-I declare that I have used generative AI tools in the preparation of this
-submission, in accordance with the University of Exeter's *AI-Assisted*
-classification of this assessment and the guidance set out in the BEE2041
-lectures (Workflow lecture, slides 30, 34, 66; Python lecture, slide 78).
+I used generative AI tools in the preparation of this submission, in line with
+the University of Exeter's *AI-Assisted* classification of this assessment and
+the BEE2041 lecture guidance (Workflow lecture, slides 30, 34, 66; Python
+lecture, slide 78).
+
+Concretely, AI helped me with: drafting prose for the blog, suggesting wording
+for figure captions, debugging error messages from `pystout` and `econml`, and
+reviewing draft code for obvious mistakes. The analytical decisions
+(treatment definition, covariate selection, HC3 standard errors, the
+75th-percentile robustness check) and the final code review are mine.
 
 ## License
 

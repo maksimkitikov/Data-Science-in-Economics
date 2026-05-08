@@ -10,8 +10,8 @@ shows up.
 | Project brief 2026 | Length and output limits. |
 | Workflow, Modelling & Webscraping (lecture) | Project layout, `make` pipeline, retry-with-back-off, ATE/CATE definitions, causal-forest motivation, web-scraping etiquette. |
 | Python for Data Management (lecture) | `pd.read_excel`, `pd.merge` with `validate="1:1"` and `indicator=`, reshape and groupby idioms. |
-| Relational Database Management Systems (lecture) | SQLite schema design, `PRIMARY KEY` / `FOREIGN KEY`, B-tree indexes, `INNER JOIN`. |
-| SQL Teaching Exercises (problem set) | Direct model for the "two tables, one INNER JOIN" pattern in `04_build_database.py`. |
+| Relational Database Management Systems (lecture) | SQLite schema design, `PRAGMA foreign_keys=ON`, `CREATE TABLE ... PRIMARY KEY / FOREIGN KEY / NOT NULL`, B-tree indexes, `INNER JOIN`. |
+| SQL Teaching Exercises (problem set) | Three-table relational schema with `PRIMARY KEY` / `FOREIGN KEY` constraints, `INNER JOIN` integration query in `04_build_database.py`. |
 | git & GitHub (lecture) | Branch naming, "small, descriptive commit messages" convention. |
 | The Linux Command Line (lecture) | `make` pipelines, the Unix-philosophy guidelines that shape the project layout. |
 | Data Wrangling in Python (problem set) | The `wbgapi.data.DataFrame` recipe (`03_download_worldbank.py` follows it almost line-for-line). |
