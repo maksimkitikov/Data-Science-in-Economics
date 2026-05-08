@@ -8,10 +8,9 @@ import pandas as pd
 import statsmodels.api as sm_api
 from statsmodels.nonparametric.smoothers_lowess import lowess
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-RAW = ROOT + "data/raw/"
-CLN = ROOT + "data/clean/"
-FIG = ROOT + "output/figures/"
+RAW = "data/raw/"
+CLN = "data/clean/"
+FIG = "output/figures/"
 os.makedirs(FIG, exist_ok=True)
 
 plt.rcParams.update({

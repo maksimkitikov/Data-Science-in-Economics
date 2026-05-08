@@ -4,8 +4,7 @@ import os
 import nbformat as nbf
 from nbconvert.preprocessors import ExecutePreprocessor
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-NB_PATH = ROOT + "blog.ipynb"
+NB_PATH = "blog.ipynb"
 
 nb = nbf.v4.new_notebook()
 nb["metadata"] = {
@@ -339,7 +338,7 @@ make all
 nb["cells"] = cells
 
 ep = ExecutePreprocessor(timeout=300, kernel_name="python3")
-ep.preprocess(nb, {"metadata": {"path": ROOT}})
+ep.preprocess(nb, {"metadata": {"path": "."}})
 
 with open(NB_PATH, "w", encoding="utf-8") as f:
     nbf.write(nb, f)

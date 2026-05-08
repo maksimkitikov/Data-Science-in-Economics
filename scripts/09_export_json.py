@@ -7,11 +7,10 @@ import pandas as pd
 import statsmodels.api as sm_api
 from statsmodels.nonparametric.smoothers_lowess import lowess
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-CLN = ROOT + "data/clean/"
-RAW = ROOT + "data/raw/"
-TAB = ROOT + "output/tables/"
-DOCS = ROOT + "docs/"
+RAW = "data/raw/"
+CLN = "data/clean/"
+TAB = "output/tables/"
+DOCS = "docs/"
 os.makedirs(DOCS, exist_ok=True)
 
 bundle = {}

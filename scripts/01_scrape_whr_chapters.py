@@ -8,8 +8,7 @@ import time
 import requests
 from bs4 import BeautifulSoup
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-DAT = ROOT + "data/raw/"
+DAT = "data/raw/"
 CACHE = DAT + "html_cache/"
 os.makedirs(CACHE, exist_ok=True)
 
