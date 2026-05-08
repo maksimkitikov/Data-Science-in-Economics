@@ -121,8 +121,8 @@ panel["Country name"] = panel["Country name"].str.replace("*", "", regex=False).
 watch = ["Finland", "Denmark", "United States", "United Kingdom",
          "China", "India", "Brazil", "Costa Rica"]
 sub = (panel[panel["Country name"].isin(watch)]
-       .groupby("Country name")
-       .apply(lambda g: g.sort_values("year")[["year", "Ladder score"]]
+       .groupby("Country name", group_keys=True)[["year", "Ladder score"]]
+       .apply(lambda g: g.sort_values("year")
               .rename(columns={"Ladder score": "ladder"})
               .to_dict(orient="records"))
        .to_dict())

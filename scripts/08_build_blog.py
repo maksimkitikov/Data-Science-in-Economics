@@ -1,5 +1,7 @@
 """Build blog.ipynb programmatically from the figures and tables under output/."""
 import os
+# silence the noisy debugpy/frozen-modules notice from the kernel that nbconvert spawns
+os.environ.setdefault("PYDEVD_DISABLE_FILE_VALIDATION", "1")
 
 import nbformat as nbf
 from nbconvert.preprocessors import ExecutePreprocessor
