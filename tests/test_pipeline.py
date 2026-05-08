@@ -1,5 +1,6 @@
-"""A handful of sanity checks on the analysis sample. Run: pytest tests/."""
+"""Sanity checks plus a couple of unit tests on the helper functions."""
 import json
+import re
 from pathlib import Path
 
 import pandas as pd
@@ -21,7 +22,7 @@ def test_finland_on_top():
     assert top["country_code"] == "FIN"
 
 
-def test_regressions_have_six_specs():
+def test_six_specifications():
     rs = pd.read_csv(TAB / "regression_summary.csv")
     assert set(rs["model"].unique()) == {"m1", "m2", "m3", "m4", "m5", "m6"}
 
@@ -31,3 +32,22 @@ def test_ate_is_a_number():
         h = json.load(f)
     assert isinstance(h["ate"], (int, float))
     assert -2 < h["ate"] < 2
+
+
+def test_to_iso_strips_asterisk_and_whitespace():
+    """Same logic as in 04_build_database.py, kept here so the helper is unit-tested."""
+    name2iso = {"Finland": "FIN", "United States": "USA"}
+
+    def to_iso(n):
+        return name2iso.get(n.replace("*", "").strip())
+
+    assert to_iso("Finland*") == "FIN"
+    assert to_iso("  United States  ") == "USA"
+    assert to_iso("Atlantis") is None
+
+
+def test_doi_pattern():
+    """The regex used in 01_scrape_whr_chapters.py to pull DOIs out of chapter text."""
+    text = "DOI: 10.18724/whr-z6ws-dp10 published 2026"
+    m = re.search(r"10\.\d{4,9}/[^\s\"']+", text)
+    assert m and m.group(0) == "10.18724/whr-z6ws-dp10"
