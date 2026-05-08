@@ -1,67 +1,62 @@
-"""Pull a 2022 cross-section of World Bank indicators (GDP PPP, life expectancy,
-internet, urban share, education spend, FDI) via wbgapi."""
+"""Pull a 2022 cross-section of World Bank indicators via wbgapi and merge them into one wide table."""
 import os
 import time
 
 import pandas as pd
 import wbgapi as wb
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + "/"
-DAT = ROOT + "data/raw/"
-os.makedirs(DAT, exist_ok=True)
+RAW = "data/raw/"
+os.makedirs(RAW, exist_ok=True)
 
 YEAR = 2022
-
-# WB indicator code -> short name
 INDICATORS = {
-    "NY.GDP.PCAP.PP.KD": "gdp_pc_ppp",
-    "SP.DYN.LE00.IN": "life_exp",
-    "IT.NET.USER.ZS": "internet_pct",
-    "SP.URB.TOTL.IN.ZS": "urban_pct",
-    "SE.XPD.TOTL.GD.ZS": "education_spend_pct",
+    "NY.GDP.PCAP.PP.KD":    "gdp_pc_ppp",
+    "SP.DYN.LE00.IN":       "life_exp",
+    "IT.NET.USER.ZS":       "internet_pct",
+    "SP.URB.TOTL.IN.ZS":    "urban_pct",
+    "SE.XPD.TOTL.GD.ZS":    "education_spend_pct",
     "BX.KLT.DINV.WD.GD.ZS": "fdi_pct",
 }
 
 
-def fetch_with_retry(code, n_tries=5):
-    """Hit the WB endpoint a few times in case of a flaky network."""
-    last_err = None
-    for attempt in range(n_tries):
+def fetch(code, n_tries=5):
+    """wbgapi sometimes times out, retry a few times before giving up."""
+    for k in range(n_tries):
         try:
             return wb.data.DataFrame(code, time=YEAR, labels=True).reset_index()
-        except Exception as e:
-            last_err = e
+        except Exception:
+            if k == n_tries - 1:
+                raise
             time.sleep(3)
-    raise last_err
 
 
+# pull each indicator separately and trim to the three columns we actually need
 frames = []
 for code, short in INDICATORS.items():
     print(f"  {code}")
-    df = fetch_with_retry(code)
-    df = df.rename(columns={
-        "economy": "country_code",
-        "Country": "country_name",
-        code: short,
-    })
+    df = fetch(code).rename(columns={"economy": "country_code",
+                                     "Country": "country_name",
+                                     code: short})
     frames.append(df[["country_code", "country_name", short]])
     time.sleep(0.5)
 
-# One row per country per indicator; validate=1:1 fails loudly if that breaks.
-wb_df = frames[0]
+# stitch the frames on country_code with validate="1:1" so a duplicate row would crash the merge straight away, this is the idiom from the Python for Data Management lecture
+out = frames[0]
 for f in frames[1:]:
-    wb_df = pd.merge(
-        wb_df,
-        f.drop(columns="country_name"),
-        on="country_code", how="left",
-        validate="1:1",
-    )
+    out = pd.merge(out, f.drop(columns="country_name"),
+                   on="country_code", how="outer", validate="1:1")
 
-print(f"\nshape: {wb_df.shape}")
-print(wb_df.head())
-print("\nmissing:")
-print(wb_df.isna().sum())
+# diagnostic merge with indicator= against WHR, this is how the lecture showed us to inspect overlap between two sources
+panel = pd.read_csv(RAW + "whr_panel.csv")[["Country name"]].drop_duplicates()
+check = pd.merge(out[["country_code", "country_name"]],
+                 panel.rename(columns={"Country name": "country_name"}),
+                 on="country_name", how="outer", indicator=True)
+print("\nWB vs WHR overlap (indicator=):")
+print(check["_merge"].value_counts())
 
-out = DAT + "wb_indicators.csv"
-wb_df.to_csv(out, index=False)
-print(f"wrote {out}")
+print(f"\nshape: {out.shape}")
+print("missing per indicator:")
+print(out.isna().sum())
+
+out.to_csv(RAW + "wb_indicators.csv", index=False)
+print(f"wrote {RAW}wb_indicators.csv")
