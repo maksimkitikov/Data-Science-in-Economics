@@ -11,10 +11,8 @@ plus an interactive Plotly site.
 
 Live versions:
 
-- HF Space: <https://mk88889-beyond-gdp.static.hf.space>
 - GitHub Pages: <https://maksimkitikov.github.io/Data-Science-in-Economics/>
 - Notebook: [`blog.ipynb`](blog.ipynb) (executed and committed)
-- Static PDF: [`Beyond GDP_ What Drives National Happiness_.pdf`](./Beyond%20GDP_%20What%20Drives%20National%20Happiness_.pdf)
 
 ## Reproducing the build
 
@@ -27,7 +25,7 @@ pip install -r requirements.txt
 make all
 ```
 
-`make all` runs the nine numbered scripts in `src/` end-to-end (scrape ->
+`make all` runs the nine numbered scripts in `scripts/` end-to-end (scrape ->
 build SQLite -> regressions -> causal forest -> figures -> blog -> JSON
 for the website). Sub-targets like `make data` or `make analysis` only
 redo the relevant steps. There are a handful of pytest sanity checks in
@@ -49,16 +47,22 @@ countries. Variable-level docs are in
 ## Layout
 
 ```
-src/                # nine numbered scripts, run in order
-data/raw/           # never modified after download
-data/clean/         # derived (analysis.csv, whr.db)
-output/figures/     # PNG and PDF for every chart
-output/tables/      # LaTeX (pystout) + tidy CSVs
-docs/               # the static site (also mirrored on Hugging Face)
-tests/              # pytest sanity checks
-references/         # codebook + bibliography
-course-materials/   # the BEE2041 lecture PDFs (uploaded for the marker)
+scripts/        # nine numbered scripts, run in order
+data/raw/       # never modified after download
+data/clean/     # derived (analysis.csv, whr.db)
+output/figures/ # PNG and PDF for every chart
+output/tables/  # LaTeX (pystout) + tidy CSVs
+docs/           # the static site (served via GitHub Pages)
+tests/          # pytest sanity checks
+references/     # codebook + bibliography
 ```
+
+## Declaration of AI Use
+
+I declare that I have used generative AI tools in the preparation of this
+submission, in accordance with the University of Exeter's *AI-Assisted*
+classification of this assessment and the guidance set out in the BEE2041
+lectures (Workflow lecture, slides 30, 34, 66; Python lecture, slide 78).
 
 ## License
 

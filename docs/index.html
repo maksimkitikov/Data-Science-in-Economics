@@ -16,12 +16,10 @@
 
   <link rel="stylesheet" href="style.css">
 
-  <script src="plotly.min.js" charset="utf-8"></script>
+  <script src="https://cdn.plot.ly/plotly-2.35.2.min.js" charset="utf-8"></script>
   <script src="data.js" charset="utf-8"></script>
 </head>
 <body>
-
-<div class="scroll-progress" aria-hidden="true"><span></span></div>
 
 <header class="topbar">
   <a class="brand" href="#top">Beyond&nbsp;GDP</a>
@@ -36,9 +34,6 @@
     <a href="#takeaways">Take-aways</a>
     <a class="github" href="https://github.com/maksimkitikov/Data-Science-in-Economics" target="_blank" rel="noopener" aria-label="GitHub repository">GitHub&nbsp;&rarr;</a>
   </nav>
-  <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
 </header>
 
 <main id="top">
@@ -77,9 +72,9 @@
 
 <section id="headlines">
   <div class="container">
-    <p class="kicker" data-reveal>1 &middot; The headlines</p>
-    <h2 data-reveal data-reveal-delay="1">Finland's nearly six-point lead</h2>
-    <p data-reveal data-reveal-delay="2">
+    <p class="kicker">1 &middot; The headlines</p>
+    <h2>Finland's nearly six-point lead</h2>
+    <p>
       Finland's Ladder score sits four times above Afghanistan's. The
       <em>Cantril Ladder</em> question (a 0-10 scale of life satisfaction)
       is the same instrument worldwide, so the gap is comparable. A
@@ -87,7 +82,7 @@
       to grapple with it.
     </p>
 
-    <figure class="chart-card" data-reveal data-reveal-delay="3">
+    <figure class="chart-card">
       <div id="rank-chart" class="chart-tall"></div>
       <figcaption>Top and bottom ten countries by 2023 Ladder score. Hover or tap for details. Source: World Happiness Report.</figcaption>
     </figure>
@@ -97,9 +92,9 @@
 
 <section id="explorer" class="alt">
   <div class="container">
-    <p class="kicker" data-reveal>1.5 &middot; Find a country</p>
-    <h2 data-reveal data-reveal-delay="1">Anywhere in the sample, two clicks away</h2>
-    <p data-reveal data-reveal-delay="2">
+    <p class="kicker">1.5 &middot; Find a country</p>
+    <h2>Anywhere in the sample, two clicks away</h2>
+    <p>
       The 136 countries in the analysis sample each carry the eight
       indicators below. Type any country in the box and its profile appears
       with its rank, Ladder score, GDP, the four core institutional
@@ -107,7 +102,7 @@
       forest uses.
     </p>
 
-    <div class="country-search" data-reveal data-reveal-delay="3">
+    <div class="country-search">
       <label for="country-input" class="visually-hidden">Country</label>
       <div class="search-wrap">
         <input type="text" id="country-input"
@@ -119,7 +114,7 @@
       <button type="button" id="country-random" aria-label="Pick a random country">Random</button>
     </div>
 
-    <div id="country-card" class="country-card" data-reveal data-reveal-delay="4">
+    <div id="country-card" class="country-card">
       <p class="cc-hint">Pick a country above and its profile appears here.</p>
     </div>
   </div>
@@ -128,9 +123,9 @@
 
 <section id="scatter" class="alt">
   <div class="container">
-    <p class="kicker" data-reveal>2 &middot; Money matters - with diminishing returns</p>
-    <h2 data-reveal data-reveal-delay="1">Below $30k PPP each doubling of income buys roughly the same Ladder bump; above it, the curve flattens</h2>
-    <p data-reveal data-reveal-delay="2">
+    <p class="kicker">2 &middot; Money matters - with diminishing returns</p>
+    <h2>Below $30k PPP each doubling of income buys roughly the same Ladder bump; above it, the curve flattens</h2>
+    <p>
       Plotting the Ladder score against GDP per capita on a log axis gives a
       clear upward relationship. The smoother bends noticeably above
       around $30,000 PPP. Costa Rica nearly matches the United States on
@@ -139,12 +134,12 @@
       <em>Easterlin paradox</em>.
     </p>
 
-    <figure class="chart-card" data-reveal data-reveal-delay="3">
+    <figure class="chart-card">
       <div id="gdp-chart" class="chart"></div>
       <figcaption>Each dot is a country. Hover or tap for the country code, GDP per capita and Ladder score. Source: World Bank (GDP), World Happiness Report (Ladder).</figcaption>
     </figure>
 
-    <p data-reveal>
+    <p>
       The vertical scatter is also wide: countries with similar income
       levels routinely differ by close to two Ladder points. That residual
       variation is where this post lives.
@@ -155,9 +150,9 @@
 
 <section id="decomposition">
   <div class="container">
-    <p class="kicker" data-reveal>3 &middot; Decomposing the Ladder</p>
-    <h2 data-reveal data-reveal-delay="1">What carries the rich-country premium?</h2>
-    <p data-reveal data-reveal-delay="2">
+    <p class="kicker">3 &middot; Decomposing the Ladder</p>
+    <h2>What carries the rich-country premium?</h2>
+    <p>
       The WHR ships six explanatory variables alongside the Ladder. To see
       how each one contributes to the gap above the world average, I fit a
       plain OLS regression of the Ladder on the six and then multiply each
@@ -165,13 +160,13 @@
       coefficient.
     </p>
 
-    <figure class="chart-card" data-reveal data-reveal-delay="3">
+    <figure class="chart-card">
       <div id="decomp-chart" class="chart-tall"></div>
       <figcaption>Decomposition of the Ladder score for the world's 15 happiest countries, relative to the global average. Source: WHR + own OLS fit.</figcaption>
     </figure>
 
     <div class="callouts">
-      <article data-reveal data-reveal-delay="1">
+      <article>
         <h3>Social support, not income, leads</h3>
         <p>
           The blue bar (the share of respondents saying they have someone
@@ -179,7 +174,7 @@
           almost every Nordic country. Income comes <em>third</em>.
         </p>
       </article>
-      <article data-reveal data-reveal-delay="2">
+      <article>
         <h3>Freedom is universal</h3>
         <p>
           Yellow is large and stable across all 15. The highest-ranked
@@ -188,7 +183,7 @@
           expectancy.
         </p>
       </article>
-      <article data-reveal data-reveal-delay="3">
+      <article>
         <h3>Trust does the heavy lifting</h3>
         <p>
           The gap between the world average and Finland's score is
@@ -204,15 +199,15 @@
 
 <section id="regressions" class="alt">
   <div class="container">
-    <p class="kicker" data-reveal>4 &middot; OLS, six ways</p>
-    <h2 data-reveal data-reveal-delay="1">Adding social support roughly halves the log-GDP coefficient</h2>
-    <p data-reveal data-reveal-delay="2">
+    <p class="kicker">4 &middot; OLS, six ways</p>
+    <h2>Adding social support roughly halves the log-GDP coefficient</h2>
+    <p>
       I fit six progressively richer specifications. Robust HC3 standard
       errors throughout. The coefficients on log GDP and the social-capital
       variables tell most of the story.
     </p>
 
-    <div class="table-wrap" data-reveal data-reveal-delay="3">
+    <div class="table-wrap">
       <table id="ols-table" aria-describedby="ols-caption">
         <thead>
           <tr><th scope="col">Term</th><th scope="col">m1</th><th scope="col">m2</th><th scope="col">m3</th><th scope="col">m4</th><th scope="col">m5</th><th scope="col">m6</th></tr>
@@ -231,11 +226,31 @@
       <p id="ols-caption" class="caption">All specifications use Robust (HC3) standard errors. (m6) is fitted on z-scored variables. (m5) swaps WHR's bundled log-GDP for the World Bank's PPP series as a cross-source sanity check. N is 134 because two countries are missing the corruption variable.</p>
     </div>
 
-    <p data-reveal>
+    <p>
       The log-GDP coefficient drops from 0.80
       on its own to 0.27 once social support, freedom and corruption are
       controlled for. Most of the apparent income premium runs through
       those other channels.
+    </p>
+
+    <p>
+      The pattern is consistent with a long line of work in the economics
+      of well-being. Easterlin (1974) first noted that within rich
+      countries the income-happiness relationship flattens after basic
+      needs are met; later work (Stevenson &amp; Wolfers, 2008; Layard,
+      Mayraz &amp; Nickell, 2009) finds the gradient survives in
+      <em>cross</em>-country data but is much smaller once mediating
+      institutions are accounted for. Specification (6) makes the size
+      comparable: a one-standard-deviation rise in social support is
+      worth roughly the same as a one-standard-deviation rise in log GDP,
+      and freedom is not far behind.
+    </p>
+
+    <p>
+      Specification (5) is a sanity check: replacing WHR's bundled log
+      GDP with the independent World Bank PPP series leaves the
+      coefficient almost unchanged (0.27 vs 0.26), so the headline does
+      not depend on which income series we use.
     </p>
   </div>
 </section>
@@ -243,9 +258,9 @@
 
 <section id="causal-forest">
   <div class="container">
-    <p class="kicker" data-reveal>5 &middot; A causal forest</p>
-    <h2 data-reveal data-reveal-delay="1">When does income still buy happiness?</h2>
-    <p data-reveal data-reveal-delay="2">
+    <p class="kicker">5 &middot; A causal forest</p>
+    <h2>When does income still buy happiness?</h2>
+    <p>
       Cross-country comparisons aren't a randomised trial; rich and poor
       countries differ on dozens of margins at once. To probe heterogeneity
       flexibly I fit a <em>causal forest</em> (Wager &amp; Athey, 2018) with
@@ -255,35 +270,45 @@
       internet- or urban-share data is missing.
     </p>
 
-    <div class="callout-banner" id="ate-banner" data-reveal data-reveal-delay="3">
+    <div class="callout-banner" id="ate-banner">
       <span class="label">ATE</span>
       <strong id="ate-value">...</strong>
       <span class="meta">Ladder points &middot; 95&nbsp;% CI: <code id="ate-ci">...</code></span>
     </div>
 
-    <p data-reveal>
+    <p>
       The average treatment effect is essentially zero once the moderators
       are controlled for. Almost all of the apparent income premium is
-      mediated by them, but the conditional effects do vary.
+      mediated by them, but the conditional effects do vary. The
+      <strong>distribution of CATEs</strong> below is the main result for
+      this section; the next two charts and the robustness table are
+      diagnostics that probe the same number from different angles.
+    </p>
+
+    <figure class="chart-card">
+      <div id="cate-hist" class="chart"></div>
+      <figcaption>Distribution of conditional average treatment effects across countries. The dashed gold line marks the ATE. <em>This is the main output of the section.</em></figcaption>
+    </figure>
+
+    <h3 class="aside-heading">Diagnostics</h3>
+    <p class="aside-lead">
+      Two follow-up plots probe the same number from different angles:
+      where in the GDP distribution the CATE varies, and which
+      moderators are doing the work inside the forest.
     </p>
 
     <div class="chart-grid">
-      <figure class="chart-card" data-reveal data-reveal-delay="1">
-        <div id="cate-hist" class="chart"></div>
-        <figcaption>Distribution of conditional average treatment effects across countries. The dashed gold line marks the ATE.</figcaption>
-      </figure>
-      <figure class="chart-card" data-reveal data-reveal-delay="2">
+      <figure class="chart-card aside">
         <div id="cate-vs-gdp" class="chart"></div>
         <figcaption>Country-level CATE plotted against GDP per capita. No clean monotone trend with income.</figcaption>
       </figure>
+      <figure class="chart-card aside">
+        <div id="cf-importance" class="chart"></div>
+        <figcaption>Causal-forest split-importance: which variables drive the heterogeneity. Internet penetration leads.</figcaption>
+      </figure>
     </div>
 
-    <figure class="chart-card" data-reveal>
-      <div id="cf-importance" class="chart"></div>
-      <figcaption>Causal-forest split-importance: which variables drive the heterogeneity. Internet penetration leads.</figcaption>
-    </figure>
-
-    <p data-reveal>
+    <p>
       <strong>Internet penetration</strong> is the single most important
       moderator. Once we know whether a country's residents are
       <em>online</em>, the leftover role of GDP per capita shrinks
@@ -291,8 +316,8 @@
       the WHR 2026 edition's own pivot to social-media research.
     </p>
 
-    <div class="sensitivity" data-reveal>
-      <h3>Robustness: where exactly is "rich"?</h3>
+    <div class="sensitivity">
+      <h3 class="aside-heading">Robustness check: where exactly is "rich"?</h3>
       <p>
         The "above median" treatment is one defensible choice; the natural
         alternative is the top quartile. Refitting with a 75th-percentile
@@ -319,9 +344,9 @@
 
 <section id="scrape" class="alt">
   <div class="container">
-    <p class="kicker" data-reveal>6 &middot; A bonus from the scrape</p>
-    <h2 data-reveal data-reveal-delay="1">The Report itself is changing</h2>
-    <p data-reveal data-reveal-delay="2">
+    <p class="kicker">6 &middot; A bonus from the scrape</p>
+    <h2>The Report itself is changing</h2>
+    <p>
       The rankings spreadsheets are the core of the analysis, but the
       chapter metadata I scraped from the seven WHR editions has its own
       story. Across 2020-2026 I collected 51 chapters with their author
@@ -329,24 +354,24 @@
       exist anywhere on the WHR website itself.
     </p>
 
-    <figure class="chart-card" data-reveal data-reveal-delay="3">
+    <figure class="chart-card">
       <div id="chapters-chart" class="chart"></div>
       <figcaption>Chapters per edition (bars) and average reading time (line). Hover any bar to peek at that year's chapter titles. Source: scraped from each annual edition page on worldhappiness.report.</figcaption>
     </figure>
 
-    <p data-reveal>
+    <p>
       Chapter counts are volatile (2024 was unusually slim with five
       chapters), but average reading time has risen sharply: roughly 27
       minutes in 2020 to 40 in 2024. The Report is, quite literally, a
       longer read.
     </p>
 
-    <figure class="chart-card" data-reveal>
+    <figure class="chart-card">
       <div id="ts-chart" class="chart"></div>
       <figcaption>Ladder score over time for a handful of selected countries, scraped from each annual <code>Figure_2.1.xls</code> file. Hit <strong>Play</strong> or drag the slider to step through 2020-2024 year by year.</figcaption>
     </figure>
 
-    <p data-reveal>
+    <p>
       The very top of the ranking is essentially flat (Finland barely
       moves), but the time series show the slow erosion of US scores
       relative to Northern Europe and a small post-pandemic recovery in
@@ -358,25 +383,30 @@
 
 <section id="takeaways">
   <div class="container">
-    <p class="kicker" data-reveal>7 &middot; Take-aways</p>
-    <h2 data-reveal data-reveal-delay="1">Five things I take from this</h2>
+    <p class="kicker">7 &middot; Take-aways</p>
+    <h2>Five things I take from this</h2>
     <ol class="takeaways">
-      <li data-reveal data-reveal-delay="1"><strong>Money matters, but mostly indirectly.</strong>
+      <li><strong>Money matters, but mostly indirectly.</strong>
         Once you control for social support, freedom, life expectancy and
         trust, the marginal contribution of income to subjective
-        well-being is small.</li>
-      <li data-reveal data-reveal-delay="2"><strong>The link is non-linear and concentrated at the top.</strong>
+        well-being is small. This is the modern empirical reading of the
+        Easterlin paradox: GDP shows up in well-being not because cash
+        is happiness, but because richer countries tend to have the
+        institutions that produce it.</li>
+      <li><strong>The link is non-linear and concentrated at the top.</strong>
         Splitting at the median gives an ATE indistinguishable from zero,
         but moving the cut to the 75th percentile (~$44k PPP) lifts it to
-        about +0.32 Ladder points with a 95&nbsp;% CI clear of zero.</li>
-      <li data-reveal data-reveal-delay="3"><strong>Social capital is at least as potent as material wealth.</strong>
+        about +0.32 Ladder points with a 95&nbsp;% CI clear of zero. So
+        the income effect has not vanished, it has migrated into the
+        richest tail of the distribution.</li>
+      <li><strong>Social capital is at least as potent as material wealth.</strong>
         In every Nordic country the biggest single contributor to the
         Ladder gap above the world mean is <em>social support</em>, not
         GDP.</li>
-      <li data-reveal data-reveal-delay="4"><strong>Internet penetration is the dominant moderator.</strong>
+      <li><strong>Internet penetration is the dominant moderator.</strong>
         Split-importance ranks it ahead of social support, corruption,
         life expectancy, freedom and urbanisation.</li>
-      <li data-reveal data-reveal-delay="4"><strong>The Report itself is changing.</strong>
+      <li><strong>The Report itself is changing.</strong>
         Chapters have got longer and the 2026 edition pivots sharply onto
         social media. The scrape lets us watch that shift in real time.</li>
     </ol>
@@ -424,8 +454,6 @@ make all</code></pre>
     <p class="muted">BEE2041 Data Science in Economics &middot; University of Exeter &middot; April 2026</p>
   </div>
 </footer>
-
-<button class="to-top" type="button" aria-label="Back to top">&uarr;</button>
 
 <script src="site.js"></script>
 </body>

@@ -1,21 +1,20 @@
 # References
 
 This page collects every reference used in the project, sorted by where it
-shows up.  All course materials live under `course-materials/` (the PDFs were
-uploaded with the project so the marker can open them in one click).
+shows up.
 
-## 1. Course materials (`course-materials/`)
+## 1. Course materials (BEE2041 lectures)
 
-| File | Used in / Cited from |
+| Reading | Used in / Cited from |
 |---|---|
-| `empiricalProject_2026.pdf` | Project brief, rubric, length and output limits. |
-| `Workflow, Modelling & Webscraping.pdf` | Project layout, `make` pipeline, retry-with-back-off, ATE/CATE definitions, causal-forest motivation, web-scraping etiquette. |
-| `Python for Data Management.pdf` | `pd.read_excel`, `pd.merge` with `validate="1:1"` and `indicator=`, reshape and groupby idioms. |
-| `Relational Database Management Systems.pdf` | SQLite schema design, `PRIMARY KEY` / `FOREIGN KEY`, B-tree indexes, `INNER JOIN`. |
-| `SQL Teaching Exercises- Students, Modules & Lecturers.pdf` | Direct model for the "two tables, one INNER JOIN" pattern in `04_build_database.py`. |
-| `git & GitHub.pdf` | Branch naming, "small, descriptive commit messages" convention. |
-| `The Linux Command Line.pdf` | `make` pipelines, the Unix-philosophy guidelines that shape the project layout. |
-| `Problem Set Solutions: Data Wrangling in Python.pdf` | The `wbgapi.data.DataFrame` recipe (`03_download_worldbank.py` follows it almost line-for-line). |
+| Project brief 2026 | Length and output limits. |
+| Workflow, Modelling & Webscraping (lecture) | Project layout, `make` pipeline, retry-with-back-off, ATE/CATE definitions, causal-forest motivation, web-scraping etiquette. |
+| Python for Data Management (lecture) | `pd.read_excel`, `pd.merge` with `validate="1:1"` and `indicator=`, reshape and groupby idioms. |
+| Relational Database Management Systems (lecture) | SQLite schema design, `PRIMARY KEY` / `FOREIGN KEY`, B-tree indexes, `INNER JOIN`. |
+| SQL Teaching Exercises (problem set) | Direct model for the "two tables, one INNER JOIN" pattern in `04_build_database.py`. |
+| git & GitHub (lecture) | Branch naming, "small, descriptive commit messages" convention. |
+| The Linux Command Line (lecture) | `make` pipelines, the Unix-philosophy guidelines that shape the project layout. |
+| Data Wrangling in Python (problem set) | The `wbgapi.data.DataFrame` recipe (`03_download_worldbank.py` follows it almost line-for-line). |
 
 ## 2. Damian Clarke's class GitHub
 
@@ -38,6 +37,9 @@ uploaded with the project so the marker can open them in one click).
   <https://realpython.com/python-web-scraping-practical-introduction/>
 * BeautifulSoup documentation.
   <https://www.crummy.com/software/BeautifulSoup/bs4/doc/>
+* `pystout` documentation - found while looking for a way to write the OLS
+  table out as LaTeX in the same style as the lecture slides.
+  <https://pypi.org/project/pystout/>
 * Beginners Book, *E-R Model in DBMS.*
   <https://beginnersbook.com/2015/04/e-r-model-in-dbms/>
 * Beginners Book, *Relational Algebra in DBMS.*
@@ -70,3 +72,8 @@ uploaded with the project so the marker can open them in one click).
   the Ladder question.)
 * Easterlin, R. A. (1974). Does Economic Growth Improve the Human Lot? Some
   Empirical Evidence. *Nations and Households in Economic Growth*.
+* Stevenson, B. & Wolfers, J. (2008). Economic Growth and Subjective
+  Well-Being: Reassessing the Easterlin Paradox. *Brookings Papers on
+  Economic Activity*, Spring 2008.
+* Layard, R., Mayraz, G. & Nickell, S. (2009). Does Relative Income Matter?
+  Are the Critics Right? CEP Discussion Paper No. 918.
