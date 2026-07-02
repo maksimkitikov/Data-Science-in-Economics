@@ -300,8 +300,8 @@ async function drawCausalForest() {
       hovertemplate: 'CATE: %{x:.3f}<br>Countries: %{y}<extra></extra>',
       name: 'CATE',
     }],
-    { ...BASE_LAYOUT, height: 380,
-      margin: { l: 60, r: 28, t: 64, b: 60 },
+    { ...BASE_LAYOUT,
+      margin: { l: 60, r: 28, t: 56, b: 62 },
       title: { text: '<b>Distribution of CATEs</b>', x: 0, xanchor: 'left', y: 0.98, font: { size: 14, color: PALETTE.navy } },
       xaxis: { ...BASE_LAYOUT.xaxis, title: { text: 'CATE: Ladder gain from above-median GDP', font: { size: 12, color: PALETTE.slate }, standoff: 12 } },
       yaxis: { ...BASE_LAYOUT.yaxis, title: { text: 'Number of countries', font: { size: 12, color: PALETTE.slate }, standoff: 8 } },
@@ -310,15 +310,42 @@ async function drawCausalForest() {
         line: { color: PALETTE.gold, width: 2, dash: 'dash' },
       }],
       annotations: [{
-        x: ate, y: 1.04, yref: 'paper',
+        x: 1, xref: 'paper', xanchor: 'right',
+        y: 1, yref: 'paper', yanchor: 'top',
         text: `<b>ATE = ${(ate >= 0 ? '+' : '-') + Math.abs(ate).toFixed(3)}</b>`,
         showarrow: false,
-        xanchor: 'center', yanchor: 'bottom',
-        font: { color: PALETTE.gold, size: 12, family: 'Inter, sans-serif' },
-        bgcolor: 'rgba(255,255,255,0.0)',
+        font: { color: PALETTE.navy, size: 11, family: 'Inter, sans-serif' },
+        bgcolor: 'rgba(255,246,200,0.95)',
+        bordercolor: PALETTE.gold, borderwidth: 1, borderpad: 4,
+        xshift: -8, yshift: -8,
       }],
     }, BASE_CONFIG);
   register('cate-hist');
+}
+
+
+/* Fade + slide-up as elements enter the viewport. IntersectionObserver
+   keeps this cheap; the CSS guard respects prefers-reduced-motion so
+   it degrades to a no-op. */
+function wireScrollReveal() {
+  const targets = document.querySelectorAll(
+    'section h2, section > .container > p, .chart-card, .callouts article, ' +
+    '.takeaways li, .callout-banner, .table-wrap, pre, .refs li, .scrape-stats li');
+  targets.forEach(el => el.classList.add('reveal'));
+
+  if (!('IntersectionObserver' in window)) {
+    targets.forEach(el => el.classList.add('visible'));
+    return;
+  }
+  const io = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        io.unobserve(e.target);
+      }
+    });
+  }, { rootMargin: '0px 0px -80px 0px', threshold: 0.05 });
+  targets.forEach(el => io.observe(el));
 }
 
 
@@ -341,6 +368,7 @@ function wireResize() {
 
 window.addEventListener('DOMContentLoaded', async () => {
   wireResize();
+  wireScrollReveal();
   const tasks = [
     ['rank',         drawRankings],
     ['gdp',          drawGdpScatter],
